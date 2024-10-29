@@ -1,0 +1,1 @@
+The invariant LENGTH(return.type)==12 refers to the 'type' field in the 'data' array of the response body. However, the Swagger definition does not specify a fixed length for the 'type' field. Therefore, this invariant is a false-positive as it does not hold for every valid request on the API.

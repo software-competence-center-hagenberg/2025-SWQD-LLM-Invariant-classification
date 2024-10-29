@@ -1,0 +1,56 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    description:
+                      type: string
+                      description: The video's description. @mutable youtube.videos.insert youtube.videos.update
+                  properties:
+                    localized:
+                      type: object
+                      description: Localized versions of certain video properties (e.g. title).
+                      properties:
+                        description:
+                          type: string
+                          description: Localized version of the video's description.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.snippet.description == return.snippet.localized.description
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 500 calls on this API and did not find a single counter example.
+
+We found 2105 examples in the requests data, with 630 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.snippet.description=THIS IS AMAZING ðŸ’ªðŸ‘?
+(via @chaseunfiltered); return.items.snippet.localized.description=THIS IS AMAZING ðŸ’ªðŸ‘?
+(via @chaseunfiltered)
+return.items.snippet.description=toei animators were eatin good that day; return.items.snippet.localized.description=toei animators were eatin good that day
+return.items.snippet.description=Thank you for watching. Subscribe for more.; return.items.snippet.localized.description=Thank you for watching. Subscribe for more.
+return.items.snippet.description=; return.items.snippet.localized.description=
+return.items.snippet.description=Welcome to neilthegarageguy or Neil the garage guy channel.; return.items.snippet.localized.description=Welcome to neilthegarageguy or Neil the garage guy channel.
+

@@ -1,0 +1,10 @@
+{
+    "id":74,
+    "invariantType":"daikon.inv.binary.twoScalar.IntGreaterEqual",
+    "classification":"FP",
+    "GPT_verdict":"FP",
+    "promptTokens":563,
+    "completionTokens":264,
+    "totalTokens":827
+}
+

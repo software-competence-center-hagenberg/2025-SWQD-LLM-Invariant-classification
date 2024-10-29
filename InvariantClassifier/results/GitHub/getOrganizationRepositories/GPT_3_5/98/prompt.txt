@@ -1,0 +1,29 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            pushed_at:
+              type: string
+              example: 2011-01-26T19:06:43Z
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.pushed_at)==20
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

@@ -1,0 +1,1 @@
+The invariant size(return.dates[])-1 >= size(return.events.items[])-1 is false-positive. The reason for this is that the provided Swagger definition does not guarantee that both 'dates' and 'events.items' arrays will always be present in the response. If either of them is missing, the comparison will not hold true for every valid request on the API.

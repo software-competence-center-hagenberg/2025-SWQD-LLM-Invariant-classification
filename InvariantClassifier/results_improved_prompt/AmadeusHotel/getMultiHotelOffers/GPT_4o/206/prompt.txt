@@ -1,0 +1,60 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    checkInDate:
+                      type: string
+                      description: check-in date of the stay (hotel local date). Format YYYY-MM-DD
+                      The lowest accepted value is today date (no dates in the past).
+                      example: Wed Dec 30 01:00:00 CET 2020
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        holdTime:
+                          type: object
+                          description: the hold policy
+                          properties:
+                            deadline:
+                              type: string
+                              description: The date and time of the deadline in ISO 8601[https://www.w3.org/TR/NOTE-datetime]. 
+                               Example: 2010-08-14T13:00:00
+                               Please note that this value is expressed in the hotels local time zone
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.checkInDate is a substring of return.policies.holdTime.deadline
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 1949 examples in the requests data, with 9 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.offers.checkInDate=2022-09-20; return.data.offers.policies.holdTime.deadline=2022-09-20T18:00:00
+return.data.offers.checkInDate=2022-09-22; return.data.offers.policies.holdTime.deadline=2022-09-22T18:00:00
+return.data.offers.checkInDate=2022-09-21; return.data.offers.policies.holdTime.deadline=2022-09-21T19:00:00
+return.data.offers.checkInDate=2022-09-22; return.data.offers.policies.holdTime.deadline=2022-09-22T14:00:00
+return.data.offers.checkInDate=2022-09-22; return.data.offers.policies.holdTime.deadline=2022-09-22T19:00:00
+

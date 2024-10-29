@@ -1,0 +1,35 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    self:
+                      type: string
+                      description: A self link to the object. Use this to refresh the Offer price
+                      example: https://test.travel.api.amadeus.com/v2/shopping/hotel-offers/63A93695B58821ABB0EC2B33FE9FAB24D72BF34B1BD7D707293763D8D9378FC3
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.self is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+

@@ -1,0 +1,43 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+      - name: id
+        in: path
+        description: The Spotify ID for the album
+        required: true
+        type: string
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            href:
+              type: string
+              description: A link to the Web API endpoint returning the full result of the request.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.id is a substring of return.href
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 7874 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=4YQsbhCYkpmueqKC4aEn7f; return.href=https://api.spotify.com/v1/albums/4YQsbhCYkpmueqKC4aEn7f/tracks?offset=0&limit=46&market=GY
+input.id=3vOgbDjgsZBAPwV2M3bNOj; return.href=https://api.spotify.com/v1/albums/3vOgbDjgsZBAPwV2M3bNOj/tracks?offset=15&limit=19&market=MC
+input.id=6ajdXlPMknejXW5TxqTMr0; return.href=https://api.spotify.com/v1/albums/6ajdXlPMknejXW5TxqTMr0/tracks?offset=0&limit=20&market=RO
+input.id=4otkd9As6YaxxEkIjXPiZ6; return.href=https://api.spotify.com/v1/albums/4otkd9As6YaxxEkIjXPiZ6/tracks?offset=0&limit=19&market=DJ
+input.id=6ixZvq546olo2LumeG66UW; return.href=https://api.spotify.com/v1/albums/6ixZvq546olo2LumeG66UW/tracks?offset=5&limit=9
+

@@ -1,0 +1,39 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                is_local:
+                  type: boolean
+                  description: Is local
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.is_local == false
+
+Invariant type: daikon.inv.unary.scalar.OneOfScalar
+Invariant description: Represents long variables that take on only a few distinct values. Prints as either x == c (when there is only one value) or as x one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 164046 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+output.items.is_local=false
+

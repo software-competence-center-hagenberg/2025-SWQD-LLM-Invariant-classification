@@ -1,0 +1,72 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    room:
+                      type: object
+                      properties:
+                        typeEstimated:
+                          type: object
+                          description: estimated room category, bed type and number of beds in the room. This information has been parsed from the room description, and is thus only provided for informational purposes
+                          properties:
+                            beds:
+                              type: integer
+                              description: Number of beds in the room (1-9)
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        deposit:
+                          type: object
+                          description: the deposit/prepay policy information applicable to the offer. It includes accepted payments, deadline and the amount due
+                          properties:
+                            acceptedPayments:
+                              type: object
+                              description: Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
+                              properties:
+                                creditCards:
+                                  type: array
+                                  description: Accepted Payment Card Types for the `method` CREDIT_CARD
+                                  items:
+                                    type: string
+                                    minLength: 2
+                                    maxLength: 2
+                                    pattern: ^[A-Z]{2}$
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.room.typeEstimated.beds != size(return.policies.deposit.acceptedPayments.creditCards[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 1042 examples in the requests data, with 23 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.offers.room.typeEstimated.beds=2; return.data.offers.policies.deposit.acceptedPayments.creditCards=["AH","AX","CA","DC","EC","IK","VI"]
+return.data.offers.room.typeEstimated.beds=3; return.data.offers.policies.deposit.acceptedPayments.creditCards=["VI","AX","CA","DC","EC","JC","CU","MC","IK"]
+return.data.offers.room.typeEstimated.beds=1; return.data.offers.policies.deposit.acceptedPayments.creditCards=["VI","CA","AX","DC","IK","EC","XS"]
+return.data.offers.room.typeEstimated.beds=1; return.data.offers.policies.deposit.acceptedPayments.creditCards=["AX","VI","CA"]
+return.data.offers.room.typeEstimated.beds=1; return.data.offers.policies.deposit.acceptedPayments.creditCards=["AX","BA","CA","CU","DC","EC","IK","JC","VI"]
+

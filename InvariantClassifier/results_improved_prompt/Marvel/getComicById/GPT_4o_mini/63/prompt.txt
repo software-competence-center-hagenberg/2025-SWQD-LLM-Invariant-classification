@@ -1,0 +1,60 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+      - name: comicId
+        in: path
+        description: A single comic.
+        required: true
+        type: integer
+        format: int32
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    urls:
+                      type: array
+                      description: A set of public web site URLs for the resource.
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            description: A text identifier for the URL.
+                          url:
+                            description: A full URL (including scheme, domain, and path).
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.comicId > size(return.urls[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 7633 of them being distinct examples.
+Here are 5 example values of the variables:
+input.comicId=18502; output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/issue\/18502\/two-gun_kid_1948_107?utm_campaign=apiRef&utm_source=anonymous"}]
+input.comicId=1032; output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/collection\/1032\/x-men_mutant_massacre_trade_paperback?utm_campaign=apiRef&utm_source=anonymous"}]
+input.comicId=12199; output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/issue\/12199\/x-factor_1986_121?utm_campaign=apiRef&utm_source=anonymous"}]
+input.comicId=66932; output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/collection\/66932\/cable_revolution_trade_paperback?utm_campaign=apiRef&utm_source=anonymous"}]
+input.comicId=12536; output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/issue\/12536\/uncanny_x-men_1963_83?utm_campaign=apiRef&utm_source=anonymous"}]
+

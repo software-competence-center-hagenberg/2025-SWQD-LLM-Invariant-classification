@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/"
+  get:
+    summary: Search
+    parameters:
+      - name: y
+        in: query
+        description: Year of release
+        type: integer
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            Search:
+              type: array
+              items:
+                type: object
+                properties:
+                  Title:
+                  Year:
+                  imdbID:
+                  Type:
+                  Poster:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.y > size(return.Search[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 1034 examples in the requests data, with 546 of them being distinct examples.
+Here are 5 example values of the variables:
+input.y=2015; output.Search=[{"Type":"movie","Year":"2015","imdbID":"tt5283272","Poster":"N\/A","Title":"Say My Name"}]
+input.y=2021; output.Search=[{"Type":"movie","Year":"2021","imdbID":"tt14385506","Poster":"N\/A","Title":"Fan Tableread of Pulp Fiction"}]
+input.y=2011; output.Search=[{"Type":"movie","Year":"2011","imdbID":"tt2109173","Poster":"N\/A","Title":"Namaste"}]
+input.y=1982; output.Search=[{"Type":"movie","Year":"1982","imdbID":"tt0426972","Poster":"N\/A","Title":"Belfast"}]
+input.y=1995; output.Search=[{"Type":"movie","Year":"1995","imdbID":"tt0389876","Poster":"N\/A","Title":"Concours eurovision de la chanson - finale nationale"}]
+

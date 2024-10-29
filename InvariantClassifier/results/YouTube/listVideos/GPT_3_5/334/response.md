@@ -1,0 +1,1 @@
+The invariant return.liveStreamingDetails.concurrentViewers in return.contentDetails.regionRestriction.allowed[] is false-positive. This is because the return.contentDetails.regionRestriction.allowed[] field is not present in the response body as per the provided Swagger definition. Therefore, the invariant will not hold for every valid request on the API.

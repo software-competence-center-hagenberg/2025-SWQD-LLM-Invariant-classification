@@ -1,0 +1,45 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            license:
+              type: object
+              properties:
+                key:
+                  type: string
+          properties:
+            url:
+              type: string
+              example: https://api.github.com/repos/octocat/Hello-World
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.license.key is a substring of return.license.url
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 173289 examples in the requests data, with 32 of them being distinct examples.
+Here are 5 example values of the variables:
+output.license.key=osl-3.0; output.license.url=https://api.github.com/licenses/osl-3.0
+output.license.key=cc0-1.0; output.license.url=https://api.github.com/licenses/cc0-1.0
+output.license.key=postgresql; output.license.url=https://api.github.com/licenses/postgresql
+output.license.key=afl-3.0; output.license.url=https://api.github.com/licenses/afl-3.0
+output.license.key=epl-1.0; output.license.url=https://api.github.com/licenses/epl-1.0
+

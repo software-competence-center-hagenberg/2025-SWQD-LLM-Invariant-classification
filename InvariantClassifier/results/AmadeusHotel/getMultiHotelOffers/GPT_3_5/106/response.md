@@ -1,0 +1,1 @@
+The invariant 'return.data[] elements != null' is a false-positive. The reason for this is that the Swagger definition does not specify that the 'data' array cannot contain null elements. Therefore, the invariant does not hold for every valid request on the API.

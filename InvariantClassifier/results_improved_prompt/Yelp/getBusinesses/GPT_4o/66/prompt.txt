@@ -1,0 +1,52 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: limit
+        in: query
+        required: false
+        type: integer
+        maxLength: 50
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      alias:
+                      title:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.limit >= size(return.categories[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 701 examples in the requests data, with 701 of them being distinct examples.
+Here are 5 example values of the variables:
+input.limit=43; return.businesses.categories=[{"alias":"hottubandpool","title":"Piscina & Hidromassagem"},{"alias":"poolservice","title":"Serviços de Piscina & Banheira de Hidromassagem"}]
+input.limit=38; return.businesses.categories=[{"alias":"autorepair","title":"Auto Repair"},{"alias":"oilchange","title":"Oil Change Stations"},{"alias":"tires","title":"Tires"}]
+input.limit=32; return.businesses.categories=[{"alias":"gardens","title":"Botanischer Garten"}]
+input.limit=24; return.businesses.categories=[{"alias":"breakfast_brunch","title":"Frühstück & Brunch"},{"alias":"cafes","title":"Café"},{"alias":"bakeries","title":"Bäckerei"}]
+input.limit=43; return.businesses.categories=[{"alias":"computers","title":"Computadores"},{"alias":"datarecovery","title":"Recuperação de Dados"}]
+

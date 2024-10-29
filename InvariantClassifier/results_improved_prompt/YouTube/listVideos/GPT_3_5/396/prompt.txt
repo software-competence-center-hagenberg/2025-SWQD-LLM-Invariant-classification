@@ -1,0 +1,60 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    thumbnails:
+                      type: object
+                      description: Internal representation of thumbnails for a YouTube resource.
+                      properties:
+                        default:
+                          type: object
+                          description: A thumbnail is an image representing a YouTube resource.
+                          properties:
+                            height:
+                              type: integer
+                              description: (Optional) Height of the thumbnail image.
+                  properties:
+                    tags:
+                      type: array
+                      description: A list of keyword tags associated with the video. Tags may contain spaces.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.snippet.thumbnails.default.height != size(return.snippet.tags[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 16970 examples in the requests data, with 2362 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.snippet.thumbnails.default.height=90; return.items.snippet.tags=["will smith","chris rock","oscars 2022","endgame","avengers","ironman","iron man","thesnap","slap"]
+return.items.snippet.thumbnails.default.height=90; return.items.snippet.tags=["BLACKPINK","ë¸\u201Dëž™í\u2022\u2018í?¬","BORN PINK","Typa Girl"]
+return.items.snippet.thumbnails.default.height=90; return.items.snippet.tags=["Face the Nation","CBS News","video","Margaret Brennan","U.S.","politics","Russia","Ukraine","war","H.R. McMaster"]
+return.items.snippet.thumbnails.default.height=90; return.items.snippet.tags=["retojorjais"]
+return.items.snippet.thumbnails.default.height=90; return.items.snippet.tags=["golf","good good"]
+

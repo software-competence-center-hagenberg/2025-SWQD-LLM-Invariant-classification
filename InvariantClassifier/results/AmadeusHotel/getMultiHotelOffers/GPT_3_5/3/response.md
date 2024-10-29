@@ -1,0 +1,1 @@
+The invariant 'return.markups == null' is false-positive. The reason for this is that the 'markups' field is described as a collection of price periods if the daily price changes during the stay. This means that 'markups' can have multiple values and is not always null. Therefore, the invariant 'return.markups == null' will not hold for every valid request on the API.

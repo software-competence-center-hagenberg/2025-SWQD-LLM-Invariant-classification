@@ -1,0 +1,46 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                liveStreamingDetails:
+                  type: object
+                  description: Details about the live streaming metadata.
+                  properties:
+                    scheduledEndTime:
+                      type: string
+                      description: The time that the broadcast is scheduled to end. If the value is empty or the property is not present, then the broadcast is scheduled to contiue indefinitely.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.liveStreamingDetails.scheduledEndTime is Timestamp. Format: YYYY-MM-DDTHH:MM:SS.mmZ (Miliseconds are optional)
+
+Invariant type: daikon.inv.unary.string.dates.IsTimestampYYYYMMHHThhmmssmm
+Invariant description: Indicates that the value of a string variable is always a timestamp. Represented as x is Timestamp. Format
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 47 examples in the requests data, with 7 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.liveStreamingDetails.scheduledEndTime=2022-10-08T16:25:00Z
+return.items.liveStreamingDetails.scheduledEndTime=2022-10-07T18:55:00Z
+return.items.liveStreamingDetails.scheduledEndTime=2022-10-05T18:00:00Z
+return.items.liveStreamingDetails.scheduledEndTime=2022-10-04T18:30:00Z
+return.items.liveStreamingDetails.scheduledEndTime=2019-03-14T18:00:00Z
+

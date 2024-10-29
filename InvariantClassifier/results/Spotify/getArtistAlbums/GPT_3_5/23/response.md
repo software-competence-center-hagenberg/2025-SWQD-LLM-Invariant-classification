@@ -1,0 +1,1 @@
+The invariant input.offset >= size(return.artists[])-1 is intended to ensure that the offset parameter is not greater than the total number of artists returned in the response. This is to prevent requesting items beyond the available range. Let's analyze the invariant to determine if it holds true for every valid request on the API.

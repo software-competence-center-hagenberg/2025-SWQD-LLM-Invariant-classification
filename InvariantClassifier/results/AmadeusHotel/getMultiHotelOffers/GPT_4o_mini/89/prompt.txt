@@ -1,0 +1,87 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        taxes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              amount:
+                                description: Defines amount with decimal separator.
+                              currency:
+                                description: Defines a monetary unit. It is a three alpha code (iata code). Example: EUR for Euros, USD for US dollar, etc.
+                              code:
+                                description: International Standards Organization (ISO) Tax code.It is a two-letter country code.
+                              percentage:
+                                description: In the case of a tax on TST value, the percentage of the tax will be indicated in this field.
+                              included:
+                                description: Indicates if tax is included or not
+                              description:
+                                description: Example - "Governement tax"
+                              pricingFrequency:
+                                description: Specifies if the tax applies per stay or per night
+                                  - PER_STAY
+                                  - PER_NIGHT
+                              pricingMode:
+                                description: Specifies if the tax applies per occupant or per room
+                                  - PER_OCCUPANT
+                                  - PER_PRODUCT
+                            description: IATA Tax definition: An impost for raising revenue for the general treasury and which will be used for general public purposes.
+                      properties:
+                        variations:
+                          type: object
+                          description: Daily price variations and the average daily price (when available) is shown here
+                          properties:
+                            changes:
+                              type: array
+                              description: A collection of price periods if the daily price changes during the stay
+                              items:
+                                type: object
+                                properties:
+                                  startDate:
+                                    description: Begin date of the period
+                                    Format: YYYY-MM-DD
+                                  endDate:
+                                    description: End date of the period
+                                    Format: YYYY-MM-DD
+                                  currency:
+                                    description: currency Code apply to all elements of the price
+                                  sellingTotal:
+                                    description: sellingTotal = Total + margins + markup + totalFees - discounts
+                                  total:
+                                    description: total = base + totalTaxes
+                                  base:
+                                  markups:
+                                description: Some prices may vary during a stay, thus here you can see the daily price per period of the stay
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.price.taxes[])-1 != size(return.price.variations.changes[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+

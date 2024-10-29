@@ -1,0 +1,58 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  post:
+    summary: Create an organization repository
+    description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+    
+    **OAuth scope requirements**
+    
+    When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+    
+    *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+    *   `repo` scope to create a private repository
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+        
+        **OAuth scope requirements**
+        
+        When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+        
+        *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+        *   `repo` scope to create a private repository
+        schema:
+          type: object
+          description: A git repository
+          properties:
+            id:
+              type: integer
+              description: Unique identifier of the repository
+              example: 42
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.id > return.owner.id
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 10000 of them being distinct examples.
+Here are 5 example values of the variables:
+return.id=541361361; return.owner.id=114364838
+return.id=541544013; return.owner.id=114397459
+return.id=541416208; return.owner.id=114363728
+return.id=542102460; return.owner.id=114466716
+return.id=541325493; return.owner.id=114363728
+

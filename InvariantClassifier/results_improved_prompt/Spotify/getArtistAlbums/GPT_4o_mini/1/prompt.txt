@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                artists:
+                  type: array
+                  items:
+                    type:
+                      type: string
+                      description: The object type: 'artist'
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: "return.type == ""artist"""
+
+Invariant type: daikon.inv.unary.string.OneOfString
+Invariant description: Represents String variables that take on only a few distinct values. Prints as either x == c (when there is only one value) or as x one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items.artists" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 251423 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+output.items.artists.type=artist
+

@@ -1,0 +1,1 @@
+The invariant return.digitalId >= size(return.events.items[])-1 is false-positive. This is because the swagger definition does not provide any guarantee that the 'events' array will always be present in the response. Therefore, the invariant will not hold for every valid request on the API.

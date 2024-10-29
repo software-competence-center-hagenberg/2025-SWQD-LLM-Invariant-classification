@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            mirror_url:
+              type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.mirror_url is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 22 examples in the requests data, with 5 of them being distinct examples.
+Here are 5 example values of the variables:
+output.mirror_url=https://skia.googlesource.com/buildbot
+output.mirror_url=https://chromium.googlesource.com/angle/angle
+output.mirror_url=https://skia.googlesource.com/skia
+output.mirror_url=https://chromium.googlesource.com/breakpad/breakpad
+output.mirror_url=https://swiftshader.googlesource.com/SwiftShader
+

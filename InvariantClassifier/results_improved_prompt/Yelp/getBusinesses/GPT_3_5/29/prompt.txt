@@ -1,0 +1,50 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    address1:
+                      type: string
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.location.address1 in return.location.display_address[]
+
+Invariant type: daikon.inv.binary.sequenceString.MemberString
+Invariant description: Represents String scalars that are always members of a sequence of String values. Prints as x in y[] where x is a String scalar and y[] is a sequence of String.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 2543 examples in the requests data, with 1642 of them being distinct examples.
+Here are 5 example values of the variables:
+return.businesses.location.address1=?????2-9-13; return.businesses.location.display_address=["?????2-9-13","Hiroshima, ??? ?730-0051","Japan"]
+return.businesses.location.address1=299 Broadway; return.businesses.location.display_address=["299 Broadway","Fl 17","New York, NY 10007"]
+return.businesses.location.address1=821 Chorley Old Road; return.businesses.location.display_address=["821 Chorley Old Road","Bolton BL1 5SL","Royaume-Uni"]
+return.businesses.location.address1=Admiralstr.  1 - 2; return.businesses.location.display_address=["Admiralstr.  1 - 2","10999 Berlin","Tyskland"]
+return.businesses.location.address1=131 Vauxhall Road; return.businesses.location.display_address=["131 Vauxhall Road","Liverpool L3 6BN","Royaume-Uni"]
+

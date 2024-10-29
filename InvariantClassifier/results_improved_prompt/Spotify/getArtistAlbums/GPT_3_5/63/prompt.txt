@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                images:
+                  type: array
+                  description: The cover art for the album in various sizes, widest first.
+                  items:
+                    url:
+                      type: string
+                      description: The source URL of the image.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.url is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items.images" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 554566 examples in the requests data, with 40699 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.images.url=https://i.scdn.co/image/ab67616d00004851dfac724c12b583f3649f56d7
+return.items.images.url=https://i.scdn.co/image/ab67616d00001e02c27b9268e6d2eb13ca9341a0
+return.items.images.url=https://i.scdn.co/image/ab67616d0000b2730ae9be2943913eb9af9ba515
+return.items.images.url=https://i.scdn.co/image/ab67616d00004851a8fc1dae03c15308c5f3c0db
+return.items.images.url=https://i.scdn.co/image/ab67616d0000b273f685cba6446f7ef35850ea5f
+

@@ -1,0 +1,41 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/users/{user_id}/playlists"
+  post:
+    description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+        schema:
+          type: object
+          properties:
+            snapshot_id:
+              type: string
+              description: The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.snapshot_id)==56
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 10000 of them being distinct examples.
+Here are 5 example values of the variables:
+return.snapshot_id=MSw4OWI0ZjliMGEwYzM0ZTQwMWM1NDY3NTQwMGFiZGY3YmJmNGZlOGYz
+return.snapshot_id=MSxhOGE1Y2E4M2ZmYjNmMDM2NTE0ZGMzZTNkMmY3NmNkZDIyOWFkYWU1
+return.snapshot_id=MSxjYzlhNzU4ODYwMTk2NzY2YmZkZDRmNTJjM2I0OTMyOTRkZjc1OWRm
+return.snapshot_id=MSwzM2FkNzE1NTI2NTk2YjE4YmIwNjIzMmMwZWEzYWMzNGI3NmMyYzAw
+return.snapshot_id=MSwxNGYzMWI2NWE0MWQyMWE2NjJhYmE1MDMwYTg1ZWZiMmRlNjhiZGEz
+

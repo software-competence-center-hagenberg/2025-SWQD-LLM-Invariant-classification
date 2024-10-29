@@ -1,0 +1,32 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            stargazers_count:
+              type: integer
+          properties:
+            watchers:
+              type: integer
+              example: 0
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.stargazers_count == return.watchers
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

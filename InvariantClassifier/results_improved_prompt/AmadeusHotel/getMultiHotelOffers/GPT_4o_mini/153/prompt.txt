@@ -1,0 +1,45 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: countryOfResidence
+        in: query
+        description: Code of the country of residence of the traveler expressed using ISO 3166-1 format.
+        pattern: [A-Z]{2}
+        type: string
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                self:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.countryOfResidence is a substring of return.self
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 7511 examples in the requests data, with 6457 of them being distinct examples.
+Here are 5 example values of the variables:
+input.countryOfResidence=CA; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=BWTLS454&adults=1&checkInDate=2022-09-20&countryOfResidence=CA&currency=EUR&lang=HU
+input.countryOfResidence=MX; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=WVLPLBRI&adults=3&checkInDate=2022-09-20&countryOfResidence=MX&currency=USD&lang=de-DE
+input.countryOfResidence=CH; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=WHUSM058&adults=1&checkInDate=2022-09-22&countryOfResidence=CH&lang=ko&roomQuantity=2
+input.countryOfResidence=US; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=ICDXBD92&adults=1&checkInDate=2022-09-22&countryOfResidence=US&paymentPolicy=GUARANTEE
+input.countryOfResidence=AE; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=PILPLADC&adults=8&checkOutDate=2022-09-23&countryOfResidence=AE&lang=ko-KR
+

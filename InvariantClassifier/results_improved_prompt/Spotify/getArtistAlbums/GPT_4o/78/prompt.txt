@@ -1,0 +1,43 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: id
+        in: path
+        description: The Spotify ID for the artist
+        required: true
+        type: string
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            next:
+              type: string
+              description: URL to the next page of items. (null if none)
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.id is a substring of return.next
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 7198 examples in the requests data, with 5623 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=6uothxMWeLWIhsGeF7cyo4; return.next=https://api.spotify.com/v1/artists/6uothxMWeLWIhsGeF7cyo4/albums?offset=39&limit=20&include_groups=album,single,compilation,appears_on&market=BG
+input.id=1Oa0bMld0A3u5OTYfMzp5h; return.next=https://api.spotify.com/v1/artists/1Oa0bMld0A3u5OTYfMzp5h/albums?offset=28&limit=20&include_groups=appears_on&market=MO
+input.id=3EiLUeyEcA6fbRPSHkG5kb; return.next=https://api.spotify.com/v1/artists/3EiLUeyEcA6fbRPSHkG5kb/albums?offset=24&limit=24&include_groups=single,compilation,appears_on&market=JO
+input.id=3QJzdZJYIAcoET1GcfpNGi; return.next=https://api.spotify.com/v1/artists/3QJzdZJYIAcoET1GcfpNGi/albums?offset=36&limit=20&include_groups=album,single,compilation,appears_on&market=BW
+input.id=3fMbdgg4jU18AjLCKBhRSm; return.next=https://api.spotify.com/v1/artists/3fMbdgg4jU18AjLCKBhRSm/albums?offset=27&limit=20&include_groups=album,single,compilation,appears_on
+

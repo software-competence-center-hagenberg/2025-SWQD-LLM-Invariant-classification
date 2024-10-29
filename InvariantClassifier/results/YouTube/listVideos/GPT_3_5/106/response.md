@@ -1,0 +1,1 @@
+The invariant return.recordingDetails.recordingDate in return.contentDetails.regionRestriction.allowed[] is false-positive. This is because the 'recordingDetails' and 'contentDetails' are at the same level in the response body, and 'recordingDate' and 'regionRestriction' are not nested within each other. Therefore, the invariant does not hold for every valid request on the API.

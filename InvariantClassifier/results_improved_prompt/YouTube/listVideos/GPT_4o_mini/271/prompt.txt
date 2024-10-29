@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            etag:
+              type: string
+              description: Etag of this resource.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.etag)==27
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 8242 of them being distinct examples.
+Here are 5 example values of the variables:
+output.etag=uS5DROk3ZuhgALERXczGAmt3qX8
+output.etag=rLA8O2vnpkYIlDN3Vl7M6R7hL5g
+output.etag=eanTwttwrRsBoRwemxg35cabUvg
+output.etag=oEiKH3QTX8BAw8u_5yz1O1cf1KE
+output.etag=r_oeoLmCfoKHcJuU38RFRCsBzmM
+

@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                id:
+                  type: string
+                  description: The ID that YouTube uses to uniquely identify the video.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.id in input.id[]
+
+Invariant type: daikon.inv.binary.sequenceString.MemberString
+Invariant description: Represents String scalars that are always members of a sequence of String values. Prints as x in y[] where x is a String scalar and y[] is a sequence of String.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5512 examples in the requests data, with 3443 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=bTgRLQHGouw%2C2Nv-2PvOSr4%2CT-0iE7wXmzE; output.items.id=T-0iE7wXmzE
+input.id=BhgxoeZGSN4%2CJ8hE0kTSJ0s; output.items.id=J8hE0kTSJ0s
+input.id=-UGLHvKr6pc%2CcYZHtkq4f-8%2CJotpWlwwczU; output.items.id=JotpWlwwczU
+input.id=7m-NPuXPBqM%2Ct22flliJLTQ%2CuCpE6z999Uk%2CmXVwcGCGb3o%2Cnk2cCxcnexU%2CI9oQm3MVVX4; output.items.id=nk2cCxcnexU
+input.id=AOi1sVKPsfo%2CJ8hE0kTSJ0s; output.items.id=AOi1sVKPsfo
+

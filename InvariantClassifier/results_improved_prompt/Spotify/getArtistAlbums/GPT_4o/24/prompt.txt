@@ -1,0 +1,46 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: include_groups
+        in: query
+        description: Filter by album types
+        type: array
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                album_group:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.album_group in input.include_groups[]
+
+Invariant type: daikon.inv.binary.sequenceString.MemberString
+Invariant description: Represents String scalars that are always members of a sequence of String values. Prints as x in y[] where x is a String scalar and y[] is a sequence of String.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 6069 examples in the requests data, with 188 of them being distinct examples.
+Here are 5 example values of the variables:
+input.include_groups=compilation%2Cappears_on%2Csingle; return.items.album_group=compilation
+input.include_groups=single%2Calbum%2Cappears_on%2Ccompilation; return.items.album_group=compilation
+input.include_groups=appears_on%2Ccompilation; return.items.album_group=compilation
+input.include_groups=single%2Calbum%2Ccompilation; return.items.album_group=single
+input.include_groups=compilation%2Csingle%2Cappears_on%2Calbum; return.items.album_group=appears_on
+

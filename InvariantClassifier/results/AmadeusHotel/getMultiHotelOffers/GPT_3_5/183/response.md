@@ -1,0 +1,1 @@
+The invariant checks if the size of the 'changes' array in the 'variations' object is divisible by the 'numberOfNights' specified in the 'cancellation' object. The invariant type 'NumericInt$Divides' specifies that the size of the array should be divisible by the 'numberOfNights' without remainder. Based on the provided Swagger definition, the invariant is a false-positive.

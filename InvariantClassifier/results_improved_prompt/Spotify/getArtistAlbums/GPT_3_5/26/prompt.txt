@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                total_tracks:
+                  type: integer
+              items:
+                available_markets:
+                  type: array
+                  description: The markets in which the album is available: ISO 3166-1 alpha-2 country codes. Note that an album is considered available in a market when at least 1 of its tracks is available in that market.
+                  items:
+                    type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.total_tracks != size(return.available_markets[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 1074 examples in the requests data, with 255 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.total_tracks=28; return.items.available_markets=["AR","BO","BR","CL","CO","CR","EC","ES","GT","HN","MX","NI","PA","PE","PY","SV","UY","VE"]
+return.items.total_tracks=1; return.items.available_markets=["AU","BB","BE","BF","BY","CA","ES","FJ","GH","ID","IN","JP","KG","KZ","LU","MY","NP","NZ","PL","TD","TR","UA","US","UZ"]
+return.items.total_tracks=29; return.items.available_markets=["ES"]
+return.items.total_tracks=4; return.items.available_markets=["ES"]
+return.items.total_tracks=33; return.items.available_markets=["ES"]
+

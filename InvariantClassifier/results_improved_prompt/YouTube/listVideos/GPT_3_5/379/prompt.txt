@@ -1,0 +1,45 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                status:
+                  type: object
+                  description: Basic details about a video category, such as its localized title. Next Id: 17
+                  properties:
+                    publicStatsViewable:
+                      type: boolean
+                      description: This value indicates if the extended video statistics on the watch page can be viewed by everyone. Note that the view count, likes, etc will still be visible if this is disabled. @mutable youtube.videos.insert youtube.videos.update
+                  properties:
+                    selfDeclaredMadeForKids:
+                      type: boolean
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.status.publicStatsViewable == return.status.selfDeclaredMadeForKids
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 4 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+return.items.status.publicStatsViewable=true; return.items.status.selfDeclaredMadeForKids=true
+

@@ -1,0 +1,41 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/"
+  get:
+    summary: Search
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            Search:
+              type: array
+              items:
+                Poster:
+                  type: string
+                  example: https://m.media-amazon.com/images/M/MV5BMTQxODE3NjM1Ml5BMl5BanBnXkFtZTcwMzkzNjc4OA@@._V1_SX300.jpg
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.Poster is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "Search" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 86638 examples in the requests data, with 1349 of them being distinct examples.
+Here are 5 example values of the variables:
+output.Search.Poster=https://m.media-amazon.com/images/M/MV5BZDAzZTQ4ZTctY2MzYi00ZDAyLWJiN2UtYjQ1NDEzMzcyN2RiXkEyXkFqcGdeQXVyMTUyNjY2NjM@._V1_SX300.jpg
+output.Search.Poster=https://m.media-amazon.com/images/M/MV5BMmM0M2M5OGQtZjIyMi00N2FhLThlMjAtMDM2YWEzM2ZiMjVlXkEyXkFqcGdeQXVyMTU3MzcwMTU@._V1_SX300.jpg
+output.Search.Poster=https://m.media-amazon.com/images/M/MV5BYzljNjU0YTItMzAzZi00OGEwLWE1ZDItMjY3ZmRhNzdjMGM5XkEyXkFqcGdeQXVyOTcyNzUzNTg@._V1_SX300.jpg
+output.Search.Poster=https://m.media-amazon.com/images/M/MV5BZjcwZjY3NjAtNzkxZS00NmFjLTg1OGYtODJmMThhY2UwMTc5XkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg
+output.Search.Poster=https://m.media-amazon.com/images/M/MV5BMzgwZjA3MzItNWM1NS00OWM5LTkwYjAtNThhMzcyNzkyNmI5XkEyXkFqcGdeQXVyNDY2Mzc4OTk@._V1_SX300.jpg
+

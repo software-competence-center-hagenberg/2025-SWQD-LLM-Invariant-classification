@@ -1,0 +1,39 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            copyright:
+              type: string
+              description: The copyright notice for the returned result.
+          properties:
+            attributionText:
+              type: string
+              description: The attribution notice for this result.  Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.copyright is a substring of return.attributionText
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+output.copyright=© 2022 MARVEL; output.attributionText=Data provided by Marvel. © 2022 MARVEL
+

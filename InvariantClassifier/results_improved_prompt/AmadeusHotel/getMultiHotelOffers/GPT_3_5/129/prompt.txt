@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        currency:
+                          type: string
+                          description: currency Code apply to all elements of the price
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.price.currency)==3
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 41891 examples in the requests data, with 11 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.offers.price.currency=BRL
+return.data.offers.price.currency=USD
+return.data.offers.price.currency=CAD
+return.data.offers.price.currency=NZD
+return.data.offers.price.currency=EUR
+

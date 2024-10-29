@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.location.display_address[]) >= 1
+
+Invariant type: daikon.inv.unary.scalar.LowerBound
+Invariant description: Represents the invariant x >= c, where c is a constant and x is a long scalar.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 181481 examples in the requests data, with 93771 of them being distinct examples.
+Here are 5 example values of the variables:
+return.businesses.location.display_address=["3959 Wilshire Blvd","Ste A5","Los Angeles, CA 90010","Estados Unidos"]
+return.businesses.location.display_address=["Via Giovanni Giolitti 105","00185 Roma","?talya"]
+return.businesses.location.display_address=["Via Lepanto 21","30126 Venezia","Italia"]
+return.businesses.location.display_address=["1326 14th St NW","Ste A","Washington, DC 20005","United States"]
+return.businesses.location.display_address=["Carrer dels Escudellers, 14","08002 Barcelona","Sepanyol"]
+

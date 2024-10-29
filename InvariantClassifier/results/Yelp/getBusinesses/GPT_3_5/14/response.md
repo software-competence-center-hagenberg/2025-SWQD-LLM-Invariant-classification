@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the 'return.categories[]' is not a valid reference to the response field. The correct reference should be 'businesses.categories[]'. Therefore, the invariant is not applicable to the given API definition.

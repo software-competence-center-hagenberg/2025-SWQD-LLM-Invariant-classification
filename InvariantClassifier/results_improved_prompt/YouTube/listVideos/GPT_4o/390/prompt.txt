@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                contentDetails:
+                  type: object
+                  description: Details about the content of a YouTube Video.
+                  properties:
+                    regionRestriction:
+                      type: object
+                      description: DEPRECATED Region restriction of the video.
+                      properties:
+                        blocked:
+                          type: array
+                          description: A list of region codes that identify countries where the video is blocked. If this property is present and a country is not listed in its value, then the video is viewable in that country. If this property is present and contains an empty list, the video is viewable in all countries.
+                          items:
+                            type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.id[]) % size(return.contentDetails.regionRestriction.blocked[]) == 0
+
+Invariant type: daikon.inv.binary.twoScalar.NumericInt$Divides
+Invariant description: Represents the divides without remainder invariant between two long scalars. Prints as x % y == 0.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 5 examples in the requests data, with 5 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=_aB9Tg6SRA0%2C2Qen3cXzo6g; return.items.contentDetails.regionRestriction.blocked=["AU"]
+input.id=y8qHofTXgrA%2CzZa8PFYtWr4; return.items.contentDetails.regionRestriction.blocked=["HK","VN"]
+input.id=Cp4Rxh1ZqzA; return.items.contentDetails.regionRestriction.blocked=["VN"]
+input.id=9XF7t3pyL2M%2C31H5PE77eWk; return.items.contentDetails.regionRestriction.blocked=["VN"]
+input.id=PV9t27f0HFY%2CacBCHmS6XCs%2C4G1GUrS7bjg%2CCp4Rxh1ZqzA%2CC1eOiOkD_8A%2CzZa8PFYtWr4; return.items.contentDetails.regionRestriction.blocked=["VN"]
+

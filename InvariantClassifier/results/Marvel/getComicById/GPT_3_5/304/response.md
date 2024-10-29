@@ -1,0 +1,1 @@
+The given invariant is false-positive. The 'return.events.available' field is not present in the response schema as per the provided Swagger definition. Therefore, the invariant 'return.events.available one of { 0, 1, 2 }' does not hold for this API endpoint.

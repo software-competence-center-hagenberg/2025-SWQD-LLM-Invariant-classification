@@ -1,0 +1,1 @@
+The invariant 'return.description == null' is false-positive. This is because the 'description' field is nested within the 'data.offers' array, and it is not guaranteed to be null for every valid request on the API. The invariant does not account for the possibility of non-null 'description' values within the 'data.offers' array, making it incorrect for every valid request.

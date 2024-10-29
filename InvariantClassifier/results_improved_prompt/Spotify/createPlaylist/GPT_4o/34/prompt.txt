@@ -1,0 +1,41 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/users/{user_id}/playlists"
+  post:
+    description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+        schema:
+          type: object
+          properties:
+            uri:
+              type: string
+              description: Spotify URI of the playlist.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.uri)==39
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 10000 of them being distinct examples.
+Here are 5 example values of the variables:
+return.uri=spotify:playlist:6nUm3eAfyF3bK5Yn5xsNKT
+return.uri=spotify:playlist:3gdDcHAoF0FABA3pIdSWfG
+return.uri=spotify:playlist:4WjefJL8DXVpuLGcDVLTYy
+return.uri=spotify:playlist:0xGmCDH09MPr0ZiLbOrHvB
+return.uri=spotify:playlist:6kUh7CwU8iw9eNHivB8xe6
+

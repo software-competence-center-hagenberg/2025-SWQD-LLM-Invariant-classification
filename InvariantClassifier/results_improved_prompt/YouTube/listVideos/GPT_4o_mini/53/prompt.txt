@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    tags:
+                      type: array
+                      description: A list of keyword tags associated with the video. Tags may contain spaces.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.snippet.tags[]) >= 1
+
+Invariant type: daikon.inv.unary.scalar.LowerBound
+Invariant description: Represents the invariant x >= c, where c is a constant and x is a long scalar.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 20349 examples in the requests data, with 2362 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.snippet.tags=["el 19 digital","noticias de nicaragua","nicaragua"]
+output.items.snippet.tags=["toffiecrisp","turecki serial","tureckie seriale","komedia","parodia","toffiecrisp tureckie seriale"]
+output.items.snippet.tags=["Highlights","Highlight Heaven","nfl highlights","highlight","nfl","national football league","highlight heaven beat"]
+output.items.snippet.tags=["sidemen","sidemen sunday","#sidemensunday"]
+output.items.snippet.tags=["WWF","SmackDown!","PS1","Gameplay","HD","Chris","Jericho","VS","The","Rock","Chyna","By","WWEGamesSVR"]
+

@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                artists:
+                  type: array
+                  description: The artists who performed the track. Each artist object includes a link in href to more detailed information about the artist.
+                  items:
+                    type:
+                      type: string
+                      description: The object type: 'artist'
+                  items:
+                    uri:
+                      type: string
+                      description: The Spotify URI for the artist.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.type is a substring of return.uri
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items.artists" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 198745 examples in the requests data, with 204 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.artists.type=artist; return.items.artists.uri=spotify:artist:5HOu40y4JzaPi68Juxb7gF
+return.items.artists.type=artist; return.items.artists.uri=spotify:artist:0xgLzYXTSX00BF1UpyXQpi
+return.items.artists.type=artist; return.items.artists.uri=spotify:artist:0EmeFodog0BfCgMzAIvKQp
+return.items.artists.type=artist; return.items.artists.uri=spotify:artist:4cOY0iUSp0UERCk4I23uoH
+return.items.artists.type=artist; return.items.artists.uri=spotify:artist:0jJszR81GjA87jeRq0Jgwz
+

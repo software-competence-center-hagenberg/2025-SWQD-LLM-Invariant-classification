@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                contentDetails:
+                  type: object
+                  description: Details about the content of a YouTube Video.
+                  properties:
+                    regionRestriction:
+                      type: object
+                      description: DEPRECATED Region restriction of the video.
+                      properties:
+                        allowed:
+                          type: array
+                          description: A list of region codes that identify countries where the video is viewable. If this property is present and a country is not listed in its value, then the video is blocked from appearing in that country. If this property is present and contains an empty list, the video is blocked in all countries.
+                          items:
+                            type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.contentDetails.regionRestriction.allowed[]) one of { 9, 80, 94 }
+
+Invariant type: daikon.inv.unary.scalar.OneOfScalar
+Invariant description: Represents long variables that take on only a few distinct values. Prints as either x == c (when there is only one value) or as x one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 4 examples in the requests data, with 3 of them being distinct examples.
+Here is an example values of the variables:
+output.items.contentDetails.regionRestriction.allowed=["AR","BO","CL","CO","EC","PE","PY","UY","VE"]
+

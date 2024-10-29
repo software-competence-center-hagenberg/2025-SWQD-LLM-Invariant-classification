@@ -1,0 +1,50 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                contentDetails:
+                  type: object
+                  description: Details about the content of a YouTube Video.
+                  properties:
+                    regionRestriction:
+                      type: object
+                      description: DEPRECATED Region restriction of the video.
+                      properties:
+                        blocked:
+                          type: array
+                          description: A list of region codes that identify countries where the video is blocked. If this property is present and a country is not listed in its value, then the video is viewable in that country. If this property is present and contains an empty list, the video is viewable in all countries.
+                          items:
+                            type: string
+              items:
+                recordingDetails:
+                  type: object
+                  description: Recording information associated with the video.
+                  properties:
+                    locationDescription:
+                      type: string
+                      description: The text description of the location where the video was recorded.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.recordingDetails.locationDescription in return.contentDetails.regionRestriction.blocked[]
+
+Invariant type: daikon.inv.binary.sequenceString.MemberString
+Invariant description: Represents String scalars that are always members of a sequence of String values. Prints as x in y[] where x is a String scalar and y[] is a sequence of String.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+

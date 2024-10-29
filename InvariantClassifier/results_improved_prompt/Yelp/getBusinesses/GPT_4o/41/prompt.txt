@@ -1,0 +1,55 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      alias:
+                      title:
+              items:
+                location:
+                  type: object
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.categories[])-1 <= size(return.location.display_address[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 50 calls on this API and did not find a single counter example.
+
+We found 892 examples in the requests data, with 887 of them being distinct examples.
+Here are 5 example values of the variables:
+return.businesses.categories=[{"alias":"japanese","title":"Japanese"},{"alias":"sushi","title":"Sushi Bars"}]; return.businesses.location.display_address=["2878 24th St","San Francisco, CA 94110"]
+return.businesses.categories=[{"alias":"bavarian","title":"Bavarian"},{"alias":"steak","title":"Steakhouses"}]; return.businesses.location.display_address=["Viktoriastr. 23","80803 Munich","Germany"]
+return.businesses.categories=[{"alias":"museums","title":"Museos"}]; return.businesses.location.display_address=["111 Kennington Rd","Londres SE11 6SF","Reino Unido"]
+return.businesses.categories=[{"alias":"yakiniku","title":"Yakiniku"}]; return.businesses.location.display_address=["?????1-5-24","????? 2F","???, ??? ?542-0076","Japan"]
+return.businesses.categories=[{"alias":"cafes","title":"Cafes"}]; return.businesses.location.display_address=["????8-1","Nagasaki, ??? ?850-0931","Japan"]
+

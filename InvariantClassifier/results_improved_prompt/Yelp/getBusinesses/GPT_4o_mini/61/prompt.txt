@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                image_url:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.image_url)==68
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 184055 examples in the requests data, with 59591 of them being distinct examples.
+Here are 5 example values of the variables:
+output.businesses.image_url=https://s3-media2.fl.yelpcdn.com/bphoto/CywAfKAtef6eO6lGC23q-w/o.jpg
+output.businesses.image_url=https://s3-media1.fl.yelpcdn.com/bphoto/9giCxwuV-6SFCvOKrROOIA/o.jpg
+output.businesses.image_url=https://s3-media3.fl.yelpcdn.com/bphoto/pNp4L4tGYn3IAQ5I9nrx7g/o.jpg
+output.businesses.image_url=https://s3-media3.fl.yelpcdn.com/bphoto/TdtcSLphiQ5FUuscFZKNuw/o.jpg
+output.businesses.image_url=https://s3-media3.fl.yelpcdn.com/bphoto/EvN8mc5GKvsoK_S2F9rUbQ/o.jpg
+

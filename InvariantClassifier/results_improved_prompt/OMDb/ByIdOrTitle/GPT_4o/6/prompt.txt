@@ -1,0 +1,45 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/"
+  get:
+    summary: Search
+    parameters:
+      - name: y
+        in: query
+        description: Year of release
+        type: integer
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            Ratings:
+              type: array
+              items:
+                type: object
+                properties:
+                  Source:
+                  Value:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.y > size(return.Ratings[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 2629 examples in the requests data, with 1502 of them being distinct examples.
+Here are 5 example values of the variables:
+input.y=1984; return.Ratings=[{"Value":"9.8\/10","Source":"Internet Movie Database"}]
+input.y=2018; return.Ratings=[{"Value":"8.7\/10","Source":"Internet Movie Database"}]
+input.y=1985; return.Ratings=[{"Value":"8.8\/10","Source":"Internet Movie Database"},{"Value":"91%","Source":"Rotten Tomatoes"},{"Value":"92\/100","Source":"Metacritic"}]
+input.y=2002; return.Ratings=[{"Value":"7.1\/10","Source":"Internet Movie Database"}]
+input.y=1996; return.Ratings=[{"Value":"7.5\/10","Source":"Internet Movie Database"},{"Value":"78%","Source":"Rotten Tomatoes"},{"Value":"64\/100","Source":"Metacritic"}]
+

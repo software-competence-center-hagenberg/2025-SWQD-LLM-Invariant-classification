@@ -1,0 +1,1 @@
+The invariant specifies that the field 'updated_at' in the response body should be a timestamp with the format YYYY-MM-DDTHH:MM:SS.mmZ, where milliseconds are optional. This invariant is based on the Swagger definition provided for the REST endpoint. Let's analyze the Swagger Definition to determine if the invariant is true-positive or false-positive.

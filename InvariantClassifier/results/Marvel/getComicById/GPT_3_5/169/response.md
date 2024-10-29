@@ -1,0 +1,1 @@
+The invariant 'return.data != null' is a false-positive for the given REST endpoint. The Swagger definition does not guarantee that the 'data' field in the response will always be present. Therefore, the invariant 'return.data != null' will not hold for every valid request on the API.

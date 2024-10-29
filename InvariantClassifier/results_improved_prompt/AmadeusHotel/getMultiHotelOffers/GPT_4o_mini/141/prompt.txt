@@ -1,0 +1,53 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    id:
+                      type: string
+                      description: Unique identifier of this offer. Might be valid for a temporary period only.
+                      pattern: ^[A-Z0-9]*$
+                      example: 63A93695B58821ABB0EC2B33FE9FAB24D72BF34B1BD7D707293763D8D9378FC3
+                      minLength: 2
+                      maxLength: 100
+                  items:
+                    self:
+                      type: string
+                      description: A self link to the object. Use this to refresh the Offer price
+                      example: https://test.travel.api.amadeus.com/v2/shopping/hotel-offers/63A93695B58821ABB0EC2B33FE9FAB24D72BF34B1BD7D707293763D8D9378FC3
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.id is a substring of return.self
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 41891 examples in the requests data, with 37114 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.offers.id=9WKFI43DJ3; output.data.offers.self=https://test.api.amadeus.com/v3/shopping/hotel-offers/9WKFI43DJ3?lang=de
+output.data.offers.id=XT22X1QL4Z; output.data.offers.self=https://test.api.amadeus.com/v3/shopping/hotel-offers/XT22X1QL4Z?lang=ru-RU
+output.data.offers.id=CY1W22P9PP; output.data.offers.self=https://test.api.amadeus.com/v3/shopping/hotel-offers/CY1W22P9PP
+output.data.offers.id=9VGFQ2JTHP; output.data.offers.self=https://test.api.amadeus.com/v3/shopping/hotel-offers/9VGFQ2JTHP
+output.data.offers.id=9JIFKCUVI3; output.data.offers.self=https://test.api.amadeus.com/v3/shopping/hotel-offers/9JIFKCUVI3?lang=es
+

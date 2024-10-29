@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: checkOutDate
+        in: query
+        description: Check-out date of the stay (hotel local date). Format YYYY-MM-DD. The lowest accepted value is checkInDate+1. If not present, it will default to checkInDate +1.
+        type: string
+        format: date
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    checkOutDate:
+                      type: string
+                      description: check-out date of the stay (hotel local date). Format YYYY-MM-DD
+                      The lowest accepted value is `checkInDate`+1.
+                      example: Thu Dec 31 01:00:00 CET 2020
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.checkOutDate == return.checkOutDate
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 3322 examples in the requests data, with 10 of them being distinct examples.
+Here are 5 example values of the variables:
+input.checkOutDate=2022-09-28; return.data.offers.checkOutDate=2022-09-28
+input.checkOutDate=2022-09-29; return.data.offers.checkOutDate=2022-09-29
+input.checkOutDate=2022-09-24; return.data.offers.checkOutDate=2022-09-24
+input.checkOutDate=2022-09-23; return.data.offers.checkOutDate=2022-09-23
+input.checkOutDate=2022-10-01; return.data.offers.checkOutDate=2022-10-01
+

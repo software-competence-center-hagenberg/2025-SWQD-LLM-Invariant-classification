@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        guarantee:
+                          type: object
+                          description: the guarantee policy information applicable to the offer. It includes accepted payments
+                          properties:
+                            acceptedPayments:
+                              type: object
+                              description: Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
+                              properties:
+                                creditCards:
+                                  type: array
+                                  description: Accepted Payment Card Types for the `method` CREDIT_CARD
+                                  items:
+                                    type: string
+                                    minLength: 2
+                                    maxLength: 2
+                                    pattern: ^[A-Z]{2}$
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: All the elements of return.policies.guarantee.acceptedPayments.creditCards[] have LENGTH=2
+
+Invariant type: daikon.inv.unary.stringsequence.SequenceFixedLengthString
+Invariant description: Indicates that all the elements of an array of strings have a fixed length n. Represented as All the elements of x have LENGTH=n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+

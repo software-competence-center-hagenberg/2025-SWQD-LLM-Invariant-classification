@@ -1,0 +1,62 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        variations:
+                          type: object
+                          description: Daily price variations and the average daily price (when available) is shown here
+                          properties:
+                            changes:
+                              type: array
+                              description: A collection of price periods if the daily price changes during the stay
+                              items:
+                                type: object
+                                properties:
+                                  startDate:
+                                    description: Begin date of the period
+                                    Format: YYYY-MM-DD
+                                  endDate:
+                                    description: End date of the period
+                                    Format: YYYY-MM-DD
+                                  currency:
+                                    description: currency Code apply to all elements of the price
+                                  sellingTotal:
+                                    description: sellingTotal = Total + margins + markup + totalFees - discounts
+                                  total:
+                                    description: total = base + totalTaxes
+                                  base:
+                                  markups:
+                                description: Some prices may vary during a stay, thus here you can see the daily price per period of the stay
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.price.variations.changes[] elements != null
+
+Invariant type: daikon.inv.unary.sequence.EltNonZero
+Invariant description: Represents the invariant "x != 0" where x represents all of the elements of a sequence of long. Prints as x[] elements != 0.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+

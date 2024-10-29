@@ -1,0 +1,1 @@
+The invariant compares the height of the high thumbnail of a video with the size of the tags array. It assumes that the 'high' thumbnail and 'tags' array will always be present in the response. However, the Swagger definition does not guarantee the presence of these fields in the response. Therefore, this invariant is a false-positive.

@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            href:
+              type: string
+              description: A link to the Web API endpoint returning the full result of the request.
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                id:
+                  type: string
+                  description: The Spotify ID for the track.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.id is a substring of return.href
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 164046 examples in the requests data, with 1956 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.href=https://api.spotify.com/v1/tracks/1VQCcuN5MG17y4gfVqDyW7; output.items.id=1VQCcuN5MG17y4gfVqDyW7
+output.items.href=https://api.spotify.com/v1/tracks/0FMrQCINmhQuxRGcA4VJwJ; output.items.id=0FMrQCINmhQuxRGcA4VJwJ
+output.items.href=https://api.spotify.com/v1/tracks/4OI0mQIFAvlHFm2PPSOG0R; output.items.id=4OI0mQIFAvlHFm2PPSOG0R
+output.items.href=https://api.spotify.com/v1/tracks/1qBw7BDWYUjLgUpOyBKR6g; output.items.id=1qBw7BDWYUjLgUpOyBKR6g
+output.items.href=https://api.spotify.com/v1/tracks/0Nz7aDgkwz5K0KzQlIEKsY; output.items.id=0Nz7aDgkwz5K0KzQlIEKsY
+

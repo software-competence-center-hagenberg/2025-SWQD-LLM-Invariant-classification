@@ -1,0 +1,1 @@
+The invariant is false-positive. The invariant compares the number of nights due as a fee in case of cancellation with the size of accepted payment methods, which are unrelated fields. The 'return' fields in the invariant do not exist in the response body, and the comparison between these unrelated fields does not hold for every valid request on the API.

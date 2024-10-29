@@ -1,0 +1,55 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  ageGating:
+                  contentDetails:
+                  etag:
+                    description: Etag of this resource.
+                  fileDetails:
+                  id:
+                    description: The ID that YouTube uses to uniquely identify the video.
+                  kind:
+                    description: Identifies what kind of resource this is. Value: the fixed string "youtube#video".
+                  liveStreamingDetails:
+                  localizations:
+                    description: The localizations object contains localized versions of the basic details about the video, such as its title and description.
+                  monetizationDetails:
+                  player:
+                  processingDetails:
+                  projectDetails:
+                  recordingDetails:
+                  snippet:
+                  statistics:
+                  status:
+                  suggestions:
+                  topicDetails:
+                description: A *video* resource represents a YouTube video.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.items[] elements != null
+
+Invariant type: daikon.inv.unary.sequence.EltNonZero
+Invariant description: Represents the invariant "x != 0" where x represents all of the elements of a sequence of long. Prints as x[] elements != 0.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+

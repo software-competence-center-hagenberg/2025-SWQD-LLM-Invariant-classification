@@ -1,0 +1,61 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    events:
+                      type: object
+                      properties:
+                        available:
+                          type: integer
+                          description: The number of total available events in this list. Will always be greater than or equal to the "returned" value.
+                  items:
+                    dates:
+                      type: array
+                      description: A list of key dates for this comic.
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            description: A description of the date (e.g. onsale date, FOC date).
+                          date:
+                            description: The date.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.events.available <= size(return.dates[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 1000 examples in the requests data, with 907 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.results.events.available=0; output.data.results.dates=[{"date":"2021-03-03T00:00:00-0500","type":"onsaleDate"},{"date":"2020-12-28T00:00:00-0500","type":"focDate"}]
+output.data.results.events.available=0; output.data.results.dates=[{"date":"2019-11-27T00:00:00-0500","type":"onsaleDate"},{"date":"2019-07-08T00:00:00-0400","type":"focDate"}]
+output.data.results.events.available=0; output.data.results.dates=[{"date":"2011-11-09T00:00:00-0500","type":"onsaleDate"},{"date":"2011-10-26T00:00:00-0400","type":"focDate"}]
+output.data.results.events.available=0; output.data.results.dates=[{"date":"2003-12-01T00:00:00-0500","type":"onsaleDate"},{"date":"-0001-11-30T00:00:00-0500","type":"focDate"}]
+output.data.results.events.available=0; output.data.results.dates=[{"date":"2010-03-31T00:00:00-0400","type":"onsaleDate"},{"date":"2010-03-11T00:00:00-0500","type":"focDate"}]
+

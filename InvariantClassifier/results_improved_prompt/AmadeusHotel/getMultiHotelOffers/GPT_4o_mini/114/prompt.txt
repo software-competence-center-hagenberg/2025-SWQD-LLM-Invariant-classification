@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        variations:
+                          type: object
+                          description: Daily price variations and the average daily price (when available) is shown here
+                          properties:
+                            changes:
+                              type: array
+                              description: A collection of price periods if the daily price changes during the stay
+                              items:
+                                endDate:
+                                  type: string
+                                  description: End date of the period
+                                  Format: YYYY-MM-DD
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.endDate is a Date. Format: YYYY/MM/DD
+
+Invariant type: daikon.inv.unary.string.dates.IsDateYYYYMMDD
+Invariant description: Indicates that the value of a string variable is always a date following the format YYYY/MM/DD (the separator can be “/�? or “-“). Represented as x is a Date. Format
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers.price.variations.changes" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 81961 examples in the requests data, with 11 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.offers.price.variations.changes.endDate=2022-09-30
+output.data.offers.price.variations.changes.endDate=2022-09-22
+output.data.offers.price.variations.changes.endDate=2022-09-21
+output.data.offers.price.variations.changes.endDate=2022-09-24
+output.data.offers.price.variations.changes.endDate=2022-09-23
+

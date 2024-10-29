@@ -1,0 +1,1 @@
+The invariant return.creators.available >= size(return.events.items[])-1 is evaluated based on the response body of the given REST endpoint. The invariant checks if the number of available creators is greater than or equal to the number of events minus 1. The evaluation will consider all valid requests to the endpoint and analyze if the invariant holds true for each of them.

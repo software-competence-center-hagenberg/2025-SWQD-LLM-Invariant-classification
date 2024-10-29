@@ -1,0 +1,83 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    rateCode:
+                      type: string
+                      description: Special Rate - Provider Response Code (3 chars)
+                      Examples
+                      
+                        * RAC - Rack
+                      
+                        * BAR - Best Available Rate
+                      
+                        * PRO - Promotional
+                      
+                        * COR - Corporate
+                      
+                        * GOV - Government (qualified)
+                      
+                        * AAA - AAA (qualified)
+                      
+                        * BNB - Bed and Breakfast
+                      
+                        * PKG - Package
+                      
+                        * TVL - Travel Industry
+                      
+                        * SPC - Special Promo Rate
+                      
+                        * WKD - Weekend
+                      
+                        * CON - Convention
+                      
+                        * SNR - Senior (Europe) (qualified)
+                      
+                        * ARP - AARP - American Association of Retired People (50+) (qualified)
+                      
+                        * SRS - Senior (qualified)
+                      
+                        * ROR - Room Only Rate (no breakfast)
+                      
+                        * FAM - Family
+                      
+                        * DAY - Day rate
+                      pattern: ^[A-Z0-9*]{3}$
+                      example: RAC
+                      minLength: 3
+                      maxLength: 3
+                  items:
+                    category:
+                      type: string
+                      description: Special Rate Category
+                      Examples:
+                        ASSOCIATION
+                        FAMILY_PLAN
+                      example: FAMILY_PLAN
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.rateCode == return.category
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+

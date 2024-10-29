@@ -1,0 +1,12 @@
+{
+    "id":177,
+    "invariantType":"daikon.inv.binary.twoScalar.NumericInt$Divides",
+    "classification":"FP",
+    "GPT_verdict":"TP",
+    "confidence":0.950000,
+    "promptTokens":1011,
+    "completionTokens":304,
+    "totalTokens":1315,
+    "maxNumberOfOperations":10000
+}
+

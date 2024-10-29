@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  post:
+    summary: Create an organization repository
+    description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+    
+    **OAuth scope requirements**
+    
+    When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+    
+    *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+    *   `repo` scope to create a private repository
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+        
+        **OAuth scope requirements**
+        
+        When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+        
+        *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+        *   `repo` scope to create a private repository
+        schema:
+          type: object
+          description: A git repository
+          properties:
+            updated_at:
+              type: string
+              example: 2011-01-26T19:14:43Z
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.updated_at)==20
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11500 examples in the requests data, with 9477 of them being distinct examples.
+Here are 5 example values of the variables:
+return.updated_at=2022-09-26T00:11:21Z
+return.updated_at=2022-09-25T17:42:33Z
+return.updated_at=2022-09-26T14:03:08Z
+return.updated_at=2022-09-25T22:30:45Z
+return.updated_at=2022-09-27T00:21:51Z
+

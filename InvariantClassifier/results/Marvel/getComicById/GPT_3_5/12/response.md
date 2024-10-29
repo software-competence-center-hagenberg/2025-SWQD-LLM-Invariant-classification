@@ -1,0 +1,1 @@
+The invariant return.events.available == size(return.collectedIssues[]) is false-positive. The Swagger definition does not provide any information about the structure of the 'events' and 'collectedIssues' fields. Without knowing the structure, it is not possible to determine if the invariant holds for every valid request on the API.

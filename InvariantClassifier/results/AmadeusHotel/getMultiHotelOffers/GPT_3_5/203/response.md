@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the invariant is based on the assumption that the 'creditCards' and 'methods' arrays will always have the same size, which may not be true in all cases. The API definition does not enforce a strict relationship between the sizes of these arrays, so the invariant may not hold for every valid request on the API.

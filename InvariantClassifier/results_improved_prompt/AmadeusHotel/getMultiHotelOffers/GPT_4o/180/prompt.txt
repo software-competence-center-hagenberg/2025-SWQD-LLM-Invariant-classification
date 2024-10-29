@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: hotelIds
+        in: query
+        description: Amadeus property codes on 8 chars. Mandatory parameter for a search by predefined list of hotels.
+        required: true
+        example: [MCLONGHM]
+        type: array
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        cancellation:
+                          type: object
+                          properties:
+                            numberOfNights:
+                              type: integer
+                              description: Number of nights due as fee in case of cancellation.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.policies.cancellation.numberOfNights != size(input.hotelIds[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 6 examples in the requests data, with 6 of them being distinct examples.
+Here are 5 example values of the variables:
+input.hotelIds=HSLIMAAL%2CWVSYD007; return.data.offers.policies.cancellation.numberOfNights=1
+input.hotelIds=MCBOGMCM%2CCPMCOD08; return.data.offers.policies.cancellation.numberOfNights=1
+input.hotelIds=HSLIMAAL%2CWVROM181; return.data.offers.policies.cancellation.numberOfNights=3
+input.hotelIds=WHUSM058%2CSIDXB408%2CHLMUC258; return.data.offers.policies.cancellation.numberOfNights=1
+input.hotelIds=RTPARNOV%2CHIBKK47E%2CARMADCUZ%2CHLADL215%2CONROMRIF; return.data.offers.policies.cancellation.numberOfNights=1
+

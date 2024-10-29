@@ -1,0 +1,54 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    resourceURI:
+                      type: string
+                      description: The canonical URL identifier for this resource.
+                  items:
+                    creators:
+                      type: object
+                      properties:
+                        collectionURI:
+                          type: string
+                          description: The path to the full list of creators in this collection.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.resourceURI is a substring of return.creators.collectionURI
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 7623 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.results.resourceURI=http://gateway.marvel.com/v1/public/comics/66276; return.data.results.creators.collectionURI=http://gateway.marvel.com/v1/public/comics/66276/creators
+return.data.results.resourceURI=http://gateway.marvel.com/v1/public/comics/37570; return.data.results.creators.collectionURI=http://gateway.marvel.com/v1/public/comics/37570/creators
+return.data.results.resourceURI=http://gateway.marvel.com/v1/public/comics/21757; return.data.results.creators.collectionURI=http://gateway.marvel.com/v1/public/comics/21757/creators
+return.data.results.resourceURI=http://gateway.marvel.com/v1/public/comics/17607; return.data.results.creators.collectionURI=http://gateway.marvel.com/v1/public/comics/17607/creators
+return.data.results.resourceURI=http://gateway.marvel.com/v1/public/comics/12725; return.data.results.creators.collectionURI=http://gateway.marvel.com/v1/public/comics/12725/creators
+

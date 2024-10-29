@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the provided Swagger definition does not guarantee that the 'collectedIssues' and 'images' arrays will always have at least one element. If either of these arrays is empty, the invariant will not hold true. Therefore, the invariant does not hold for every valid request on the API.

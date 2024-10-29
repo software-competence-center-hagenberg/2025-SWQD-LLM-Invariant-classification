@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                contentDetails:
+                  type: object
+                  description: Details about the content of a YouTube Video.
+                  properties:
+                    definition:
+                      type: string
+                      description: The value of definition indicates whether the video is available in high definition or only in standard definition.
+                      enum: [sd, hd]
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.contentDetails.definition)==2
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 28274 examples in the requests data, with 2 of them being distinct examples.
+Here are 2 example values of the variables:
+output.items.contentDetails.definition=hd
+output.items.contentDetails.definition=sd
+

@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    commission:
+                      type: object
+                      properties:
+                        amount:
+                          type: string
+                          description: Amount of the commission paid to the travel seller. The amount is always linked to the currency code of the offer
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: "return.commission.amount one of { ""1.78"", ""2.74"" }"
+
+Invariant type: daikon.inv.unary.string.OneOfString
+Invariant description: Represents String variables that take on only a few distinct values. Prints as either x == c (when there is only one value) or as x one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 173 examples in the requests data, with 2 of them being distinct examples.
+Here are 2 example values of the variables:
+return.data.offers.commission.amount=1.78
+return.data.offers.commission.amount=2.74
+

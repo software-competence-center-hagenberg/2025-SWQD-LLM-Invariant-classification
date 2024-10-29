@@ -1,0 +1,52 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: radius
+        in: query
+        required: false
+        type: integer
+        maxLength: 40000
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.radius > size(return.location.display_address[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 103084 examples in the requests data, with 87939 of them being distinct examples.
+Here are 5 example values of the variables:
+input.radius=29570; output.businesses.location.display_address=["7600 SW 57th Ave","Ste 211","Miami, FL 33143"]
+input.radius=28053; output.businesses.location.display_address=["30 Little La Trobe St","Melbourne Victoria 3000","Australia"]
+input.radius=7993; output.businesses.location.display_address=["10 Rue Printemps","31000 Toulouse","Francia"]
+input.radius=37652; output.businesses.location.display_address=["4640 Telegraph Ave","Oakland, CA 94609","United States"]
+input.radius=12071; output.businesses.location.display_address=["Shop 6","343 Little Collins St","Melbourne Victoria 3000","Australia"]
+

@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: include_groups
+        in: query
+        description: Filter by album types
+        type: array
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                images:
+                  type: array
+                  description: The cover art for the album in various sizes, widest first.
+                  items:
+                    height:
+                      type: integer
+                      description: The image height in pixels. If unknown: null or not returned.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.height > size(input.include_groups[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items.images" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 14121 examples in the requests data, with 192 of them being distinct examples.
+Here are 5 example values of the variables:
+input.include_groups=compilation%2Cappears_on%2Calbum%2Csingle; output.items.images.height=300
+input.include_groups=compilation%2Calbum%2Cappears_on%2Csingle; output.items.images.height=640
+input.include_groups=single%2Ccompilation%2Cappears_on; output.items.images.height=300
+input.include_groups=compilation%2Calbum%2Csingle; output.items.images.height=64
+input.include_groups=appears_on%2Csingle; output.items.images.height=640
+

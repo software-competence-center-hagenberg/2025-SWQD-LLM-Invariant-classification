@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            href:
+              type: string
+              description: A link to the Web API endpoint returning the full result of the request.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.href is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 9243 of them being distinct examples.
+Here are 5 example values of the variables:
+output.href=https://api.spotify.com/v1/artists/1qUjOF5fzrpoNycD36b2jZ/albums?offset=15&limit=7&include_groups=compilation,appears_on&market=NL
+output.href=https://api.spotify.com/v1/artists/0b2GL7Y02vu50qieoQmw1w/albums?offset=15&limit=20&include_groups=album,single,compilation,appears_on&market=BO
+output.href=https://api.spotify.com/v1/artists/6vdMPayKk8YJxxeNP5oMCb/albums?offset=0&limit=20&include_groups=album,single,compilation,appears_on
+output.href=https://api.spotify.com/v1/artists/7iJrDbKM5fEkGdm5kpjFzS/albums?offset=20&limit=16&include_groups=album,appears_on
+output.href=https://api.spotify.com/v1/artists/5MO2kbaGGA2a8kL4c9qqHq/albums?offset=15&limit=20&include_groups=compilation
+

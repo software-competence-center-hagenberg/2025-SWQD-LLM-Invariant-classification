@@ -1,0 +1,1 @@
+The invariant return.snippet.thumbnails.default.height == 90 is a specific check on the height of the default thumbnail in the response. It checks if the height of the default thumbnail is equal to 90. This invariant is a true-positive because it ensures that the default thumbnail's height is always 90, which is a specific requirement for the API response.

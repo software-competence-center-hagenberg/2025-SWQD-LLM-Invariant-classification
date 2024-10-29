@@ -1,0 +1,1 @@
+The invariant 'return.Ratings[] elements != null' is a false-positive. The reason for this is that the Swagger definition does not specify the 'Ratings' array as required, which means that it can be null in the response. Therefore, the invariant 'return.Ratings[] elements != null' will not hold for every valid request on the API.

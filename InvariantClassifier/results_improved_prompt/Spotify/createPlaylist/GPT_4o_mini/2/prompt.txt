@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/users/{user_id}/playlists"
+  post:
+    description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+    parameters:
+    requestBody:
+        schema:
+          type: object
+          properties:
+            description:
+              type: string
+    responses:
+      '201':
+        description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+        schema:
+          type: object
+          properties:
+            description:
+              type: string
+              description: The playlist description. Only returned for modified, verified playlists, otherwise null.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.description == return.description
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 6379 of them being distinct examples.
+Here are 5 example values of the variables:
+input.description=apple piano; output.description=apple piano
+input.description=qwerty italian the; output.description=qwerty italian the
+input.description=7Metallica; output.description=7Metallica
+input.description=Playlist soundtrack flute; output.description=Playlist soundtrack flute
+input.description=1the; output.description=1the
+

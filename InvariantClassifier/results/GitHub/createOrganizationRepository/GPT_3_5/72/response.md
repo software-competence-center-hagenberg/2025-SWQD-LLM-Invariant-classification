@@ -1,0 +1,1 @@
+The invariant checks if the field 'merge_commit_message' in the response body is one of { ""BLANK"", ""PR_BODY"", ""PR_TITLE"" }. The Swagger definition provided does not specify the possible values for 'merge_commit_message', so the invariant cannot be verified based on the information given.

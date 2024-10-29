@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+      - name: market
+        in: query
+        description: The market (an ISO 3166-1 alpha-2 country code)
+        type: string
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            href:
+              type: string
+              description: A link to the Web API endpoint returning the full result of the request.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.market is a substring of return.href
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5808 examples in the requests data, with 4915 of them being distinct examples.
+Here are 5 example values of the variables:
+input.market=LY; output.href=https://api.spotify.com/v1/albums/4bCgcuGVc07xSfFJb0wXf3/tracks?offset=10&limit=20&market=LY
+input.market=VN; output.href=https://api.spotify.com/v1/albums/3Lf8VA23cMAl5imbABTZoo/tracks?offset=0&limit=5&market=VN
+input.market=BW; output.href=https://api.spotify.com/v1/albums/4otkd9As6YaxxEkIjXPiZ6/tracks?offset=13&limit=20&market=BW
+input.market=RO; output.href=https://api.spotify.com/v1/albums/6DN7GcZF1HywzrkGN6Eeqk/tracks?offset=20&limit=20&market=RO
+input.market=CI; output.href=https://api.spotify.com/v1/albums/0CR8Q3InJ651Wke81ihesx/tracks?offset=0&limit=12&market=CI
+

@@ -1,0 +1,58 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    category:
+                      type: string
+                      description: Special Rate Category
+                      Examples:
+                        ASSOCIATION
+                        FAMILY_PLAN
+                      example: FAMILY_PLAN
+                  items:
+                    room:
+                      type: object
+                      properties:
+                        description:
+                          type: object
+                          description: Specific type to convey a list of string for specific information type ( via qualifier) in specific character set, or language
+                          properties:
+                            text:
+                              type: string
+                              description: Free Text
+                              example: A description
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.category is a substring of return.room.description.text
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 2 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+return.data.offers.category=GOV; return.data.offers.room.description.text=GOVT MILITARY RATE 
+1 QUEEN BED,NSMK,STUDIO,KITETT,CABLTV,FRWIFI
+STANDARD
+

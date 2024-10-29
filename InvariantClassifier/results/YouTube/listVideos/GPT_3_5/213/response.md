@@ -1,0 +1,1 @@
+The invariant size(return.items[]) >= 1 is a true-positive for the given REST endpoint. According to the Swagger definition, the 'items' field is an array of video resources, and the invariant ensures that the response will always contain at least one video resource. This holds true for every valid request on the API.

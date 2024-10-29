@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                linked_from:
+                  type: object
+                  description: Part of the response when Track Relinking is applied, and the requested track has been replaced with different track. The track in the linked_from object contains information about the originally requested track.
+                  properties:
+                    id:
+                      type: string
+                      description: The Spotify ID for the track.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.linked_from.id)==22
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 2756 examples in the requests data, with 199 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.linked_from.id=2iblMMIgSznA464mNov7A8
+output.items.linked_from.id=1FCrYvmMzcHdYHZrlwFngg
+output.items.linked_from.id=4gTi65bSUiYPkXliJXE2hk
+output.items.linked_from.id=31ptN2qeZfs5vZhtKGcOvZ
+output.items.linked_from.id=5GcDTUZcv0rnKSiPg2hFmG
+

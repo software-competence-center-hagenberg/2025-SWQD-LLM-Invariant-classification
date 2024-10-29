@@ -1,0 +1,52 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  post:
+    summary: Create an organization repository
+    description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+    
+    **OAuth scope requirements**
+    
+    When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+    
+    *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+    *   `repo` scope to create a private repository
+    parameters:
+    requestBody:
+        schema:
+          type: object
+          properties:
+            team_id:
+              type: integer
+              description: The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.
+    responses:
+      '201':
+        description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+        
+        **OAuth scope requirements**
+        
+        When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+        
+        *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+        *   `repo` scope to create a private repository
+        schema:
+          type: object
+          description: A git repository
+          properties:
+            id:
+              type: integer
+              description: Unique identifier of the repository
+              example: 42
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.team_id < return.id
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessThan
+Invariant description: Represents an invariant of < between two long scalars. Prints as x < y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

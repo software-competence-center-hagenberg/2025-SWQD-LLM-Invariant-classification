@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                image_url:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.image_url is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 184055 examples in the requests data, with 59591 of them being distinct examples.
+Here are 5 example values of the variables:
+return.businesses.image_url=https://s3-media3.fl.yelpcdn.com/bphoto/mokiT9lVvPRPc0Pq2sXGWg/o.jpg
+return.businesses.image_url=https://s3-media3.fl.yelpcdn.com/bphoto/p_enz6Z0gT-5rg6L9tHbdw/o.jpg
+return.businesses.image_url=https://s3-media1.fl.yelpcdn.com/bphoto/7_uMw6PllTOgwngQ-wiKxA/o.jpg
+return.businesses.image_url=https://s3-media4.fl.yelpcdn.com/bphoto/kuhjIYWUUbvwoB8ojLV24g/o.jpg
+return.businesses.image_url=https://s3-media1.fl.yelpcdn.com/bphoto/U5ZivG9JErxoe9Xoch5qOg/o.jpg
+

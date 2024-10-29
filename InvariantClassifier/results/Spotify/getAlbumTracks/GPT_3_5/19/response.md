@@ -1,0 +1,1 @@
+The invariant input.offset < size(return.available_markets[])-1 is a false-positive. This is because the size of return.available_markets[] is not guaranteed to be present in every valid response. The response may not always contain the 'available_markets' field, and therefore the invariant does not hold for every valid request on the API.

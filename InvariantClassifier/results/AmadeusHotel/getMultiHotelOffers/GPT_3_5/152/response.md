@@ -1,0 +1,1 @@
+The invariant 'input.checkOutDate is a substring of return.self' is a false-positive. This is because the 'return.self' field in the response body is of type string, and the 'input.checkOutDate' is a query parameter of type date. As a result, the comparison between a date and a string does not hold as a general invariant for every valid request on the API.

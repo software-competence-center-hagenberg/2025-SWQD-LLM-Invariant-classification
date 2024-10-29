@@ -1,0 +1,1 @@
+The invariant compares the width of the default thumbnail of a video with the size of the list of blocked region codes. It checks if the width of the default thumbnail is greater than the size of the list of blocked region codes. The comparison is valid and can be evaluated for every valid request on the API.

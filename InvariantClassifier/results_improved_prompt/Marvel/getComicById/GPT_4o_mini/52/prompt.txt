@@ -1,0 +1,54 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    collections:
+                      type: array
+                      description: A list of collections which include this comic (will generally be empty if the comic's format is a collection).
+                      items:
+                        type: object
+                        properties:
+                          resourceURI:
+                            description: The path to the individual comic resource.
+                          name:
+                            description: The canonical name of the comic.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.collections[]) one of { 0, 1, 4 }
+
+Invariant type: daikon.inv.unary.scalar.OneOfScalar
+Invariant description: Represents long variables that take on only a few distinct values. Prints as either x == c (when there is only one value) or as x one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 22 examples in the requests data, with 16 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.results.collections=[{"name":"SENTINEL VOL. 3: PAST IMPERFECT DIGEST (Digest)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/4157"}]
+output.data.results.collections=[{"name":"Marvel Masterworks: The Amazing Spider-Man Vol. IV - 2nd Edition (1st) (Hardcover)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/1208"}]
+output.data.results.collections=[{"name":"MARY JANE VOL. 2: HOMECOMING DIGEST (Digest)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/2464"}]
+output.data.results.collections=[{"name":"MARVEL MASTERWORKS: GOLDEN AGE MARVEL COMICS VOL. 2 HC (Hardcover)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/3973"}]
+output.data.results.collections=[{"name":"ULTIMATES 2 VOL. 1: GODS AND MONSTERS TPB (Trade Paperback)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/2963"}]
+

@@ -1,0 +1,53 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                topicDetails:
+                  type: object
+                  description: Freebase topic information related to the video.
+                  properties:
+                    topicCategories:
+                      type: array
+                      description: A list of Wikipedia URLs that provide a high-level description of the video's content.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.id[]) >= size(return.topicDetails.topicCategories[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 13 examples in the requests data, with 12 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=dQw4w9WgXcQ%2Cplt-uan4YQI%2C0r3qO2YBEDE; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Classical_music","https:\/\/en.wikipedia.org\/wiki\/Music"]
+input.id=dQw4w9WgXcQ%2Cplt-uan4YQI%2C0r3qO2YBEDE; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Music","https:\/\/en.wikipedia.org\/wiki\/Pop_music"]
+input.id=nC327id4aUM; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Association_football","https:\/\/en.wikipedia.org\/wiki\/Sport"]
+input.id=YbJOTdZBX1g%2CbzuGMAMKwss%2Cpnxol_9jYuU%2CCsoMjktJni4%2CfS8VTRDCt0k%2Cfn5jS9GEDnw%2CuCpE6z999Uk; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Knowledge"]
+input.id=dQw4w9WgXcQ%2Cplt-uan4YQI%2C0r3qO2YBEDE; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Knowledge"]
+

@@ -1,0 +1,59 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        variations:
+                          type: object
+                          description: Daily price variations and the average daily price (when available) is shown here
+                          properties:
+                            changes:
+                              type: array
+                              description: A collection of price periods if the daily price changes during the stay
+                              items:
+                                total:
+                                  type: string
+                                  description: total = base + totalTaxes
+                              items:
+                                base:
+                                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.total == return.base
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers.price.variations.changes" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 492 examples in the requests data, with 118 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.offers.price.variations.changes.total=817.50; return.data.offers.price.variations.changes.base=810.00
+return.data.offers.price.variations.changes.total=200.00; return.data.offers.price.variations.changes.base=200.00
+return.data.offers.price.variations.changes.total=180.00; return.data.offers.price.variations.changes.base=180.00
+return.data.offers.price.variations.changes.total=470.00; return.data.offers.price.variations.changes.base=470.00
+return.data.offers.price.variations.changes.total=345.00; return.data.offers.price.variations.changes.base=345.00
+

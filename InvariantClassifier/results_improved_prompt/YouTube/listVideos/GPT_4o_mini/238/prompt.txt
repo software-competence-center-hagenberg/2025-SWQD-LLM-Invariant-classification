@@ -1,0 +1,46 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                liveStreamingDetails:
+                  type: object
+                  description: Details about the live streaming metadata.
+                  properties:
+                    actualStartTime:
+                      type: string
+                      description: The time that the broadcast actually started. This value will not be available until the broadcast begins.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.liveStreamingDetails.actualStartTime)==20
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 3186 examples in the requests data, with 473 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.liveStreamingDetails.actualStartTime=2022-10-04T16:59:53Z
+output.items.liveStreamingDetails.actualStartTime=2022-09-27T14:07:26Z
+output.items.liveStreamingDetails.actualStartTime=2022-10-01T10:00:14Z
+output.items.liveStreamingDetails.actualStartTime=2022-09-08T16:00:11Z
+output.items.liveStreamingDetails.actualStartTime=2022-09-29T19:00:10Z
+

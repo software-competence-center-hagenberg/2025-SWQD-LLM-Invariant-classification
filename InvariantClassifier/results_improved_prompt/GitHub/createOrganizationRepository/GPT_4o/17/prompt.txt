@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  post:
+    summary: Create an organization repository
+    description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+    
+    **OAuth scope requirements**
+    
+    When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+    
+    *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+    *   `repo` scope to create a private repository
+    parameters:
+    requestBody:
+        schema:
+          type: object
+          properties:
+            merge_commit_message:
+              type: string
+    responses:
+      '201':
+        description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+        
+        **OAuth scope requirements**
+        
+        When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+        
+        *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+        *   `repo` scope to create a private repository
+        schema:
+          type: object
+          description: A git repository
+          properties:
+            merge_commit_message:
+              type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.merge_commit_message == return.merge_commit_message
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 6547 examples in the requests data, with 3 of them being distinct examples.
+Here are 3 example values of the variables:
+input.merge_commit_message=PR_TITLE; return.merge_commit_message=PR_TITLE
+input.merge_commit_message=BLANK; return.merge_commit_message=BLANK
+input.merge_commit_message=PR_BODY; return.merge_commit_message=PR_BODY
+

@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                topicDetails:
+                  type: object
+                  description: Freebase topic information related to the video.
+                  properties:
+                    topicCategories:
+                      type: array
+                      description: A list of Wikipedia URLs that provide a high-level description of the video's content.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: All the elements of return.topicDetails.topicCategories[] are URLs
+
+Invariant type: daikon.inv.unary.stringsequence.SequenceStringElementsAreUrl
+Invariant description: Indicates that all elements of an array of strings are URLs. Represented as All the elements of x are URLs.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+

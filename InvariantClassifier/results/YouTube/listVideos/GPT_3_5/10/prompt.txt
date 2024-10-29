@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                suggestions:
+                  type: object
+                  description: Specifies suggestions on how to improve video content, including encoding hints, tag suggestions, and editor suggestions.
+                  properties:
+                    editorSuggestions:
+                      type: array
+                      description: A list of video editing operations that might improve the video quality or playback experience of the uploaded video.
+                      items:
+                        type: string
+              items:
+                topicDetails:
+                  type: object
+                  description: Freebase topic information related to the video.
+                  properties:
+                    relevantTopicIds:
+                      type: array
+                      description: Similar to topic_id, except that these topics are merely relevant to the video. These are topics that may be mentioned in, or appear in the video. You can retrieve information about each topic using Freebase Topic API.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.suggestions.editorSuggestions == return.topicDetails.relevantTopicIds
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+

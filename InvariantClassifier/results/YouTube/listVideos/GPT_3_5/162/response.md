@@ -1,0 +1,1 @@
+The invariant compares the width of the high thumbnail of a video with the size of the tags associated with the video. It is based on the response body fields 'return.snippet.thumbnails.high.width' and 'return.snippet.tags[]'.

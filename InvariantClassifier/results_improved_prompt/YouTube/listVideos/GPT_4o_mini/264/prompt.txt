@@ -1,0 +1,58 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                id:
+                  type: string
+                  description: The ID that YouTube uses to uniquely identify the video.
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    thumbnails:
+                      type: object
+                      description: Internal representation of thumbnails for a YouTube resource.
+                      properties:
+                        high:
+                          type: object
+                          description: A thumbnail is an image representing a YouTube resource.
+                          properties:
+                            url:
+                              type: string
+                              description: The thumbnail image's URL.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.id is a substring of return.snippet.thumbnails.high.url
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 27720 examples in the requests data, with 3421 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.id=uN7vLovr7qE; output.items.snippet.thumbnails.high.url=https://i.ytimg.com/vi/uN7vLovr7qE/hqdefault.jpg
+output.items.id=b-Be-GG5Wn8; output.items.snippet.thumbnails.high.url=https://i.ytimg.com/vi/b-Be-GG5Wn8/hqdefault.jpg
+output.items.id=2Hg1u1uGv7U; output.items.snippet.thumbnails.high.url=https://i.ytimg.com/vi/2Hg1u1uGv7U/hqdefault.jpg
+output.items.id=gotRAlASXmY; output.items.snippet.thumbnails.high.url=https://i.ytimg.com/vi/gotRAlASXmY/hqdefault.jpg
+output.items.id=ckO1SFFzMG0; output.items.snippet.thumbnails.high.url=https://i.ytimg.com/vi/ckO1SFFzMG0/hqdefault.jpg
+

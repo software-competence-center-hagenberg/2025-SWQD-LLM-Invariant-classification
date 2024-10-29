@@ -1,0 +1,53 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: hotelIds
+        in: query
+        description: Amadeus property codes on 8 chars. Mandatory parameter for a search by predefined list of hotels.
+        required: true
+        example: [MCLONGHM]
+        type: array
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                hotel:
+                  type: object
+                  description: Hotel Content
+                  properties:
+                    hotelId:
+                      type: string
+                      description: Amadeus Property Code (8 chars)
+                      pattern: ^[A-Z0-9]{8}$
+                      example: ADPAR001
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.hotel.hotelId in input.hotelIds[]
+
+Invariant type: daikon.inv.binary.sequenceString.MemberString
+Invariant description: Represents String scalars that are always members of a sequence of String values. Prints as x in y[] where x is a String scalar and y[] is a sequence of String.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 16624 examples in the requests data, with 10486 of them being distinct examples.
+Here are 5 example values of the variables:
+input.hotelIds=HIWAS13D%2CHYHAMIPH%2CCYTYOCYC; output.data.hotel.hotelId=HYHAMIPH
+input.hotelIds=LMSYD707%2CLMAKL131%2CRTROMCOR%2CRTSSAMER%2CHYSFOHRS; output.data.hotel.hotelId=RTROMCOR
+input.hotelIds=RCLGBRIR%2CSMMAD130%2CHIBKK47E%2CHILON542; output.data.hotel.hotelId=HIBKK47E
+input.hotelIds=MCVCEJWM%2CHYBOSHBF%2CSIOAK913%2COMLAXCTR%2CICDXBD92%2CFNNYCLMF%2CMDSFO957%2CRTFLRSOF; output.data.hotel.hotelId=HYBOSHBF
+input.hotelIds=CPNGSHNG%2CONMUCAHM; output.data.hotel.hotelId=ONMUCAHM
+

@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    title:
+                      type: string
+                      description: The canonical title of the comic.
+                  items:
+                    variantDescription:
+                      type: string
+                      description: If the issue is a variant (e.g. an alternate cover, second printing, or director’s cut), a text description of the variant.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.variantDescription is a substring of return.title
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 1650 examples in the requests data, with 979 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.results.title=MS. MARVEL VOL. 3 HC (Hardcover); return.data.results.variantDescription=
+return.data.results.title=Uncanny X-Men (1963) #275; return.data.results.variantDescription=
+return.data.results.title=X-Force (2018) #6; return.data.results.variantDescription=
+return.data.results.title=Skull the Slayer (1975) #4; return.data.results.variantDescription=
+return.data.results.title=Giant-Size Amazing Spider-Man: Chameleon Conspiracy (2021) #1; return.data.results.variantDescription=
+

@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: open_at
+        in: query
+        required: false
+        type: integer
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.open_at > size(return.location.display_address[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 18478 examples in the requests data, with 15984 of them being distinct examples.
+Here are 5 example values of the variables:
+input.open_at=1664104354; output.businesses.location.display_address=["Rosa-Luxemburg-Str. 9-13","10178 Berlin","Germany"]
+input.open_at=1663957771; output.businesses.location.display_address=["580 George St","Sydney New South Wales 2000","Australien"]
+input.open_at=1665868277; output.businesses.location.display_address=["212 The Parade","Norwood South Australia 5067","Australien"]
+input.open_at=1663770211; output.businesses.location.display_address=["419 40th St","Oakland, CA 94609","Vereinigte Staaten"]
+input.open_at=1664042759; output.businesses.location.display_address=["2\/214\/216 Rundle St","Adelaide South Australia 5000","Avustralya"]
+

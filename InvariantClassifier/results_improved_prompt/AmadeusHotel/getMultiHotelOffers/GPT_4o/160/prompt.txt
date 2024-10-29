@@ -1,0 +1,50 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                self:
+                  type: string
+              items:
+                hotel:
+                  type: object
+                  description: Hotel Content
+                  properties:
+                    hotelId:
+                      type: string
+                      description: Amadeus Property Code (8 chars)
+                      pattern: ^[A-Z0-9]{8}$
+                      example: ADPAR001
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.hotel.hotelId is a substring of return.self
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 16624 examples in the requests data, with 14204 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HLOSA239&adults=3&checkInDate=2022-09-21&currency=HKD&lang=ar; return.data.hotel.hotelId=HLOSA239
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTFLRSOF&adults=2&checkInDate=2022-09-21&checkOutDate=2022-09-30&roomQuantity=6; return.data.hotel.hotelId=RTFLRSOF
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTLCYIBI&adults=9&checkInDate=2022-09-21&countryOfResidence=DE&currency=CLP; return.data.hotel.hotelId=RTLCYIBI
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=PILPLADC&adults=9&currency=MKD&paymentPolicy=GUARANTEE&roomQuantity=2; return.data.hotel.hotelId=PILPLADC
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HXLPL405&adults=1&boardType=BREAKFAST&checkOutDate=2022-09-30&paymentPolicy=NONE; return.data.hotel.hotelId=HXLPL405
+

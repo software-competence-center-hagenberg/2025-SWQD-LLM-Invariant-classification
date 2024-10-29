@@ -1,0 +1,43 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            url:
+              type: string
+              example: https://api.github.com/repos/octocat/Hello-World
+          properties:
+            compare_url:
+              type: string
+              example: http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.url is a substring of return.compare_url
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 247727 examples in the requests data, with 13466 of them being distinct examples.
+Here are 5 example values of the variables:
+return.url=https://api.github.com/repos/newrelic/nri-couchbase-custom; return.compare_url=https://api.github.com/repos/newrelic/nri-couchbase-custom/compare/{base}...{head}
+return.url=https://api.github.com/repos/Shopify/jekyll-lunr-js-search; return.compare_url=https://api.github.com/repos/Shopify/jekyll-lunr-js-search/compare/{base}...{head}
+return.url=https://api.github.com/repos/newrelic/newrelic-oss-docs-theme; return.compare_url=https://api.github.com/repos/newrelic/newrelic-oss-docs-theme/compare/{base}...{head}
+return.url=https://api.github.com/repos/isa-group/ideas-module-opl; return.compare_url=https://api.github.com/repos/isa-group/ideas-module-opl/compare/{base}...{head}
+return.url=https://api.github.com/repos/IBM/nesa-demo; return.compare_url=https://api.github.com/repos/IBM/nesa-demo/compare/{base}...{head}
+

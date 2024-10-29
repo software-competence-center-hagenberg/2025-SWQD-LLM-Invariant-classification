@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    tags:
+                      type: array
+                      description: A list of keyword tags associated with the video. Tags may contain spaces.
+                      items:
+                        type: string
+              items:
+                topicDetails:
+                  type: object
+                  description: Freebase topic information related to the video.
+                  properties:
+                    topicCategories:
+                      type: array
+                      description: A list of Wikipedia URLs that provide a high-level description of the video's content.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.snippet.tags[])-1 >= size(return.topicDetails.topicCategories[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 106 examples in the requests data, with 55 of them being distinct examples.
+Here are 4 example values of the variables:
+return.items.snippet.tags=["veritasium","science","physics"]; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Knowledge"]
+return.items.snippet.tags=["marvel","comics"]; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Entertainment","https:\/\/en.wikipedia.org\/wiki\/Film"]
+return.items.snippet.tags=["Shorts","Sidemen"]; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Video_game_culture"]
+return.items.snippet.tags=["All Blacks","New Zealand Rugby","Rugby","Rugby Union"]; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Sport"]
+

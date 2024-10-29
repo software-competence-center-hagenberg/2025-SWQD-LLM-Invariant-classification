@@ -1,0 +1,53 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                hotel:
+                  type: object
+                  description: Hotel Content
+                  properties:
+                    hotelId:
+                      type: string
+                      description: Amadeus Property Code (8 chars)
+                      pattern: ^[A-Z0-9]{8}$
+                      example: ADPAR001
+                  properties:
+                    cityCode:
+                      type: string
+                      description: Warning: The IATA city code associated to the hotel (not necessary the real Hotel City)
+                      pattern: ^[A-Z]{3}$
+                      example: PAR
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.hotel.cityCode is a substring of return.hotel.hotelId
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 16624 examples in the requests data, with 262 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.hotel.hotelId=WVMAD955; return.data.hotel.cityCode=MAD
+return.data.hotel.hotelId=BWSYD207; return.data.hotel.cityCode=SYD
+return.data.hotel.hotelId=LMPARCRE; return.data.hotel.cityCode=PAR
+return.data.hotel.hotelId=HIDXBEE0; return.data.hotel.cityCode=DXB
+return.data.hotel.hotelId=HYEWRHJC; return.data.hotel.cityCode=EWR
+

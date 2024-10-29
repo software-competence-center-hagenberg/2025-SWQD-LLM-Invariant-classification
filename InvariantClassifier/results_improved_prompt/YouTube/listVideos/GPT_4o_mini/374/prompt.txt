@@ -1,0 +1,46 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                liveStreamingDetails:
+                  type: object
+                  description: Details about the live streaming metadata.
+                  properties:
+                    activeLiveChatId:
+                      type: string
+                      description: The ID of the currently active live chat attached to this video. This field is filled only if the video is a currently live broadcast that has live chat. Once the broadcast transitions to complete this field will be removed and the live chat closed down. For persistent broadcasts that live chat id will no longer be tied to this video but rather to the new video being displayed at the persistent page.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.liveStreamingDetails.activeLiveChatId)==75
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 188 examples in the requests data, with 32 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.liveStreamingDetails.activeLiveChatId=Cg0KC25qa0tGOXRIWDA0KicKGFVDRS1sYU9lTTlnTGZUY1dGNEhSQlBwQRILbmprS0Y5dEhYMDQ
+output.items.liveStreamingDetails.activeLiveChatId=Cg0KC1E1RnUzaXJ6SjJBKicKGFVDS2s5MUhWQmRkQ25uekVBTUxnVjBGdxILUTVGdTNpcnpKMkE
+output.items.liveStreamingDetails.activeLiveChatId=Cg0KC2VyZ1NGcnY2TlJBKicKGFVDQUlVZWR1SVVYMUU2c1RJb1ctdmJVURILZXJnU0ZydjZOUkE
+output.items.liveStreamingDetails.activeLiveChatId=Cg0KC0dhUjU3Uk4xcWZvKicKGFVDTkhpbUFQNGV2LVhINGdNcEpKVmtZQRILR2FSNTdSTjFxZm8
+output.items.liveStreamingDetails.activeLiveChatId=Cg0KC1VpcUJXRFhwRFRVKicKGFVDM3NNQkEzQmRuc0tTVkkwV0I5eVZXURILVWlxQldEWHBEVFU
+

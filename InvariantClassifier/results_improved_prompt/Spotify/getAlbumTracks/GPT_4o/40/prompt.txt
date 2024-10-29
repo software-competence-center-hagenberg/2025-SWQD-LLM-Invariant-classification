@@ -1,0 +1,74 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+      - name: limit
+        in: query
+        description: The maximum number of items to return
+        type: integer
+        minimum: 0
+        maxLength: 50
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                type: object
+                properties:
+                  artists:
+                    description: The artists who performed the track. Each artist object includes a link in href to more detailed information about the artist.
+                  available_markets:
+                    description: A list of the countries in which the track can be played, identified by their ISO 3166-1 alpha-2 code.
+                  disc_number:
+                    description: The disc number (usually 1 unless the album consists of more than one disc).
+                  duration_ms:
+                    description: The track length in milliseconds.
+                  explicit:
+                    description: Whether or not the track has explicit lyrics (true = yes it does; false = no it does not OR unknown).
+                  external_urls:
+                    description: Known external URLs for this track.
+                  href:
+                    description: A link to the Web API endpoint providing full details of the track.
+                  id:
+                    description: The Spotify ID for the track.
+                  is_local:
+                    description: Is local
+                  is_playable:
+                    description: Part of the response when Track Relinking is applied. If true, the track is playable in the given market. Otherwise false.
+                  linked_from:
+                    description: Part of the response when Track Relinking is applied, and the requested track has been replaced with different track. The track in the linked_from object contains information about the originally requested track.
+                  name:
+                    description: The name of the track.
+                  preview_url:
+                    description: A URL to a 30 second preview (MP3 format) of the track.
+                  restrictions:
+                  track_number:
+                    description: The number of the track. If an album has several discs, the track number is the number on the specified disc.
+                  type:
+                    description: The object type: 'track'.
+                  uri:
+                    description: The Spotify URI for the track.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.limit >= size(return.items[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5236 examples in the requests data, with 4020 of them being distinct examples.
+

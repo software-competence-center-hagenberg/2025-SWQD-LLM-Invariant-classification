@@ -1,0 +1,40 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                self:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.self is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 16624 examples in the requests data, with 14204 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=LMBCNPIC&adults=8&checkInDate=2022-09-22&currency=EGP&lang=hu&paymentPolicy=DEPOSIT&roomQuantity=8
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=MCBOGMCM&adults=9&checkInDate=2022-09-21&checkOutDate=2022-09-25&countryOfResidence=NZ&currency=CLP&roomQuantity=1
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=MCMANVAM&adults=4&boardType=ROOM_ONLY&checkInDate=2022-09-20&lang=ru
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=MDDXB328&adults=7&boardType=ROOM_ONLY&checkOutDate=2022-09-27&currency=RUB&lang=ko-KR
+return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HIBOG578&adults=1&checkOutDate=2022-09-29&currency=USD&lang=fr
+

@@ -1,0 +1,64 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    thumbnails:
+                      type: object
+                      description: Internal representation of thumbnails for a YouTube resource.
+                      properties:
+                        high:
+                          type: object
+                          description: A thumbnail is an image representing a YouTube resource.
+                          properties:
+                            width:
+                              type: integer
+                              description: (Optional) Width of the thumbnail image.
+              items:
+                topicDetails:
+                  type: object
+                  description: Freebase topic information related to the video.
+                  properties:
+                    topicCategories:
+                      type: array
+                      description: A list of Wikipedia URLs that provide a high-level description of the video's content.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.snippet.thumbnails.high.width > size(return.topicDetails.topicCategories[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5717 examples in the requests data, with 163 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.snippet.thumbnails.high.width=480; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Military","https:\/\/en.wikipedia.org\/wiki\/Society"]
+output.items.snippet.thumbnails.high.width=480; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Music","https:\/\/en.wikipedia.org\/wiki\/Pop_music"]
+output.items.snippet.thumbnails.high.width=480; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Entertainment","https:\/\/en.wikipedia.org\/wiki\/Music_of_Asia"]
+output.items.snippet.thumbnails.high.width=480; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Boxing","https:\/\/en.wikipedia.org\/wiki\/Lifestyle_(sociology)"]
+output.items.snippet.thumbnails.high.width=480; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Society"]
+

@@ -1,0 +1,1 @@
+The invariant checks if the size of the array return.contentDetails.regionRestriction.allowed[] is either 80 or 94. The Swagger definition provided does not specify any constraints on the size of the array return.contentDetails.regionRestriction.allowed[], so this invariant is a false-positive.

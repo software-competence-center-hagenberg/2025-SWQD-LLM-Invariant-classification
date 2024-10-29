@@ -1,0 +1,1 @@
+The invariant return.events.items[] == [] is false-positive. The Swagger definition provided does not include a field named 'events' under 'data.results'. Therefore, the invariant is not applicable to the given API definition.

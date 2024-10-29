@@ -1,0 +1,37 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: part
+        in: query
+        description: The *part* parameter specifies a comma-separated list of one or more video resource properties that the API response will include. If the parameter identifies a property that contains child properties, the child properties will be included in the response. For example, in a video resource, the snippet property contains the channelId, title, description, tags, and categoryId properties. As such, if you set *part=snippet*, the API response will contain all of those properties.
+        required: true
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            pageInfo:
+              type: object
+              description: Paging details for lists of resources, including total number of items available and number of resources returned in a single page.
+              properties:
+                resultsPerPage:
+                  type: integer
+                  description: The number of results included in the API response.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.pageInfo.resultsPerPage != size(input.part[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

@@ -1,0 +1,1 @@
+The invariant return.data.results[return.data.offset] == return.data.results[return.data.total-1] checks if the element at the offset position in the results array is equal to the element at the position total-1 in the results array. This invariant is intended to ensure that the offset and total fields are used correctly to access elements in the results array.

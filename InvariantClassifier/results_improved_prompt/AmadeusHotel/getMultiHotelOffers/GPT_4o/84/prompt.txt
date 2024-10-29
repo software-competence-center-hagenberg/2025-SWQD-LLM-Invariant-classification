@@ -1,0 +1,67 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: hotelIds
+        in: query
+        description: Amadeus property codes on 8 chars. Mandatory parameter for a search by predefined list of hotels.
+        required: true
+        example: [MCLONGHM]
+        type: array
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        guarantee:
+                          type: object
+                          description: the guarantee policy information applicable to the offer. It includes accepted payments
+                          properties:
+                            acceptedPayments:
+                              type: object
+                              description: Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
+                              properties:
+                                creditCards:
+                                  type: array
+                                  description: Accepted Payment Card Types for the `method` CREDIT_CARD
+                                  items:
+                                    type: string
+                                    minLength: 2
+                                    maxLength: 2
+                                    pattern: ^[A-Z]{2}$
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.hotelIds[]) <= size(return.policies.guarantee.acceptedPayments.creditCards[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 37 examples in the requests data, with 25 of them being distinct examples.
+Here are 5 example values of the variables:
+input.hotelIds=HIDXBEE0%2CRCLGBRIR%2CWHUSM058%2CBWROM242; return.data.offers.policies.guarantee.acceptedPayments.creditCards=["AX","VI","CA","DC","CB","EC","JC"]
+input.hotelIds=MCBOGMCM%2CCPMCOD08; return.data.offers.policies.guarantee.acceptedPayments.creditCards=["AX","VI","CA","DC","CB","JC","DS"]
+input.hotelIds=RTPARNOV%2CHIBKK47E%2CARMADCUZ%2CHLADL215%2CONROMRIF; return.data.offers.policies.guarantee.acceptedPayments.creditCards=["AX","CA","DC","EC","IK","JC","VI"]
+input.hotelIds=ALBKK211%2CARSVQTOR%2CRTLPLNOV; return.data.offers.policies.guarantee.acceptedPayments.creditCards=["AH","AX","CA","DC","EC","IK","VI"]
+input.hotelIds=RTPARNOV%2CHILON542%2CARSVQJUS%2CHILAXE1C; return.data.offers.policies.guarantee.acceptedPayments.creditCards=["AX","VI","CA","DC","CB","DS","BE","CU"]
+

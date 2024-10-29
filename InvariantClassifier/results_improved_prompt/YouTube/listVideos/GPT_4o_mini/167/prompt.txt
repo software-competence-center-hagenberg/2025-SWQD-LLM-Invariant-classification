@@ -1,0 +1,60 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    thumbnails:
+                      type: object
+                      description: Internal representation of thumbnails for a YouTube resource.
+                      properties:
+                        maxres:
+                          type: object
+                          description: A thumbnail is an image representing a YouTube resource.
+                          properties:
+                            height:
+                              type: integer
+                              description: (Optional) Height of the thumbnail image.
+                  properties:
+                    tags:
+                      type: array
+                      description: A list of keyword tags associated with the video. Tags may contain spaces.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.snippet.thumbnails.maxres.height > size(return.snippet.tags[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 13398 examples in the requests data, with 1509 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.snippet.thumbnails.maxres.height=720; output.items.snippet.tags=["alicestenlof","alice","stenlöf","belissas","vlogg","olli","mode"]
+output.items.snippet.thumbnails.maxres.height=720; output.items.snippet.tags=["Minecraft","Maizen"]
+output.items.snippet.thumbnails.maxres.height=720; output.items.snippet.tags=["Montana and ryan","Ryan and Montana","boyfriend","girlfriend"]
+output.items.snippet.thumbnails.maxres.height=720; output.items.snippet.tags=["VR","Virtual Reality","The Boys","JoshDub","Mully","EddieVR","YourNarrator","Juicy","Comedy","Funny","Gaming"]
+output.items.snippet.thumbnails.maxres.height=720; output.items.snippet.tags=["ben nevert","hugo decrypte","kikesa","julien granel","alex ramires","entre mec","entre mecs","show","trianon"]
+

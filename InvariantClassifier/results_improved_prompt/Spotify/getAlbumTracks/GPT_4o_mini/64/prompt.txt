@@ -1,0 +1,43 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                preview_url:
+                  type: string
+                  description: A URL to a 30 second preview (MP3 format) of the track.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.preview_url)==107
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 125786 examples in the requests data, with 2652 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.preview_url=https://p.scdn.co/mp3-preview/90706e558acf88c0af1a63024686c7cd1f834271?cid=398c6e20f0d9469697bf28faf7f3d784
+output.items.preview_url=https://p.scdn.co/mp3-preview/34e61759e12ddea2fd28784d9b6a9527223704f6?cid=398c6e20f0d9469697bf28faf7f3d784
+output.items.preview_url=https://p.scdn.co/mp3-preview/81e6d404686baa1abf9574629602fb42600c4624?cid=398c6e20f0d9469697bf28faf7f3d784
+output.items.preview_url=https://p.scdn.co/mp3-preview/6b379b0b11b567b64a29916065a42681b6b076af?cid=398c6e20f0d9469697bf28faf7f3d784
+output.items.preview_url=https://p.scdn.co/mp3-preview/fab551f2be9e50dfd22a217e3e2ff7d11ecb83ec?cid=398c6e20f0d9469697bf28faf7f3d784
+

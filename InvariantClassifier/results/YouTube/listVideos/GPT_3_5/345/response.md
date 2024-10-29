@@ -1,0 +1,1 @@
+The given invariant compares the height of the default thumbnail of a video with the size of the list of blocked regions for the video. The comparison is based on the response body fields 'return.snippet.thumbnails.default.height' and 'size(return.contentDetails.regionRestriction.blocked[])'.

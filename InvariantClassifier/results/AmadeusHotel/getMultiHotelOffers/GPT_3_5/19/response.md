@@ -1,0 +1,1 @@
+The invariant 'return.rateFamilyEstimated.type one of { "C", "P" }' is a true-positive. The Swagger definition specifies that the 'rateFamilyEstimated.type' property can only have the values 'C' or 'P', and the invariant accurately captures this constraint. Since the Swagger definition enforces this constraint, the invariant holds for every valid request on the API.

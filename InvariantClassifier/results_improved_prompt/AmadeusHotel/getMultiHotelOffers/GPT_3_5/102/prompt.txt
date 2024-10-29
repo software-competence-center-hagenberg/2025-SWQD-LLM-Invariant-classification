@@ -1,0 +1,114 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: adults
+        in: query
+        description: Number of adult guests (1-9) per room.
+        required: true
+        example: 1
+        type: integer
+        format: int32
+        minimum: 1
+        maxLength: 9
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                      id:
+                        description: Unique identifier of this offer. Might be valid for a temporary period only.
+                      checkInDate:
+                        description: check-in date of the stay (hotel local date). Format YYYY-MM-DD
+                        The lowest accepted value is today date (no dates in the past).
+                      checkOutDate:
+                        description: check-out date of the stay (hotel local date). Format YYYY-MM-DD
+                        The lowest accepted value is `checkInDate`+1.
+                      roomQuantity:
+                        description: number of rooms (1-9)
+                      rateCode:
+                        description: Special Rate - Provider Response Code (3 chars)
+                        Examples
+                        
+                          * RAC - Rack
+                        
+                          * BAR - Best Available Rate
+                        
+                          * PRO - Promotional
+                        
+                          * COR - Corporate
+                        
+                          * GOV - Government (qualified)
+                        
+                          * AAA - AAA (qualified)
+                        
+                          * BNB - Bed and Breakfast
+                        
+                          * PKG - Package
+                        
+                          * TVL - Travel Industry
+                        
+                          * SPC - Special Promo Rate
+                        
+                          * WKD - Weekend
+                        
+                          * CON - Convention
+                        
+                          * SNR - Senior (Europe) (qualified)
+                        
+                          * ARP - AARP - American Association of Retired People (50+) (qualified)
+                        
+                          * SRS - Senior (qualified)
+                        
+                          * ROR - Room Only Rate (no breakfast)
+                        
+                          * FAM - Family
+                        
+                          * DAY - Day rate
+                      rateFamilyEstimated:
+                      category:
+                        description: Special Rate Category
+                        Examples:
+                          ASSOCIATION
+                          FAMILY_PLAN
+                      description:
+                      commission:
+                      boardType:
+                      room:
+                      guests:
+                      price:
+                      policies:
+                      self:
+                        description: A self link to the object. Use this to refresh the Offer price
+                      cancelPolicyHash:
+                        description: Cancel policy hash
+                    description: Hotel Offer
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.adults != size(return.offers[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 93 examples in the requests data, with 59 of them being distinct examples.
+

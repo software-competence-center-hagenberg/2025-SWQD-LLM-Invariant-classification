@@ -1,0 +1,49 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: maxResults
+        in: query
+        description: The *maxResults* parameter specifies the maximum number of items that should be returned in the result set. *Note:* This parameter is supported for use in conjunction with the myRating and chart parameters, but it is not supported for use in conjunction with the id parameter.
+        required: false
+        type: integer
+        minimum: 1
+        maxLength: 50
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            pageInfo:
+              type: object
+              description: Paging details for lists of resources, including total number of items available and number of resources returned in a single page.
+              properties:
+                resultsPerPage:
+                  type: integer
+                  description: The number of results included in the API response.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.maxResults == return.pageInfo.resultsPerPage
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 3945 examples in the requests data, with 50 of them being distinct examples.
+Here are 5 example values of the variables:
+input.maxResults=26; output.pageInfo.resultsPerPage=26
+input.maxResults=12; output.pageInfo.resultsPerPage=12
+input.maxResults=36; output.pageInfo.resultsPerPage=36
+input.maxResults=7; output.pageInfo.resultsPerPage=7
+input.maxResults=1; output.pageInfo.resultsPerPage=1
+

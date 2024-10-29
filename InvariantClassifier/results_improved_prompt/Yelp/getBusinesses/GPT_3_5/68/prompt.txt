@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: open_at
+        in: query
+        required: false
+        type: integer
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      alias:
+                      title:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.open_at > size(return.categories[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 14280 examples in the requests data, with 12363 of them being distinct examples.
+Here are 5 example values of the variables:
+input.open_at=1664058104; return.businesses.categories=[{"alias":"mexican","title":"Mexican"}]
+input.open_at=1665339698; return.businesses.categories=[{"alias":"towing","title":"Remolques y grúas"},{"alias":"roadsideassist","title":"Asistencia en carreteras"}]
+input.open_at=1663851740; return.businesses.categories=[{"alias":"localflavor","title":"Local Flavour"},{"alias":"parks","title":"Park & Forests"},{"alias":"gardens","title":"Botanical Gardens"}]
+input.open_at=1665714408; return.businesses.categories=[{"alias":"parks","title":"Puistot"}]
+input.open_at=1664108637; return.businesses.categories=[{"alias":"burgers","title":"Burgers"},{"alias":"hotdogs","title":"Fast Food"}]
+

@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            id:
+              type: integer
+              example: 1296269
+          properties:
+            topics:
+              type: array
+              items:
+                type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.owner.id > size(return.topics[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 70059 examples in the requests data, with 2815 of them being distinct examples.
+Here are 5 example values of the variables:
+output.owner.id=33972111; output.topics=["ansible","ansible-role","cfme","cloudforms","manageiq","miq","redhat","redhatconsulting"]
+output.owner.id=1961952; output.topics=["dragonwell8","java","java8","jdk","lts","openjdk"]
+output.owner.id=1342004; output.topics=["clustering","machine-learning","speaker-diarization","speaker-recognition","supervised-clustering","supervised-learning","uis-rnn"]
+output.owner.id=6154722; output.topics=["animations","composition","csharp","effects","fluent","uwp","uwp-apps","windows-10","windowsui"]
+output.owner.id=628795; output.topics=["bundle","cache","compact-cache","data-management","image-processing","imagery","python","raster","rasters","tiles"]
+

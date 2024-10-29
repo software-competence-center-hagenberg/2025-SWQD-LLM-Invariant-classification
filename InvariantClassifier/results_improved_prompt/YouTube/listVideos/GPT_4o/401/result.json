@@ -1,0 +1,12 @@
+{
+    "id":401,
+    "invariantType":"daikon.inv.unary.string.dates.IsTimestampYYYYMMHHThhmmssmm",
+    "classification":"TP",
+    "GPT_verdict":"TP",
+    "confidence":0.950000,
+    "promptTokens":856,
+    "completionTokens":464,
+    "totalTokens":1320,
+    "maxNumberOfOperations":10000
+}
+

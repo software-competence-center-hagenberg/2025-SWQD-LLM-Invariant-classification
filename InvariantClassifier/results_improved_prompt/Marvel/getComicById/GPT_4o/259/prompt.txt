@@ -1,0 +1,63 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    stories:
+                      type: object
+                      properties:
+                        returned:
+                          type: integer
+                          description: The number of stories returned in this collection (up to 20).
+                      properties:
+                        items:
+                          type: array
+                          description: The list of returned stories in this collection.
+                          items:
+                            type: object
+                            properties:
+                              resourceURI:
+                                description: The path to the individual story resource.
+                              name:
+                                description: The canonical name of the story.
+                              type:
+                                description: The type of the story (interior or cover).
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.stories.returned == size(return.stories.items[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11500 examples in the requests data, with 7622 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.results.stories.returned=1; return.data.results.stories.items=[{"name":"Nova (2013) #25","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/stories\/117971","type":"cover"}]
+return.data.results.stories.returned=1; return.data.results.stories.items=[{"name":"New Avengers (2013) #28","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/stories\/117970","type":"cover"}]
+return.data.results.stories.returned=1; return.data.results.stories.items=[{"name":"Magneto (2014) #13","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/stories\/117931","type":"cover"}]
+return.data.results.stories.returned=1; return.data.results.stories.items=[{"name":"AVX Program","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/stories\/96338","type":"cover"}]
+return.data.results.stories.returned=1; return.data.results.stories.items=[{"name":"HULK (2008) #25","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/stories\/83093","type":"cover"}]
+

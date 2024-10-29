@@ -1,0 +1,1 @@
+The given invariant checks if the 'Type' field in the response body can only take on the values 'episode', 'movie', or 'series'. Based on the provided Swagger definition, the response schema includes a 'Type' field with the value 'movie' as an example. Since the example value 'movie' is one of the expected values according to the invariant, the invariant is true-positive.

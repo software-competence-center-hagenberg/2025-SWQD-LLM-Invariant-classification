@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            id:
+              type: integer
+              example: 1296269
+          properties:
+            topics:
+              type: array
+              items:
+                type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.id > size(return.topics[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 70059 examples in the requests data, with 3690 of them being distinct examples.
+Here are 5 example values of the variables:
+return.id=255908520; return.topics=["bot","cassandra","community","datastax","discord","discord-bot","discord-server","hacktoberfest","opensource","stargate"]
+return.id=137435162; return.topics=["java","spring","spring-boot","spring-web","spring-web-mvc"]
+return.id=35680131; return.topics=["cascading","hadoop","orc-files"]
+return.id=364126306; return.topics=["field-service-dispatching","real-time-scheduling","scheduling"]
+return.id=2477567; return.topics=["inactive","unmaintained"]
+

@@ -1,0 +1,61 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: maxWidth
+        in: query
+        description: Return the player with maximum height specified in
+        required: false
+        type: integer
+        minimum: 72
+        maxLength: 8192
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    thumbnails:
+                      type: object
+                      description: Internal representation of thumbnails for a YouTube resource.
+                      properties:
+                        high:
+                          type: object
+                          description: A thumbnail is an image representing a YouTube resource.
+                          properties:
+                            height:
+                              type: integer
+                              description: (Optional) Height of the thumbnail image.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.maxWidth != return.snippet.thumbnails.high.height
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 1037 examples in the requests data, with 813 of them being distinct examples.
+Here are 5 example values of the variables:
+input.maxWidth=7269; return.items.snippet.thumbnails.high.height=360
+input.maxWidth=5806; return.items.snippet.thumbnails.high.height=360
+input.maxWidth=2480; return.items.snippet.thumbnails.high.height=360
+input.maxWidth=7222; return.items.snippet.thumbnails.high.height=360
+input.maxWidth=1184; return.items.snippet.thumbnails.high.height=360
+

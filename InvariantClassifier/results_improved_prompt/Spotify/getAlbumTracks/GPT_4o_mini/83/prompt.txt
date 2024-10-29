@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: URL to the previous page of items. (null if none)
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.previous is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5432 examples in the requests data, with 3304 of them being distinct examples.
+Here are 5 example values of the variables:
+output.previous=https://api.spotify.com/v1/albums/4l0xO28Y37MBBXQEcBIbXQ/tracks?offset=0&limit=12&market=MD
+output.previous=https://api.spotify.com/v1/albums/0fDtkURAIQeQ7Kz7ZC60xi/tracks?offset=0&limit=33&market=AU
+output.previous=https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc/tracks?offset=0&limit=23&market=IN
+output.previous=https://api.spotify.com/v1/albums/4YzNjecIvmLFEby13NOBmj/tracks?offset=2&limit=10
+output.previous=https://api.spotify.com/v1/albums/2dey7kGDFAByEACexapiV6/tracks?offset=9&limit=4&market=BH
+

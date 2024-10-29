@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            total:
+              type: integer
+              description: The total number of items available to return.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.total >= 1
+
+Invariant type: daikon.inv.unary.scalar.LowerBound
+Invariant description: Represents the invariant x >= c, where c is a constant and x is a long scalar.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 40 of them being distinct examples.
+Here are 5 example values of the variables:
+return.total=2
+return.total=1
+return.total=4
+return.total=3
+return.total=117
+

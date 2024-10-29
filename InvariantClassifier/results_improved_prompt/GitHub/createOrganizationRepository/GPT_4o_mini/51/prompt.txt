@@ -1,0 +1,61 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  post:
+    summary: Create an organization repository
+    description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+    
+    **OAuth scope requirements**
+    
+    When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+    
+    *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+    *   `repo` scope to create a private repository
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
+        
+        **OAuth scope requirements**
+        
+        When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
+        
+        *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
+        *   `repo` scope to create a private repository
+        schema:
+          type: object
+          description: A git repository
+          properties:
+            html_url:
+              type: string
+              example: https://github.com/octocat/Hello-World
+          properties:
+            svn_url:
+              type: string
+              example: https://svn.github.com/octocat/Hello-World
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.html_url == return.svn_url
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 9696 of them being distinct examples.
+Here are 5 example values of the variables:
+output.html_url=https://github.com/theNewBandOfTheHawk2016/kachi-deep; output.svn_url=https://github.com/theNewBandOfTheHawk2016/kachi-deep
+output.html_url=https://github.com/antonioMarOrganization2022/london-rank; output.svn_url=https://github.com/antonioMarOrganization2022/london-rank
+output.html_url=https://github.com/bandOfTheHawk1997/carsick-fast-slow; output.svn_url=https://github.com/bandOfTheHawk1997/carsick-fast-slow
+output.html_url=https://github.com/theNewBandOfTheHawk2016/sla-beginners; output.svn_url=https://github.com/theNewBandOfTheHawk2016/sla-beginners
+output.html_url=https://github.com/outerHeaven1984/6-slow-slow-bayonetta; output.svn_url=https://github.com/outerHeaven1984/6-slow-slow-bayonetta
+

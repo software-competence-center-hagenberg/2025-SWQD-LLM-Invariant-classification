@@ -1,0 +1,39 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                hotel:
+                  type: object
+                  description: Hotel Content
+                  properties:
+                    latitude:
+                      type: number
+                      description: Latitude
+                  properties:
+                    longitude:
+                      type: number
+                      description: Longitude
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.hotel.latitude != return.hotel.longitude
+
+Invariant type: daikon.inv.binary.twoScalar.FloatNonEqual
+Invariant description: Represents an invariant of != between two double scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+

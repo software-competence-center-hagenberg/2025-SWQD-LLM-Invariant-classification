@@ -1,0 +1,59 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    thumbnails:
+                      type: object
+                      description: Internal representation of thumbnails for a YouTube resource.
+                      properties:
+                        medium:
+                          type: object
+                          description: A thumbnail is an image representing a YouTube resource.
+                          properties:
+                            width:
+                              type: integer
+                              description: (Optional) Width of the thumbnail image.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.snippet.thumbnails.medium.width > size(input.id[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 562 examples in the requests data, with 343 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=bzuGMAMKwss; output.items.snippet.thumbnails.medium.width=320
+input.id=_zS_XlfV1xc%2CzjaTIkKGNws; output.items.snippet.thumbnails.medium.width=320
+input.id=Uvg32yRi3oM%2Cn9xSQfuBOWA; output.items.snippet.thumbnails.medium.width=320
+input.id=0XrcYiu-Ydo%2Cvx2u5uUu3DE; output.items.snippet.thumbnails.medium.width=320
+input.id=lL-RfE-ioJ8%2CcYZHtkq4f-8%2Cn0CnjMkt8Vk%2CyppX3XdeF2Y%2C3MZftSsYSUQ%2CbHEV9f9NLv4; output.items.snippet.thumbnails.medium.width=320
+

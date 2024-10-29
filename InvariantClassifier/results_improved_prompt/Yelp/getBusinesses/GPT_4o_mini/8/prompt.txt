@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                transactions:
+                  type: array
+                  items:
+                    type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: "return.transactions[] elements one of { ""delivery"", ""pickup"", ""restaurant_reservation"" }"
+
+Invariant type: daikon.inv.unary.stringsequence.EltOneOfString
+Invariant description: Represents sequences of String values where the elements of the sequence take on only a few distinct values. Prints as either x[] elements == c (when there is only one value), or as x[] elements one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 45723 examples in the requests data, with 15 of them being distinct examples.
+Here are 5 example values of the variables:
+output.businesses.transactions=["restaurant_reservation","pickup","delivery"]
+output.businesses.transactions=["pickup"]
+output.businesses.transactions=["pickup","restaurant_reservation","delivery"]
+output.businesses.transactions=["pickup","delivery","restaurant_reservation"]
+output.businesses.transactions=["delivery","restaurant_reservation","pickup"]
+

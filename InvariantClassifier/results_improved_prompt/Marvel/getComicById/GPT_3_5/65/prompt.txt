@@ -1,0 +1,60 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+      - name: comicId
+        in: path
+        description: A single comic.
+        required: true
+        type: integer
+        format: int32
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    collections:
+                      type: array
+                      description: A list of collections which include this comic (will generally be empty if the comic's format is a collection).
+                      items:
+                        type: object
+                        properties:
+                          resourceURI:
+                            description: The path to the individual comic resource.
+                          name:
+                            description: The canonical name of the comic.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.comicId > size(return.collections[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 1839 examples in the requests data, with 1190 of them being distinct examples.
+Here are 5 example values of the variables:
+input.comicId=17567; return.data.results.collections=[{"name":"Avengers Assemble (Hardcover)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/1311"}]
+input.comicId=5230; return.data.results.collections=[{"name":"ANNIHILATION BOOK 2 (Hardcover)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/16667"}]
+input.comicId=5050; return.data.results.collections=[{"name":"X-Men: Supernovas (Hardcover)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/16216"}]
+input.comicId=7354; return.data.results.collections=[{"name":"Avengers Assemble Vol. 4 (Hardcover)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/5844"}]
+input.comicId=1860; return.data.results.collections=[{"name":"Exiles Vol. 11: Time Breakers (Trade Paperback)","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/2426"}]
+

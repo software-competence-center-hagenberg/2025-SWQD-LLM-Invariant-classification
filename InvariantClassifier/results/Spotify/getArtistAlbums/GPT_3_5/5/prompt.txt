@@ -1,0 +1,41 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: offset
+        in: query
+        description: The index of the first item to return
+        type: integer
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                images:
+                  type: array
+                  description: The cover art for the album in various sizes, widest first.
+                  items:
+                    height:
+                      type: integer
+                      description: The image height in pixels. If unknown: null or not returned.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.offset < return.height
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessThan
+Invariant description: Represents an invariant of < between two long scalars. Prints as x < y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items.images" in the response body.
+

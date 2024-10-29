@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/users/{user_id}/playlists"
+  post:
+    description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+        schema:
+          type: object
+          properties:
+            external_urls:
+              type: object
+              description: Known external URLs for this album.
+              properties:
+                spotify:
+                  type: string
+          properties:
+            id:
+              type: string
+              description: The Spotify ID of the playlist.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.id is a substring of return.external_urls.spotify
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 10000 of them being distinct examples.
+Here are 5 example values of the variables:
+return.external_urls.spotify=https://open.spotify.com/playlist/4flbijbULObREHyO5oRWCJ; return.id=4flbijbULObREHyO5oRWCJ
+return.external_urls.spotify=https://open.spotify.com/playlist/6vFmduM76ZZ1pJNHTCSnwV; return.id=6vFmduM76ZZ1pJNHTCSnwV
+return.external_urls.spotify=https://open.spotify.com/playlist/5EPxVwGVremtHdM02eHm58; return.id=5EPxVwGVremtHdM02eHm58
+return.external_urls.spotify=https://open.spotify.com/playlist/35ySkqfYSaoC3YtGbTYYdw; return.id=35ySkqfYSaoC3YtGbTYYdw
+return.external_urls.spotify=https://open.spotify.com/playlist/3Md9Er6vPkQbCaKiEbd350; return.id=3Md9Er6vPkQbCaKiEbd350
+

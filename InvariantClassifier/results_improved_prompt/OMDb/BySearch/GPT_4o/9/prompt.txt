@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/"
+  get:
+    summary: Search
+    parameters:
+      - name: page
+        in: query
+        description: Page number to return
+        type: integer
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            Search:
+              type: array
+              items:
+                type: object
+                properties:
+                  Title:
+                  Year:
+                  imdbID:
+                  Type:
+                  Poster:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.page != size(return.Search[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 8 examples in the requests data, with 8 of them being distinct examples.
+

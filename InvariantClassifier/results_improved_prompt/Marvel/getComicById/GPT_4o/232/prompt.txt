@@ -1,0 +1,63 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    characters:
+                      type: object
+                      properties:
+                        returned:
+                          type: integer
+                          description: The number of characters returned in this collection (up to 20).
+                  items:
+                    textObjects:
+                      type: array
+                      description: A set of descriptive text blurbs for the comic.
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            description: The canonical type of the text object (e.g. solicit text, preview text, etc.).
+                          language:
+                            description: The IETF language tag denoting the language the text object is written in.
+                          text:
+                            description: The text.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.characters.returned >= size(return.textObjects[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 7765 examples in the requests data, with 5060 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.results.characters.returned=7; return.data.results.textObjects=[{"language":"en-us","text":"","type":"issue_solicit_text"}]
+return.data.results.characters.returned=5; return.data.results.textObjects=[{"language":"en-us","text":"LEGACY PART 1 The return of Green Goblin!","type":"issue_preview_text"}]
+return.data.results.characters.returned=3; return.data.results.textObjects=[{"language":"en-us","text":"Death of Spider-Man Chapter Three!","type":"issue_solicit_text"}]
+return.data.results.characters.returned=1; return.data.results.textObjects=[{"language":"en-us","text":"Rocket Raccoon must prevent total intergalactic war.","type":"issue_solicit_text"}]
+return.data.results.characters.returned=1; return.data.results.textObjects=[{"language":"en-us","text":"Reprinting Thanos Rising (2013) #1!","type":"issue_solicit_text"}]
+

@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            next:
+              type: string
+              description: URL to the next page of items. (null if none)
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.next is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5539 examples in the requests data, with 3610 of them being distinct examples.
+Here are 5 example values of the variables:
+output.next=https://api.spotify.com/v1/albums/0oX4SealMgNXrvRDhqqOKg/tracks?offset=11&limit=11&market=JO
+output.next=https://api.spotify.com/v1/albums/29pkQOWIBGGFD1EncVkILn/tracks?offset=9&limit=9
+output.next=https://api.spotify.com/v1/albums/6l7VG02x1QGIOH9jWIwNDC/tracks?offset=20&limit=20&market=MR
+output.next=https://api.spotify.com/v1/albums/0pDJt9M0HWkIs4vrTK6aC6/tracks?offset=27&limit=20
+output.next=https://api.spotify.com/v1/albums/3Lf8VA23cMAl5imbABTZoo/tracks?offset=17&limit=13&market=TH
+

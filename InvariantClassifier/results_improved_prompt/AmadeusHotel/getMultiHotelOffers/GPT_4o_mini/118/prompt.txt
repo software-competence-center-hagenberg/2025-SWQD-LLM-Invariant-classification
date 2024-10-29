@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    checkInDate:
+                      type: string
+                      description: check-in date of the stay (hotel local date). Format YYYY-MM-DD
+                      The lowest accepted value is today date (no dates in the past).
+                      example: Wed Dec 30 01:00:00 CET 2020
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.checkInDate is a Date. Format: YYYY/MM/DD
+
+Invariant type: daikon.inv.unary.string.dates.IsDateYYYYMMDD
+Invariant description: Indicates that the value of a string variable is always a date following the format YYYY/MM/DD (the separator can be “/�? or “-“). Represented as x is a Date. Format
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 41891 examples in the requests data, with 3 of them being distinct examples.
+Here are 3 example values of the variables:
+output.data.offers.checkInDate=2022-09-20
+output.data.offers.checkInDate=2022-09-21
+output.data.offers.checkInDate=2022-09-22
+

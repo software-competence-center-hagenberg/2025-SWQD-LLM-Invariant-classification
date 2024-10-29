@@ -1,0 +1,53 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: limit
+        in: query
+        description: The maximum number of items to return
+        type: integer
+        minimum: 0
+        maxLength: 50
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                images:
+                  type: array
+                  description: The cover art for the album in various sizes, widest first.
+                  items:
+                    height:
+                      type: integer
+                      description: The image height in pixels. If unknown: null or not returned.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.limit < return.height
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessThan
+Invariant description: Represents an invariant of < between two long scalars. Prints as x < y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items.images" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 15726 examples in the requests data, with 150 of them being distinct examples.
+Here are 5 example values of the variables:
+input.limit=41; output.items.images.height=64
+input.limit=20; output.items.images.height=64
+input.limit=46; output.items.images.height=640
+input.limit=36; output.items.images.height=640
+input.limit=16; output.items.images.height=640
+

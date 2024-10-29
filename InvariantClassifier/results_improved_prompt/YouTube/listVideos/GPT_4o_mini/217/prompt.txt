@@ -1,0 +1,69 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: maxHeight
+        in: query
+        required: false
+        type: integer
+        minimum: 72
+        maxLength: 8192
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  ageGating:
+                  contentDetails:
+                  etag:
+                    description: Etag of this resource.
+                  fileDetails:
+                  id:
+                    description: The ID that YouTube uses to uniquely identify the video.
+                  kind:
+                    description: Identifies what kind of resource this is. Value: the fixed string "youtube#video".
+                  liveStreamingDetails:
+                  localizations:
+                    description: The localizations object contains localized versions of the basic details about the video, such as its title and description.
+                  monetizationDetails:
+                  player:
+                  processingDetails:
+                  projectDetails:
+                  recordingDetails:
+                  snippet:
+                  statistics:
+                  status:
+                  suggestions:
+                  topicDetails:
+                description: A *video* resource represents a YouTube video.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.maxHeight > size(return.items[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 6899 examples in the requests data, with 5915 of them being distinct examples.
+Here are 5 example values of the variables:
+input.maxHeight=4916; output.items=[{"kind":"youtube#video","etag":"zQfN2Oo2DqZGbSnbL9ssuLBdfKI","id":"KD-iSMNYvf0"}]
+input.maxHeight=2082; output.items=[{"kind":"youtube#video","etag":"aZlBL-xymaWB_ZjbRwc8VJy0RUg","id":"o5BQxAeICeA","recordingDetails":{}}]
+input.maxHeight=78; output.items=[{"kind":"youtube#video","etag":"Lrs8ThlzGKj0NrZUDnSS01JmAu8","id":"YbJOTdZBX1g"},{"kind":"youtube#video","etag":"a9dEWfYI8Qfgf3b5dBC0jAOuZ04","id":"YuuTrYG2zhg"}]
+input.maxHeight=6247; output.items=[{"kind":"youtube#video","etag":"YOjLivi7gv1RlmEZC_oCUBkcAbw","id":"eqP_Q7cgwJc","recordingDetails":{}}]
+input.maxHeight=3079; output.items=[{"kind":"youtube#video","etag":"O0BsNtKWI0aF8ZwQCFGvdfYxqks","id":"G4UspBs3DGQ"},{"kind":"youtube#video","etag":"mxBbnWtADlHyTakKy4XGP2DX6pk","id":"UbkuFychbKM"}]
+

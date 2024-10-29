@@ -1,0 +1,1 @@
+The invariant is false-positive. The Swagger definition provided does not contain a 'return.events' or 'return.collectedIssues' field. Therefore, the invariant cannot be evaluated against the given definition.

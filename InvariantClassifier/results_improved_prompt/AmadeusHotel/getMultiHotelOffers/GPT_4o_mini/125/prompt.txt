@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    commission:
+                      type: object
+                      properties:
+                        percentage:
+                          type: string
+                          description: Percentage of the commission paid to the travel seller. Value is between 0 and 100
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.commission.percentage is Numeric
+
+Invariant type: daikon.inv.unary.string.IsNumeric
+Invariant description: Indicates that the characters of a string variable are always numeric. Represented as x is Numeric.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 18283 examples in the requests data, with 7 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.offers.commission.percentage=10
+output.data.offers.commission.percentage=4.00
+output.data.offers.commission.percentage=8
+output.data.offers.commission.percentage=10.0
+output.data.offers.commission.percentage=8.00
+

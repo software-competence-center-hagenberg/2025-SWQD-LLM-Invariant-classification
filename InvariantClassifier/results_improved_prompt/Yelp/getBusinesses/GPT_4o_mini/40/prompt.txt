@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: attributes
+        in: query
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.attributes[])-1 <= size(return.location.display_address[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 50 calls on this API and did not find a single counter example.
+
+We found 193 examples in the requests data, with 193 of them being distinct examples.
+Here are 5 example values of the variables:
+input.attributes=wheelchair_accessible; output.businesses.location.display_address=["Calle del Espíritu Santo, 16","28004 Madrid","Spain"]
+input.attributes=open_to_all; output.businesses.location.display_address=["2036A Westminster Mall","Westminster, CA 92683","Vereinigte Staaten"]
+input.attributes=wheelchair_accessible; output.businesses.location.display_address=["602 Surf Ave & W 8th St","Brooklyn, NY 11224","United States"]
+input.attributes=open_to_all; output.businesses.location.display_address=["1254 3rd St","Santa Monica, CA 90401","Vereinigte Staaten"]
+input.attributes=waitlist_reservation; output.businesses.location.display_address=["10426 National Blvd","Los Angeles, CA 90034","Estados Unidos"]
+

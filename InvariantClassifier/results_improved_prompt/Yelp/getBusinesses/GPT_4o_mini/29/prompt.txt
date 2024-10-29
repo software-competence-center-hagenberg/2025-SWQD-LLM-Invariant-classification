@@ -1,0 +1,50 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    address1:
+                      type: string
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.location.address1 in return.location.display_address[]
+
+Invariant type: daikon.inv.binary.sequenceString.MemberString
+Invariant description: Represents String scalars that are always members of a sequence of String values. Prints as x in y[] where x is a String scalar and y[] is a sequence of String.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 2543 examples in the requests data, with 1642 of them being distinct examples.
+Here are 5 example values of the variables:
+output.businesses.location.address1=1901 Park Blvd; output.businesses.location.display_address=["1901 Park Blvd","Oakland, CA 94606","Vereinigte Staaten"]
+output.businesses.location.address1=4 Ash St; output.businesses.location.display_address=["4 Ash St","Sydney New South Wales 2000","Australia"]
+output.businesses.location.address1=5 rue du Puits Vert; output.businesses.location.display_address=["5 rue du Puits Vert","31000 Toulouse","Frankreich"]
+output.businesses.location.address1=752 S 10th St; output.businesses.location.display_address=["752 S 10th St","Philadelphia, PA 19147","USA"]
+output.businesses.location.address1=971 SW 8th St; output.businesses.location.display_address=["971 SW 8th St","Miami, FL 33130","Stati Uniti"]
+

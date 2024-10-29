@@ -1,0 +1,68 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  ageGating:
+                  contentDetails:
+                  etag:
+                    description: Etag of this resource.
+                  fileDetails:
+                  id:
+                    description: The ID that YouTube uses to uniquely identify the video.
+                  kind:
+                    description: Identifies what kind of resource this is. Value: the fixed string "youtube#video".
+                  liveStreamingDetails:
+                  localizations:
+                    description: The localizations object contains localized versions of the basic details about the video, such as its title and description.
+                  monetizationDetails:
+                  player:
+                  processingDetails:
+                  projectDetails:
+                  recordingDetails:
+                  snippet:
+                  statistics:
+                  status:
+                  suggestions:
+                  topicDetails:
+                description: A *video* resource represents a YouTube video.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.id[])-1 <= size(return.items[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 364 examples in the requests data, with 241 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=smcfifLxkjc; output.items=[{"kind":"youtube#video","etag":"bpAEDVFQtTLfsePjx9Wx60CJI4A","id":"smcfifLxkjc","recordingDetails":{}}]
+input.id=ynB3zFU2RHI; output.items=[{"kind":"youtube#video","etag":"gEY7IwfU-dIehQ4hLSpG7rNitjI","id":"ynB3zFU2RHI"}]
+input.id=JotpWlwwczU; output.items=[{"kind":"youtube#video","etag":"azsS0JF2kbyZhP9-qaVXLeWCCT0","id":"JotpWlwwczU","recordingDetails":{}}]
+input.id=7m-NPuXPBqM; output.items=[{"kind":"youtube#video","etag":"-xczrooe-2BeMZHGy7cMEhJ1XLw","id":"7m-NPuXPBqM"}]
+input.id=nC327id4aUM; output.items=[{"kind":"youtube#video","etag":"Dpf-yu9ZzIQXCiKar3uHbAh9_kU","id":"nC327id4aUM"}]
+

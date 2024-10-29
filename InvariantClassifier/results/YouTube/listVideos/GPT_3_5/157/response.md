@@ -1,0 +1,1 @@
+The invariant return.snippet.thumbnails.high.height % size(return.topicDetails.topicCategories[]) == 0 is false-positive. This is because the 'height' field under 'thumbnails.high' is an optional field, which means it may not exist in every response. Therefore, the invariant will not hold for every valid request on the API.

@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: boardType
+        in: query
+        description: Filter response based on available meals:
+                * ROOM_ONLY = Room Only
+                * BREAKFAST = Breakfast
+                * HALF_BOARD = Diner & Breakfast (only for Aggregators)
+                * FULL_BOARD = Full Board (only for Aggregators)
+                * ALL_INCLUSIVE = All Inclusive (only for Aggregators)
+        type: string
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    boardType:
+                      type: string
+                      description: The included Breakfast/Meals
+                      enum: [ROOM_ONLY, BREAKFAST, HALF_BOARD, FULL_BOARD, ALL_INCLUSIVE, BUFFET_BREAKFAST, CARIBBEAN_BREAKFAST, CONTINENTAL_BREAKFAST, ENGLISH_BREAKFAST, FULL_BREAKFAST, DINNER_BED_AND_BREAKFAST, LUNCH, DINNER, FAMILY_PLAN, AS_BROCHURED, SELF_CATERING, BERMUDA, AMERICAN, FAMILY_AMERICAN, MODIFIED]
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.boardType == return.boardType
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+

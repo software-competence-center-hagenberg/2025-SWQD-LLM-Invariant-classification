@@ -1,0 +1,1 @@
+The invariant compares the height of the medium thumbnail in the response with the size of the array of blocked region codes. It checks if the height of the medium thumbnail is greater than the size of the array of blocked region codes. The comparison is valid and can be evaluated for every valid request on the API.

@@ -1,0 +1,1 @@
+The given invariant is a false-positive. The reason for this is that the provided Swagger definition does not guarantee that the 'owner' object will always have 'url' as a substring of 'subscriptions_url'. The schema definition in the Swagger file does not enforce this relationship, and it is possible for the API response to violate this invariant.

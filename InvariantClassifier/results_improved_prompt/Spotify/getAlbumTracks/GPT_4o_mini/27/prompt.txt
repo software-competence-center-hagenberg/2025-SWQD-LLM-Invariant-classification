@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                duration_ms:
+                  type: integer
+                  description: The track length in milliseconds.
+              items:
+                track_number:
+                  type: integer
+                  description: The number of the track. If an album has several discs, the track number is the number on the specified disc.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.duration_ms > return.track_number
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 164046 examples in the requests data, with 1768 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.duration_ms=284160; output.items.track_number=2
+output.items.duration_ms=105820; output.items.track_number=21
+output.items.duration_ms=153946; output.items.track_number=13
+output.items.duration_ms=54040; output.items.track_number=13
+output.items.duration_ms=252600; output.items.track_number=21
+

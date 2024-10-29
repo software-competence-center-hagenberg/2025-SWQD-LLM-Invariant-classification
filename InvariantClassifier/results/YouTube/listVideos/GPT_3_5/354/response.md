@@ -1,0 +1,1 @@
+The invariant compares the height of the medium thumbnail in the response with the size of the region restriction allowed list. It is checking if the height of the thumbnail is greater than the size of the allowed region list. The comparison is valid and can hold true for every valid request on the API.

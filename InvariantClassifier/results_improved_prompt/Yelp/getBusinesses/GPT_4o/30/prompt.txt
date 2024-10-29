@@ -1,0 +1,50 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    address2:
+                      type: string
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.location.address2 in return.location.display_address[]
+
+Invariant type: daikon.inv.binary.sequenceString.MemberString
+Invariant description: Represents String scalars that are always members of a sequence of String values. Prints as x in y[] where x is a String scalar and y[] is a sequence of String.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 19802 examples in the requests data, with 10362 of them being distinct examples.
+Here are 5 example values of the variables:
+return.businesses.location.address2=; return.businesses.location.display_address=["Von-Melle-Park 4","20146 Hamburg","Germany"]
+return.businesses.location.address2=; return.businesses.location.display_address=["284 Commonwealth Ave","Boston, MA 02115","ABD"]
+return.businesses.location.address2=; return.businesses.location.display_address=["4401 Nannie Helen Burroughs Ave NE","Washington, DC 20019"]
+return.businesses.location.address2=??????14??; return.businesses.location.display_address=["??1??3-14","??????14??","??? ??, ??? ?730-0853","Japan"]
+return.businesses.location.address2=; return.businesses.location.display_address=["811 Valencia St","San Francisco, CA 94110","United States"]
+

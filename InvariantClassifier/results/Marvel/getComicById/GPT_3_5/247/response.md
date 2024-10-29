@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the provided Swagger definition does not guarantee that the 'collectedIssues' and 'images' arrays will always be present in the response. Therefore, the invariant 'size(return.collectedIssues[]) <= size(return.images[])' cannot hold for every valid request on the API.

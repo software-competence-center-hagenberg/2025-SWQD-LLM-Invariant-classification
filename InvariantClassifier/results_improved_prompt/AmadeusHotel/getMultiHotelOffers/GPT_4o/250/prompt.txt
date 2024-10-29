@@ -1,0 +1,56 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        variations:
+                          type: object
+                          description: Daily price variations and the average daily price (when available) is shown here
+                          properties:
+                            average:
+                              type: object
+                              description: Price valuation information
+                              properties:
+                                total:
+                                  type: string
+                                  description: total = base + totalTaxes
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.price.variations.average.total is Numeric
+
+Invariant type: daikon.inv.unary.string.IsNumeric
+Invariant description: Indicates that the characters of a string variable are always numeric. Represented as x is Numeric.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 683 examples in the requests data, with 249 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.offers.price.variations.average.total=129.52
+return.data.offers.price.variations.average.total=107.20
+return.data.offers.price.variations.average.total=87.80
+return.data.offers.price.variations.average.total=100.74
+return.data.offers.price.variations.average.total=148.13
+

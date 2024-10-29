@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        cancellation:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              description: * FULL_STAY: the Penalty amount equals the `total` price.
+                              enum: [FULL_STAY]
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.policies.cancellation.type)==9
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 2886 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+return.data.offers.policies.cancellation.type=FULL_STAY
+

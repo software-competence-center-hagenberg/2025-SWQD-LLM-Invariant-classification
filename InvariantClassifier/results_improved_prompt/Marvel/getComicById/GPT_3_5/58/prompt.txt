@@ -1,0 +1,56 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+      - name: comicId
+        in: path
+        description: A single comic.
+        required: true
+        type: integer
+        format: int32
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    creators:
+                      type: object
+                      properties:
+                        returned:
+                          type: integer
+                          description: The number of creators returned in this collection (up to 20).
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.comicId > return.creators.returned
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 7623 of them being distinct examples.
+Here are 5 example values of the variables:
+input.comicId=11012; return.data.results.creators.returned=0
+input.comicId=16558; return.data.results.creators.returned=3
+input.comicId=56207; return.data.results.creators.returned=3
+input.comicId=36291; return.data.results.creators.returned=18
+input.comicId=3562; return.data.results.creators.returned=5
+

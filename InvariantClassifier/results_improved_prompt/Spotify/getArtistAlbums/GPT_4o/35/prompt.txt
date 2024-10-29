@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                available_markets:
+                  type: array
+                  description: The markets in which the album is available: ISO 3166-1 alpha-2 country codes. Note that an album is considered available in a market when at least 1 of its tracks is available in that market.
+                  items:
+                    type: string
+              items:
+                artists:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      external_urls:
+                        description: Known external URLs for this artist.
+                      href:
+                        description: A link to the Web API endpoint providing full details of the artist.
+                      id:
+                        description: The Spotify ID for the artist.
+                      name:
+                        description: The name of the artist.
+                      type:
+                        description: The object type: 'artist'
+                      uri:
+                        description: The Spotify URI for the artist.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.available_markets[])-1 != size(return.artists[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 1074 examples in the requests data, with 317 of them being distinct examples.
+

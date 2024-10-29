@@ -1,0 +1,41 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/users/{user_id}/playlists"
+  post:
+    description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+        schema:
+          type: object
+          properties:
+            href:
+              type: string
+              description: A link to the Web API endpoint providing full details of the playlist.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.href)==59
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 10000 of them being distinct examples.
+Here are 5 example values of the variables:
+output.href=https://api.spotify.com/v1/playlists/6Id8nxBXzi7gJP6IauD1mm
+output.href=https://api.spotify.com/v1/playlists/5MT3sp98vKf2Ob0HQlN7nO
+output.href=https://api.spotify.com/v1/playlists/7eExuaGgqwPGc5gsbOLE91
+output.href=https://api.spotify.com/v1/playlists/2Ooznk6zIRZfshl3lvZuTt
+output.href=https://api.spotify.com/v1/playlists/3pKnArG7WZf71wSxLkc1Bp
+

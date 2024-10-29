@@ -1,0 +1,1 @@
+The invariant LENGTH(return.ean)==20 is based on the assumption that the 'ean' field in the response body will always have a fixed length of 20 characters. This assumption is not explicitly stated in the Swagger definition, and there is no indication that the 'ean' field will always have a fixed length. Therefore, the invariant is a false-positive.

@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                liveStreamingDetails:
+                  type: object
+                  description: Details about the live streaming metadata.
+                  properties:
+                    activeLiveChatId:
+                      type: string
+                      description: The ID of the currently active live chat attached to this video. This field is filled only if the video is a currently live broadcast that has live chat. Once the broadcast transitions to complete this field will be removed and the live chat closed down. For persistent broadcasts that live chat id will no longer be tied to this video but rather to the new video being displayed at the persistent page.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: "return.liveStreamingDetails.activeLiveChatId == ""Cg0KC19xU2YwMWtaUDB3KicKGFVDTEZTYU5xazdNbmRLblJjWlYwUmlsURILX3FTZjAxa1pQMHc"""
+
+Invariant type: daikon.inv.unary.string.OneOfString
+Invariant description: Represents String variables that take on only a few distinct values. Prints as either x == c (when there is only one value) or as x one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 1 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+return.items.liveStreamingDetails.activeLiveChatId=Cg0KC19xU2YwMWtaUDB3KicKGFVDTEZTYU5xazdNbmRLblJjWlYwUmlsURILX3FTZjAxa1pQMHc
+

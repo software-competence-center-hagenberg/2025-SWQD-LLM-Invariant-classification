@@ -1,0 +1,37 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/"
+  get:
+    summary: Search
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            totalSeasons:
+              type: string
+              example: 2
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.totalSeasons is Numeric
+
+Invariant type: daikon.inv.unary.string.IsNumeric
+Invariant description: Indicates that the characters of a string variable are always numeric. Represented as x is Numeric.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 2894 examples in the requests data, with 15 of them being distinct examples.
+Here are 5 example values of the variables:
+return.totalSeasons=1
+return.totalSeasons=2
+return.totalSeasons=15
+return.totalSeasons=34
+return.totalSeasons=12
+

@@ -1,0 +1,1 @@
+The invariant return.liveStreamingDetails.scheduledStartTime in return.contentDetails.regionRestriction.allowed[] is false-positive. This is because the 'regionRestriction' field is an object, not an array, and the 'allowed' field is an array within the 'regionRestriction' object. Therefore, the invariant does not hold for every valid request on the API.

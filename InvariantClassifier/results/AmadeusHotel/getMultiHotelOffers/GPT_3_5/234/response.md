@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the invariant refers to the fields 'return.policies.deposit.acceptedPayments.creditCards[]' and 'return.price.taxes[]', but these fields are not present in the response body at the specified path 'data.offers'. Therefore, the invariant does not hold for every valid request on the API.

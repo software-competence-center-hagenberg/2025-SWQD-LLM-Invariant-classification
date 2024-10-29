@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the invariant is comparing the number of beds in a room with the size of the array of accepted payment methods, minus 1. However, there is no direct relationship between the number of beds in a room and the number of accepted payment methods. Therefore, this invariant does not hold for every valid request on the API.

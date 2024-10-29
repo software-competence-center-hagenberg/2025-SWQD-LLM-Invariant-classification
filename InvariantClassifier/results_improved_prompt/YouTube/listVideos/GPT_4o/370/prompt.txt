@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            pageInfo:
+              type: object
+              description: Paging details for lists of resources, including total number of items available and number of resources returned in a single page.
+              properties:
+                totalResults:
+                  type: integer
+                  description: The total number of results in the result set.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.pageInfo.totalResults >= size(input.id[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 366 examples in the requests data, with 198 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=qRBWLhIRUoY; return.pageInfo.totalResults=1
+input.id=J8hE0kTSJ0s%2CAPAp8Tgzcf8; return.pageInfo.totalResults=2
+input.id=5n8QfgubNAI%2C2qUKzs9U_tw%2CVJciwjTsR1Q%2Cn9xSQfuBOWA%2C2Qen3cXzo6g%2CeqP_Q7cgwJc; return.pageInfo.totalResults=6
+input.id=_aB9Tg6SRA0%2CKzRFuPlUcCI; return.pageInfo.totalResults=2
+input.id=yppX3XdeF2Y%2Cv_pg7KsTuos%2CgYzitEwkeYE%2CAOi1sVKPsfo; return.pageInfo.totalResults=4
+

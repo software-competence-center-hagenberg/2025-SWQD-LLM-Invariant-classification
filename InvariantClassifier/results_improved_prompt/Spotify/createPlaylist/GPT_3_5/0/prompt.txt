@@ -1,0 +1,46 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/users/{user_id}/playlists"
+  post:
+    description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+    parameters:
+      - name: user_id
+        in: path
+        description: The user's Spotify user ID.
+        required: true
+        type: string
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The Spotify ID of the playlist.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.user_id == return.owner.id
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 5 of them being distinct examples.
+Here are 5 example values of the variables:
+input.user_id=314p6dat3wsraktwd2tawz6vzr3q; return.owner.id=314p6dat3wsraktwd2tawz6vzr3q
+input.user_id=31hae73dc27cjg75derzdd3vvcja; return.owner.id=31hae73dc27cjg75derzdd3vvcja
+input.user_id=f7r7r4wp6bk4t2dazcbsf3b6h; return.owner.id=f7r7r4wp6bk4t2dazcbsf3b6h
+input.user_id=31q3hnw36axarvbryjncmdxod7bu; return.owner.id=31q3hnw36axarvbryjncmdxod7bu
+input.user_id=312xh5dwfxwwxkkauxvxdjvqmvgy; return.owner.id=312xh5dwfxwwxkkauxvxdjvqmvgy
+

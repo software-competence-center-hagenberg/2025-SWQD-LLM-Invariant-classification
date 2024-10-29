@@ -1,0 +1,1 @@
+The invariant return.id > size(return.topics[]) is evaluating whether the 'id' field in the response is greater than the number of elements in the 'topics' array. The 'id' field is expected to be an integer, and the 'topics' array is expected to contain strings. The invariant is checking a relationship between these two fields in the response.

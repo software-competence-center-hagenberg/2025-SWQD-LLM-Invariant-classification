@@ -1,0 +1,40 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                self:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.self is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 16624 examples in the requests data, with 14204 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=GIPHL174&adults=5&checkInDate=2022-09-20&currency=HUF&lang=hu-HU&paymentPolicy=GUARANTEE&roomQuantity=6
+output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HSFLRAHS&adults=6&checkOutDate=2022-09-30&countryOfResidence=MA&currency=HUF&lang=ES&paymentPolicy=DEPOSIT
+output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=GIOAK510&adults=3&checkOutDate=2022-09-27&countryOfResidence=CL&lang=ZH&roomQuantity=5
+output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=CYNYCMTC&adults=2&boardType=ROOM_ONLY&checkInDate=2022-09-20&countryOfResidence=BR&lang=es-ES
+output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=OMLAXCTR&adults=1&checkOutDate=2022-09-29&countryOfResidence=GB&lang=FR&paymentPolicy=NONE&roomQuantity=6
+

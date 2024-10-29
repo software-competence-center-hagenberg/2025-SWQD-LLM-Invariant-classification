@@ -1,0 +1,1 @@
+The invariant LENGTH(return.attributionText)==38 is a false-positive for the given REST endpoint. The Swagger definition does not specify a fixed length for the attributionText field in the response. Therefore, the invariant will not hold for every valid request on the API.

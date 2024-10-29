@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: maxHeight
+        in: query
+        required: false
+        type: integer
+        minimum: 72
+        maxLength: 8192
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            pageInfo:
+              type: object
+              description: Paging details for lists of resources, including total number of items available and number of resources returned in a single page.
+              properties:
+                resultsPerPage:
+                  type: integer
+                  description: The number of results included in the API response.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.maxHeight > return.pageInfo.resultsPerPage
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 6910 examples in the requests data, with 5312 of them being distinct examples.
+Here are 5 example values of the variables:
+input.maxHeight=4240; return.pageInfo.resultsPerPage=42
+input.maxHeight=4685; return.pageInfo.resultsPerPage=2
+input.maxHeight=7783; return.pageInfo.resultsPerPage=3
+input.maxHeight=2644; return.pageInfo.resultsPerPage=1
+input.maxHeight=4685; return.pageInfo.resultsPerPage=4
+

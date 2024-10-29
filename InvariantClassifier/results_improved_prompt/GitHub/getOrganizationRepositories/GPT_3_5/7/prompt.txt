@@ -1,0 +1,41 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            permissions:
+              type: object
+              properties:
+                admin:
+                  type: boolean
+              properties:
+                push:
+                  type: boolean
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.permissions.admin == return.permissions.push
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 3412 examples in the requests data, with 2 of them being distinct examples.
+Here are 2 example values of the variables:
+return.permissions.admin=true; return.permissions.push=true
+return.permissions.admin=false; return.permissions.push=false
+

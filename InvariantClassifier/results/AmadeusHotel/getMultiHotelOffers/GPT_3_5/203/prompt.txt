@@ -1,0 +1,67 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        guarantee:
+                          type: object
+                          description: the guarantee policy information applicable to the offer. It includes accepted payments
+                          properties:
+                            acceptedPayments:
+                              type: object
+                              description: Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
+                              properties:
+                                creditCards:
+                                  type: array
+                                  description: Accepted Payment Card Types for the `method` CREDIT_CARD
+                                  items:
+                                    type: string
+                                    minLength: 2
+                                    maxLength: 2
+                                    pattern: ^[A-Z]{2}$
+                              properties:
+                                methods:
+                                  type: array
+                                  description: Accepted Payment Methods
+                                  items:
+                                    type: string
+                                    description: The Payment Methods
+                                     * CREDIT_CARD (CC) - Payment Cards in `creditCards` are accepted
+                                     * AGENCY_ACCOUNT - Agency Account (Credit Line) is accepted. Agency is Charged at CheckOut
+                                     * TRAVEL_AGENT_ID - Agency IATA/ARC Number is accepted to Guarantee the booking
+                                     * CORPORATE_ID (COR-ID) - Corporate Account is accepted to Guarantee the booking
+                                     * HOTEL_GUEST_ID - Hotel Chain Rewards Card Number is accepted to Guarantee the booking
+                                     * CHECK - Checks are accepted
+                                     * MISC_CHARGE_ORDER - Miscellaneous Charge Order is accepted
+                                     * ADVANCE_DEPOSIT - Cash is accepted for Deposit/PrePay
+                                     * COMPANY_ADDRESS - Company Billing Address is accepted to Guarantee the booking
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.policies.guarantee.acceptedPayments.creditCards[])-1 % size(return.policies.guarantee.acceptedPayments.methods[]) == 0
+
+Invariant type: daikon.inv.binary.twoScalar.NumericInt$Divides
+Invariant description: Represents the divides without remainder invariant between two long scalars. Prints as x % y == 0.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+

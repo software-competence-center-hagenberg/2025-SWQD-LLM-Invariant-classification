@@ -1,0 +1,12 @@
+{
+    "id":204,
+    "invariantType":"daikon.inv.unary.string.FixedLengthString",
+    "classification":"TP",
+    "GPT_verdict":"TP",
+    "confidence":0.900000,
+    "promptTokens":875,
+    "completionTokens":252,
+    "totalTokens":1127,
+    "maxNumberOfOperations":10000
+}
+

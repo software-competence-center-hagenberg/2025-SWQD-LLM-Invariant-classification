@@ -1,0 +1,35 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    description: the type of the object (hotel-offers)
+                  available:
+                  self:
+                  offers:
+                  hotel:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.data[] elements != null
+
+Invariant type: daikon.inv.unary.sequence.EltNonZero
+Invariant description: Represents the invariant "x != 0" where x represents all of the elements of a sequence of long. Prints as x[] elements != 0.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

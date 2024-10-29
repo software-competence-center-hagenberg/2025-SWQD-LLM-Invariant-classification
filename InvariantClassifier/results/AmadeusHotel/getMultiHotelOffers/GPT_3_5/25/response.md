@@ -1,0 +1,1 @@
+The invariant checks if the 'beds' field in the 'typeEstimated' object within the 'room' object in the response body takes on only the values 1 or 2. The Swagger definition provided does not explicitly state that the 'beds' field will only have the values 1 or 2. Therefore, this invariant is a false-positive as it assumes a constraint that is not specified in the API definition.

@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the invariant assumes a specific relationship between the sizes of two arrays in the response, but it does not consider the actual data or the possibility of empty arrays. The invariant does not account for the variability of the data and cannot hold true for every valid request on the API.

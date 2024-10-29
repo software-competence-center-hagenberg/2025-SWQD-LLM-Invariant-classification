@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: include_groups
+        in: query
+        description: Filter by album types
+        type: array
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            limit:
+              type: integer
+              description: The maximum number of items in the response (as set in the query or by default).
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.limit != size(input.include_groups[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 77 examples in the requests data, with 41 of them being distinct examples.
+Here are 5 example values of the variables:
+input.include_groups=single%2Ccompilation%2Cappears_on; output.limit=20
+input.include_groups=appears_on%2Csingle; output.limit=25
+input.include_groups=appears_on%2Csingle; output.limit=20
+input.include_groups=appears_on; output.limit=20
+input.include_groups=album%2Csingle; output.limit=14
+

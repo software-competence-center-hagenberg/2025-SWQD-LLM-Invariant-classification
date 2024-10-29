@@ -1,0 +1,39 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            pushed_at:
+              type: string
+              example: 2011-01-26T19:06:43Z
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.pushed_at is Timestamp. Format: YYYY-MM-DDTHH:MM:SS.mmZ (Miliseconds are optional)
+
+Invariant type: daikon.inv.unary.string.dates.IsTimestampYYYYMMHHThhmmssmm
+Invariant description: Indicates that the value of a string variable is always a timestamp. Represented as x is Timestamp. Format
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 247727 examples in the requests data, with 14698 of them being distinct examples.
+Here are 5 example values of the variables:
+return.pushed_at=2022-09-22T21:30:25Z
+return.pushed_at=2022-09-30T20:46:20Z
+return.pushed_at=2021-08-20T18:14:06Z
+return.pushed_at=2022-09-30T16:37:11Z
+return.pushed_at=2022-01-20T22:50:40Z
+

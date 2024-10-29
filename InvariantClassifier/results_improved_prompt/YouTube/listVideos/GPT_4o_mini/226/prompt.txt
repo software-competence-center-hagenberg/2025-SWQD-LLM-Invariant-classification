@@ -1,0 +1,71 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            pageInfo:
+              type: object
+              description: Paging details for lists of resources, including total number of items available and number of resources returned in a single page.
+              properties:
+                totalResults:
+                  type: integer
+                  description: The total number of results in the result set.
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  ageGating:
+                  contentDetails:
+                  etag:
+                    description: Etag of this resource.
+                  fileDetails:
+                  id:
+                    description: The ID that YouTube uses to uniquely identify the video.
+                  kind:
+                    description: Identifies what kind of resource this is. Value: the fixed string "youtube#video".
+                  liveStreamingDetails:
+                  localizations:
+                    description: The localizations object contains localized versions of the basic details about the video, such as its title and description.
+                  monetizationDetails:
+                  player:
+                  processingDetails:
+                  projectDetails:
+                  recordingDetails:
+                  snippet:
+                  statistics:
+                  status:
+                  suggestions:
+                  topicDetails:
+                description: A *video* resource represents a YouTube video.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.pageInfo.totalResults >= size(return.items[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11630 examples in the requests data, with 8237 of them being distinct examples.
+Here are 5 example values of the variables:
+output.pageInfo.totalResults=1; output.items=[{"kind":"youtube#video","etag":"X8YGbXeQ8xYCvF9GpQF-cE8Cx_k","id":"S1bEBFjgCKA"}]
+output.pageInfo.totalResults=1; output.items=[{"kind":"youtube#video","etag":"7JZFsOUjMOsigWYvaKBMv7UmJzo","id":"GguEz1U-aBI","recordingDetails":{}}]
+output.pageInfo.totalResults=1; output.items=[{"kind":"youtube#video","etag":"04Vb161d_QKcTzooZ6JGApgtPOI","id":"V1CNu7kx_YU"}]
+output.pageInfo.totalResults=1; output.items=[{"kind":"youtube#video","etag":"bpAEDVFQtTLfsePjx9Wx60CJI4A","id":"smcfifLxkjc","recordingDetails":{}}]
+output.pageInfo.totalResults=1; output.items=[{"kind":"youtube#video","etag":"X6UoGe5DEAsDkaud0PXQxELoLSc","id":"C1eOiOkD_8A"}]
+

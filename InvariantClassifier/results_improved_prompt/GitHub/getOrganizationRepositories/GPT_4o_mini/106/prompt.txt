@@ -1,0 +1,43 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+      - name: org
+        in: path
+        required: true
+        type: string
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            full_name:
+              type: string
+              example: octocat/Hello-World
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.org is a substring of return.full_name
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 50 calls on this API and did not find a single counter example.
+
+We found 1092 examples in the requests data, with 983 of them being distinct examples.
+Here are 5 example values of the variables:
+input.org=artsy; output.full_name=artsy/slack-sup
+input.org=eleme; output.full_name=eleme/NVMImageMaker
+input.org=Shopify; output.full_name=Shopify/atelier-application-shopify
+input.org=cloudflare; output.full_name=cloudflare/angular-schema-form
+input.org=Esri; output.full_name=Esri/arcgis-rest-js
+

@@ -1,0 +1,53 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    tags:
+                      type: array
+                      description: A list of keyword tags associated with the video. Tags may contain spaces.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.id[]) != size(return.snippet.tags[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 500 calls on this API and did not find a single counter example.
+
+We found 35 examples in the requests data, with 35 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=yDgLFOxnQ8Y; output.items.snippet.tags=["Antena 3 (TV Network)","Joaqu√≠n (Football Player)","Pablo Motos (TV Personality)","el hormiguer"]
+input.id=ynB3zFU2RHI%2CvjH5otptiBE%2C6TkVXdPKH_o%2CPSVscd4yrvU; output.items.snippet.tags=["hajime","„?Ø„?ò„\u201A?„?\u2014„\u201AÉ„?°„\u201A\u2021„Éº","funny","crazy","japanese","„?Ø„?ò„\u201A?"]
+input.id=sEKcCg_Jfos%C3%A7%2CjNQXAC9IVRw%2CyppX3XdeF2Y; output.items.snippet.tags=["me at the zoo","jawed karim","first youtube video"]
+input.id=v_pg7KsTuos%2CJotpWlwwczU%2CjLBsBPwqysM; output.items.snippet.tags=["3D","180VR","4k","Screen","sports","basketball","volleyball","360VR"]
+input.id=AOi1sVKPsfo%2CwyexhqbHMwM; output.items.snippet.tags=["AISS"]
+

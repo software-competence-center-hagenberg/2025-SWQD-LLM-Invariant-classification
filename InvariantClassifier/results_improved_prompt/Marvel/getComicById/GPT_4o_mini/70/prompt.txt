@@ -1,0 +1,54 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    digitalId:
+                      type: integer
+                      description: The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.
+                  items:
+                    stories:
+                      type: object
+                      properties:
+                        available:
+                          type: integer
+                          description: The number of total available stories in this list. Will always be greater than or equal to the "returned" value.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.digitalId != return.stories.available
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 6115 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.results.digitalId=56783; output.data.results.stories.available=2
+output.data.results.digitalId=54666; output.data.results.stories.available=2
+output.data.results.digitalId=50872; output.data.results.stories.available=2
+output.data.results.digitalId=1345; output.data.results.stories.available=2
+output.data.results.digitalId=29614; output.data.results.stories.available=2
+

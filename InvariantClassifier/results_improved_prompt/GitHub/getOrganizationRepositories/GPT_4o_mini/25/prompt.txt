@@ -1,0 +1,45 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+      - name: per_page
+        in: query
+        description: Results per page (max 100).
+        required: false
+        type: integer
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            topics:
+              type: array
+              items:
+                type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.per_page > size(return.topics[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 50 calls on this API and did not find a single counter example.
+
+We found 78 examples in the requests data, with 78 of them being distinct examples.
+Here are 5 example values of the variables:
+input.per_page=48; output.topics=["android-plugin","bytecode-manipulation"]
+input.per_page=23; output.topics=["helix","openwhisk","serverless","tooling"]
+input.per_page=17; output.topics=["chatops","crontab","flyte","flyte-pack","ifttt","workflows"]
+input.per_page=26; output.topics=["stripe"]
+input.per_page=26; output.topics=["demo","demo-app","instant-payouts","ios","marketplace","nodejs","payments","stripe","stripe-api","stripe-connect","swift"]
+

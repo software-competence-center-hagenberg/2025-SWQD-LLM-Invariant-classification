@@ -1,0 +1,31 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/"
+  get:
+    summary: Search
+    parameters:
+      - name: i
+        in: query
+        description: A valid IMDb ID (e.g. tt0000001)
+        type: string
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            imdbID:
+              type: string
+              example: tt1245492
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.i == return.imdbID
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

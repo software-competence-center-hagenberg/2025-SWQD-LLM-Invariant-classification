@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: open_at
+        in: query
+        required: false
+        type: integer
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      alias:
+                      title:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.open_at > size(return.categories[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 14280 examples in the requests data, with 12363 of them being distinct examples.
+Here are 5 example values of the variables:
+input.open_at=1663962147; output.businesses.categories=[{"alias":"venues","title":"Espaços para Eventos"},{"alias":"landmarks","title":"Monumentos históricos e pontos de interesse"}]
+input.open_at=1663749788; output.businesses.categories=[{"alias":"japanese","title":"Cucina giapponese"},{"alias":"coffee","title":"Caffè\/Tè"}]
+input.open_at=1663706758; output.businesses.categories=[{"alias":"sushi","title":"Sushi Bars"},{"alias":"indonesian","title":"Indonesian"},{"alias":"asianfusion","title":"Asian Fusion"}]
+input.open_at=1664069821; output.businesses.categories=[{"alias":"newamerican","title":"American (New)"},{"alias":"tapasmallplates","title":"Tapas\/Small Plates"}]
+input.open_at=1663962743; output.businesses.categories=[{"alias":"indpak","title":"Indian"}]
+

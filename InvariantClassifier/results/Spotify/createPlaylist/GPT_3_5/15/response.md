@@ -1,0 +1,1 @@
+The invariant 'return.owner.followers == null' is false-positive. This is because the Swagger definition does not provide any information about the 'owner' field in the response body. Therefore, it cannot be assumed that 'owner' exists, let alone 'followers' within 'owner'. As a result, the invariant cannot be guaranteed to hold for every valid request on the API.

@@ -1,0 +1,38 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            clone_url:
+              type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.clone_url is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 247727 examples in the requests data, with 13466 of them being distinct examples.
+Here are 5 example values of the variables:
+return.clone_url=https://github.com/github/url-search-params.git
+return.clone_url=https://github.com/IBM/addi-data-extractor.git
+return.clone_url=https://github.com/microsoft/electionguard-python.git
+return.clone_url=https://github.com/Esri/devsummit-eu-2019-3D-jsapi.git
+return.clone_url=https://github.com/microsoft/ApplicationInspector-Action.git
+

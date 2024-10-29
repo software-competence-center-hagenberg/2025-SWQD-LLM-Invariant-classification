@@ -1,0 +1,1 @@
+The invariant return.id != return.owner.id is a false-positive for the given REST endpoint. This is because the provided Swagger definition does not include a field 'owner' in the response schema. Therefore, the invariant is not applicable to the response schema defined in the Swagger definition.

@@ -1,0 +1,54 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                artists:
+                  type: array
+                  description: The artists who performed the track. Each artist object includes a link in href to more detailed information about the artist.
+                  items:
+                    type: object
+                    properties:
+                      external_urls:
+                        description: Known external URLs for this artist.
+                      href:
+                        description: A link to the Web API endpoint providing full details of the artist.
+                      id:
+                        description: The Spotify ID for the artist.
+                      name:
+                        description: The name of the artist.
+                      type:
+                        description: The object type: 'artist'
+                      uri:
+                        description: The Spotify URI for the artist.
+              items:
+                available_markets:
+                  type: array
+                  description: A list of the countries in which the track can be played, identified by their ISO 3166-1 alpha-2 code.
+                  items:
+                    type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.artists[]) != size(return.available_markets[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+

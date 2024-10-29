@@ -1,0 +1,1 @@
+The invariant 'return.events.items[] elements != null' is false-positive. The reason for this is that the Swagger definition provided does not specify any constraints on the 'events' or 'items' fields. As a result, the invariant 'return.events.items[] elements != null' cannot be guaranteed to hold for every valid request on the API.

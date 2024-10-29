@@ -1,0 +1,54 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    urls:
+                      type: array
+                      description: A set of public web site URLs for the resource.
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            description: A text identifier for the URL.
+                          url:
+                            description: A full URL (including scheme, domain, and path).
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.urls[]) >= 1
+
+Invariant type: daikon.inv.unary.scalar.LowerBound
+Invariant description: Represents the invariant x >= c, where c is a constant and x is a long scalar.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 10000 examples in the requests data, with 7633 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/issue\/18119\/x-men_unlimited_1993_18?utm_campaign=apiRef&utm_source=anonymous"}]
+output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/collection\/71099\/doctor_strange_by_mark_waid_vol_3_herald_trade_paperback?utm_campaign=apiRef&utm_source=anonymous"}]
+output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/collection\/69937\/thor_by_walter_simonson_vol_4_trade_paperback?utm_campaign=apiRef&utm_source=anonymous"}]
+output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/issue\/39221\/venom_2011_3_x-men_art_variant\/x-men_art_variant?utm_campaign=apiRef&utm_source=anonymous"}]
+output.data.results.urls=[{"type":"detail","url":"http:\/\/marvel.com\/comics\/issue\/19567\/marvel_two-in-one_1974_92?utm_campaign=apiRef&utm_source=anonymous"}]
+

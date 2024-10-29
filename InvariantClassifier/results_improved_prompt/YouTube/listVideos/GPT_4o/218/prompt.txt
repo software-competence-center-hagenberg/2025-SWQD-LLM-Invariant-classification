@@ -1,0 +1,49 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: maxResults
+        in: query
+        description: The *maxResults* parameter specifies the maximum number of items that should be returned in the result set. *Note:* This parameter is supported for use in conjunction with the myRating and chart parameters, but it is not supported for use in conjunction with the id parameter.
+        required: false
+        type: integer
+        minimum: 1
+        maxLength: 50
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            pageInfo:
+              type: object
+              description: Paging details for lists of resources, including total number of items available and number of resources returned in a single page.
+              properties:
+                totalResults:
+                  type: integer
+                  description: The total number of results in the result set.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.maxResults != return.pageInfo.totalResults
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 556 examples in the requests data, with 168 of them being distinct examples.
+Here are 5 example values of the variables:
+input.maxResults=24; return.pageInfo.totalResults=200
+input.maxResults=27; return.pageInfo.totalResults=108
+input.maxResults=38; return.pageInfo.totalResults=100
+input.maxResults=15; return.pageInfo.totalResults=182
+input.maxResults=50; return.pageInfo.totalResults=100
+

@@ -1,0 +1,45 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                available_markets:
+                  type: array
+                  description: The markets in which the album is available: ISO 3166-1 alpha-2 country codes. Note that an album is considered available in a market when at least 1 of its tracks is available in that market.
+                  items:
+                    type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: All the elements of return.available_markets[] have LENGTH=2
+
+Invariant type: daikon.inv.unary.stringsequence.SequenceFixedLengthString
+Invariant description: Indicates that all the elements of an array of strings have a fixed length n. Represented as All the elements of x have LENGTH=n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 94565 examples in the requests data, with 1161 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.available_markets=["AR","BO","BR","BY","CH","CL","CO","CR","DO","EC","ES","GT","HN","MX","NI","PA","PE","PK","PY","SV","US","VE"]
+return.items.available_markets=["AD","ES"]
+return.items.available_markets=["AR","CO","ES","MX"]
+return.items.available_markets=["AG","AR","BB","BO","BS","BZ","CL","CO","CR","CW","DM","DO","EC","ES","GD","GT","HN","HT","JM","KN","LC","MX","NI","PA","PE","PT","PY","SV","TT","UY","VC"]
+return.items.available_markets=["AR","BO","BR","CL","CO","EC","ES","MX","PE","PT","PY","UY","VE"]
+

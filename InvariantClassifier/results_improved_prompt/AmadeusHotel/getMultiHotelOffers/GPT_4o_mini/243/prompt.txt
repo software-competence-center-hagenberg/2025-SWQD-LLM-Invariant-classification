@@ -1,0 +1,85 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        variations:
+                          type: object
+                          description: Daily price variations and the average daily price (when available) is shown here
+                          properties:
+                            changes:
+                              type: array
+                              description: A collection of price periods if the daily price changes during the stay
+                              items:
+                                type: object
+                                properties:
+                                  startDate:
+                                    description: Begin date of the period
+                                    Format: YYYY-MM-DD
+                                  endDate:
+                                    description: End date of the period
+                                    Format: YYYY-MM-DD
+                                  currency:
+                                    description: currency Code apply to all elements of the price
+                                  sellingTotal:
+                                    description: sellingTotal = Total + margins + markup + totalFees - discounts
+                                  total:
+                                    description: total = base + totalTaxes
+                                  base:
+                                  markups:
+                                description: Some prices may vary during a stay, thus here you can see the daily price per period of the stay
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        deposit:
+                          type: object
+                          description: the deposit/prepay policy information applicable to the offer. It includes accepted payments, deadline and the amount due
+                          properties:
+                            acceptedPayments:
+                              type: object
+                              description: Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
+                              properties:
+                                creditCards:
+                                  type: array
+                                  description: Accepted Payment Card Types for the `method` CREDIT_CARD
+                                  items:
+                                    type: string
+                                    minLength: 2
+                                    maxLength: 2
+                                    pattern: ^[A-Z]{2}$
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.price.variations.changes[])-1 != size(return.policies.deposit.acceptedPayments.creditCards[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 173 examples in the requests data, with 85 of them being distinct examples.
+

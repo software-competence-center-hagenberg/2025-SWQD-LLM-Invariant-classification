@@ -1,0 +1,1 @@
+The invariant checks if the size of the array 'return.contentDetails.regionRestriction.allowed[]' is either 80 or 94. This means that the invariant is checking for a specific number of allowed region codes in the response. The verdict on the invariant will depend on whether the API always returns a list of region codes with a size of either 80 or 94 for every valid request.

@@ -1,0 +1,12 @@
+{
+    "id":207,
+    "invariantType":"daikon.inv.binary.twoSequence.SuperSet",
+    "classification":"FP",
+    "GPT_verdict":"FP",
+    "confidence":0.600000,
+    "promptTokens":870,
+    "completionTokens":529,
+    "totalTokens":1399,
+    "maxNumberOfOperations":50
+}
+

@@ -1,0 +1,52 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: limit
+        in: query
+        required: false
+        type: integer
+        maxLength: 50
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                type: object
+                properties:
+                  categories:
+                  coordinates:
+                  display_phone:
+                  distance:
+                  id:
+                  alias:
+                  image_url:
+                  is_closed:
+                  name:
+                  phone:
+                  price:
+                  rating:
+                  review_count:
+                  url:
+                  transactions:
+                  location:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.limit >= size(return.businesses[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

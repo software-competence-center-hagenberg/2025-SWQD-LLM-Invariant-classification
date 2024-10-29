@@ -1,0 +1,1 @@
+The invariant compares the width of a medium thumbnail with the size of the blocked region list. It assumes that the width of the medium thumbnail will always be greater than the size of the blocked region list for every valid request on the API.

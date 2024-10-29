@@ -1,0 +1,58 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    pageCount:
+                      type: integer
+                      description: The number of story pages in the comic.
+                  items:
+                    dates:
+                      type: array
+                      description: A list of key dates for this comic.
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            description: A description of the date (e.g. onsale date, FOC date).
+                          date:
+                            description: The date.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.pageCount != size(return.dates[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 500 calls on this API and did not find a single counter example.
+
+We found 650 examples in the requests data, with 483 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.results.pageCount=32; output.data.results.dates=[{"date":"2020-01-22T00:00:00-0500","type":"onsaleDate"},{"date":"2019-12-16T00:00:00-0500","type":"focDate"}]
+output.data.results.pageCount=112; output.data.results.dates=[{"date":"2017-04-12T00:00:00-0400","type":"onsaleDate"},{"date":"2017-02-20T00:00:00-0500","type":"focDate"}]
+output.data.results.pageCount=280; output.data.results.dates=[{"date":"2011-06-15T00:00:00-0400","type":"onsaleDate"},{"date":"2011-04-26T00:00:00-0400","type":"focDate"}]
+output.data.results.pageCount=36; output.data.results.dates=[{"date":"1992-02-01T00:00:00-0500","type":"onsaleDate"},{"date":"-0001-11-30T00:00:00-0500","type":"focDate"}]
+output.data.results.pageCount=136; output.data.results.dates=[{"date":"2017-12-20T00:00:00-0500","type":"onsaleDate"},{"date":"2017-10-30T00:00:00-0400","type":"focDate"}]
+

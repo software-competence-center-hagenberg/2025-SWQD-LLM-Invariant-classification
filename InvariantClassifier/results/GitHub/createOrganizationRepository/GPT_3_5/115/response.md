@@ -1,0 +1,1 @@
+The invariant 'return.events_url is Url' checks whether the field 'events_url' in the response body is always a URL. The Swagger definition provided does not specify any constraints or format for the 'events_url' field, so it is not guaranteed that it will always be a URL. Therefore, the invariant is a false-positive.

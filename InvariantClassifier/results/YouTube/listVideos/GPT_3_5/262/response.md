@@ -1,0 +1,1 @@
+The invariant states that the 'id' field in the response is a substring of the 'embedHtml' field in the response. This means that the 'id' of the video should be contained within the 'embedHtml' for every valid response. Let's analyze the Swagger definition to determine if this invariant holds true for every valid request on the API.

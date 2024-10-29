@@ -1,0 +1,1 @@
+The invariant checks if the height of the maxres thumbnail is divisible by the size of the blocked region codes array. It assumes that for every valid response, the height and the size of the blocked region codes array will always be such that the division results in 0 remainder. However, this assumption may not hold true for every valid response.

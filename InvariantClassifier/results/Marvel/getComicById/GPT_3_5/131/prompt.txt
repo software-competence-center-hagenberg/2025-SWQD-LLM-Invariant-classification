@@ -1,0 +1,55 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    urls:
+                      type: array
+                      description: A set of public web site URLs for the resource.
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            description: A text identifier for the URL.
+                          url:
+                            description: A full URL (including scheme, domain, and path).
+                  items:
+                    dates:
+                      type: array
+                      description: A list of key dates for this comic.
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            description: A description of the date (e.g. onsale date, FOC date).
+                          date:
+                            description: The date.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.urls[]) <= size(return.dates[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+

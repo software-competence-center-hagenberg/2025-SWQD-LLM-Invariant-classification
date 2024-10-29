@@ -1,0 +1,1 @@
+The invariant compares the height of the medium thumbnail in the response with the size of the array of tags in the response. It assumes that the medium thumbnail height will always be greater than the size of the tags array. However, this assumption may not hold true for every valid request on the API.

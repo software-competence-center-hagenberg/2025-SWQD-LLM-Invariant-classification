@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: lang
+        in: query
+        description: Requested language of descriptive texts. 
+        Examples: FR , fr , fr-FR.
+        If a language is not available the text will be returned in english.
+        ISO language code (https://www.iso.org/iso-639-language-codes.html).
+        pattern: ^[a-zA-Z0-9-]{2,5}$
+        type: string
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                self:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.lang is a substring of return.self
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 9628 examples in the requests data, with 8248 of them being distinct examples.
+Here are 5 example values of the variables:
+input.lang=it-IT; return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HYSFOHUQ&adults=6&checkOutDate=2022-09-28&countryOfResidence=FR&lang=it-IT
+input.lang=ar-DZ; return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTSYDMEN&adults=2&checkOutDate=2022-09-24&countryOfResidence=US&currency=CHF&lang=ar-DZ
+input.lang=ja; return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=OIPAR555&adults=6&boardType=BREAKFAST&currency=ZWL&lang=ja&paymentPolicy=NONE
+input.lang=fr; return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=MCBERMCM&adults=2&boardType=ROOM_ONLY&checkInDate=2022-09-21&checkOutDate=2022-09-26&lang=fr
+input.lang=ko; return.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HLMUC258&adults=7&checkInDate=2022-09-22&checkOutDate=2022-09-26&countryOfResidence=IT&lang=ko
+

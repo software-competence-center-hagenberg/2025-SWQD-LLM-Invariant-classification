@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the invariant is checking for a specific sequence of credit card types in the response, but the invariant does not take into account that the response may contain a different sequence of credit card types. Therefore, the invariant does not hold for every valid request on the API.

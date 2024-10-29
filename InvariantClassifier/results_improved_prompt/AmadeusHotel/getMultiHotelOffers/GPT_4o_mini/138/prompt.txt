@@ -1,0 +1,55 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        cancellation:
+                          type: object
+                          properties:
+                            deadline:
+                              type: string
+                              description: Represents the deadline after which the penalty applies. DateTime is in ISO 8601 [https://www.w3.org/TR/NOTE-datetime].
+                              Example: 2010-08-14T12:00:00+01:00
+                              Example: 2010-08-14T12:00:00Z
+                              Example: 2010-08-14T12:00:00-01:00
+                              The value is expressed in the hotel local time zone, with the added time zone difference. So you can compute the deadline in UTC(GMT) if desired.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.policies.cancellation.deadline)==25
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 36271 examples in the requests data, with 1003 of them being distinct examples.
+Here are 5 example values of the variables:
+output.data.offers.policies.cancellation.deadline=2022-09-21T16:08:00+07:00
+output.data.offers.policies.cancellation.deadline=2022-09-21T17:08:00+07:00
+output.data.offers.policies.cancellation.deadline=2022-09-20T12:23:00-04:00
+output.data.offers.policies.cancellation.deadline=2022-09-19T18:00:00+12:00
+output.data.offers.policies.cancellation.deadline=2022-08-21T23:59:00+02:00
+

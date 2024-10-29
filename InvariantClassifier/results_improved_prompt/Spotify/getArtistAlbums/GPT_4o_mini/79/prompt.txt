@@ -1,0 +1,43 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: id
+        in: path
+        description: The Spotify ID for the artist
+        required: true
+        type: string
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: URL to the previous page of items. (null if none)
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.id is a substring of return.previous
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5454 examples in the requests data, with 4124 of them being distinct examples.
+Here are 5 example values of the variables:
+input.id=0z0BuLfVtAv6FarxqAWrDt; output.previous=https://api.spotify.com/v1/artists/0z0BuLfVtAv6FarxqAWrDt/albums?offset=0&limit=33&include_groups=album,single,compilation,appears_on&market=BH
+input.id=1wZtkThiXbVNtj6hee6dz9; output.previous=https://api.spotify.com/v1/artists/1wZtkThiXbVNtj6hee6dz9/albums?offset=0&limit=46&include_groups=single,appears_on&market=PH
+input.id=09M87xFMTKdsWJxpEWaiat; output.previous=https://api.spotify.com/v1/artists/09M87xFMTKdsWJxpEWaiat/albums?offset=0&limit=44&include_groups=compilation,appears_on
+input.id=1h4iSQAKdvAAm07l6FX6dy; output.previous=https://api.spotify.com/v1/artists/1h4iSQAKdvAAm07l6FX6dy/albums?offset=0&limit=20&include_groups=album,single,compilation,appears_on&market=BD
+input.id=0GSi3NJMnVPNp3vAsp9d7R; output.previous=https://api.spotify.com/v1/artists/0GSi3NJMnVPNp3vAsp9d7R/albums?offset=0&limit=20&include_groups=compilation&market=JM
+

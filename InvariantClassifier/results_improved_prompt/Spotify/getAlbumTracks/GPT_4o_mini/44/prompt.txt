@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/albums/{id}/tracks"
+  get:
+    description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Album's Tracks](https://developer.spotify.com/web-api/get-albums-tracks/)
+        schema:
+          type: object
+          properties:
+            offset:
+              type: integer
+              description: The offset of the items returned (as set in the query or by default).
+          properties:
+            total:
+              type: integer
+              description: The total number of items available to return.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.offset != return.total
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 150 examples in the requests data, with 71 of them being distinct examples.
+Here are 5 example values of the variables:
+output.offset=4; output.total=20
+output.offset=11; output.total=1
+output.offset=7; output.total=12
+output.offset=3; output.total=27
+output.offset=0; output.total=85
+

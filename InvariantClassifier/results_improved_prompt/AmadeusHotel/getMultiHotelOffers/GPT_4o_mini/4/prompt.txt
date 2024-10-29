@@ -1,0 +1,57 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: adults
+        in: query
+        description: Number of adult guests (1-9) per room.
+        required: true
+        example: 1
+        type: integer
+        format: int32
+        minimum: 1
+        maxLength: 9
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    guests:
+                      type: object
+                      properties:
+                        adults:
+                          type: integer
+                          description: number of adult guests (1-9) per room
+                          example: 2
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.adults == return.guests.adults
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 6010 examples in the requests data, with 9 of them being distinct examples.
+Here are 5 example values of the variables:
+input.adults=2; output.data.offers.guests.adults=2
+input.adults=7; output.data.offers.guests.adults=7
+input.adults=4; output.data.offers.guests.adults=4
+input.adults=9; output.data.offers.guests.adults=9
+input.adults=1; output.data.offers.guests.adults=1
+

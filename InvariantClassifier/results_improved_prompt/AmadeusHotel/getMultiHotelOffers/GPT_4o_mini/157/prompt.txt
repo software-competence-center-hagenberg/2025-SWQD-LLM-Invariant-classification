@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: lang
+        in: query
+        description: Requested language of descriptive texts. 
+        Examples: FR , fr , fr-FR.
+        If a language is not available the text will be returned in english.
+        ISO language code (https://www.iso.org/iso-639-language-codes.html).
+        pattern: ^[a-zA-Z0-9-]{2,5}$
+        type: string
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                self:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.lang is a substring of return.self
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 9628 examples in the requests data, with 8248 of them being distinct examples.
+Here are 5 example values of the variables:
+input.lang=ja-JP; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HLLPL708&adults=7&checkOutDate=2022-09-24&countryOfResidence=DE&currency=CAD&lang=ja-JP
+input.lang=ko; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=WVFLRCAR&adults=1&countryOfResidence=NZ&currency=UYU&lang=ko
+input.lang=HU; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=SIHIJ595&adults=7&boardType=BREAKFAST&checkInDate=2022-09-21&countryOfResidence=BR&lang=HU
+input.lang=es-ES; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=WVMUC371&adults=9&checkOutDate=2022-09-24&currency=ZWL&lang=es-ES&paymentPolicy=NONE&roomQuantity=2
+input.lang=hu; output.data.self=https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=WVLPLBRI&adults=9&checkInDate=2022-09-20&currency=COP&lang=hu
+

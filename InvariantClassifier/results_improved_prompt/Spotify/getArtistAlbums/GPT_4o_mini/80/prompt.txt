@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: market
+        in: query
+        description: The market (an ISO 3166-1 alpha-2 country code)
+        type: string
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            href:
+              type: string
+              description: A link to the Web API endpoint returning the full result of the request.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.market is a substring of return.href
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5741 examples in the requests data, with 4925 of them being distinct examples.
+Here are 5 example values of the variables:
+input.market=GH; output.href=https://api.spotify.com/v1/artists/62k5LKMhymqlDNo2DWOvvv/albums?offset=17&limit=24&include_groups=album&market=GH
+input.market=KE; output.href=https://api.spotify.com/v1/artists/23wEWD21D4TPYiJugoXmYb/albums?offset=0&limit=30&include_groups=album,single,compilation,appears_on&market=KE
+input.market=CA; output.href=https://api.spotify.com/v1/artists/1mB4aweE1XGdjbFVFC8i5m/albums?offset=0&limit=20&include_groups=album,single,compilation,appears_on&market=CA
+input.market=BS; output.href=https://api.spotify.com/v1/artists/2viYME3n7SlMsIOEqWmEHv/albums?offset=14&limit=8&include_groups=album,single,compilation,appears_on&market=BS
+input.market=KW; output.href=https://api.spotify.com/v1/artists/1l2NYhptmHjo64MDOcej1x/albums?offset=11&limit=30&include_groups=album,single,compilation,appears_on&market=KW
+

@@ -1,0 +1,1 @@
+The invariant 'return.prices != null' is a false-positive for the given REST endpoint. The Swagger definition does not guarantee that the 'prices' field will always be present in the response. The 'prices' field is defined as an array, and it may be empty in some valid responses. Therefore, the invariant 'return.prices != null' will not hold for every valid request on the API.

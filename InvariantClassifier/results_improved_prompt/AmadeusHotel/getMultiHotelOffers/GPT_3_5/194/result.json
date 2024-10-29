@@ -1,0 +1,12 @@
+{
+    "id":194,
+    "invariantType":"daikon.inv.binary.twoScalar.IntGreaterEqual",
+    "classification":"FP",
+    "GPT_verdict":"TP",
+    "confidence":0.900000,
+    "promptTokens":1389,
+    "completionTokens":296,
+    "totalTokens":1685,
+    "maxNumberOfOperations":500
+}
+

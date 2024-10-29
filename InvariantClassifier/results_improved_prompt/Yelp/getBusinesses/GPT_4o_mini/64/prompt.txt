@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                url:
+                  type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.url is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 184055 examples in the requests data, with 145496 of them being distinct examples.
+Here are 5 example values of the variables:
+output.businesses.url=https://www.yelp.com/biz/masa-richmond?adjust_creative=DXlCoYwog7hTyLJ_r40nWg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=DXlCoYwog7hTyLJ_r40nWg
+output.businesses.url=https://en.yelp.ch/biz/dragon-d-asie-paris?adjust_creative=ChessHG7eC_mPZHzl8oihQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=ChessHG7eC_mPZHzl8oihQ
+output.businesses.url=https://www.yelp.at/biz/f-l-o-g-firenze-2?adjust_creative=lO5soFdh4xUHgO6-Q_U-CA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=lO5soFdh4xUHgO6-Q_U-CA
+output.businesses.url=https://www.yelp.com/biz/7-eleven-orlando-30?adjust_creative=W3yWjB3vUVU0yFKk6E3WOg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=W3yWjB3vUVU0yFKk6E3WOg
+output.businesses.url=https://de.yelp.ch/biz/harrys-liverpool?adjust_creative=ChessHG7eC_mPZHzl8oihQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=ChessHG7eC_mPZHzl8oihQ
+

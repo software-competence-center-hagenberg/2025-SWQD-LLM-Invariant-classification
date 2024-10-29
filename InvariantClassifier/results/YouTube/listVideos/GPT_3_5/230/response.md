@@ -1,0 +1,1 @@
+The invariant LENGTH(return.contentDetails.projection)==11 is false-positive. The Swagger definition does not specify that the length of the projection field is fixed at 11 characters. Therefore, this invariant cannot be guaranteed to hold for every valid request on the API.

@@ -1,0 +1,78 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+      - name: roomQuantity
+        in: query
+        description: Number of rooms requested (1-9).
+        type: integer
+        format: int32
+        minimum: 1
+        maxLength: 9
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        taxes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              amount:
+                                description: Defines amount with decimal separator.
+                              currency:
+                                description: Defines a monetary unit. It is a three alpha code (iata code). Example: EUR for Euros, USD for US dollar, etc.
+                              code:
+                                description: International Standards Organization (ISO) Tax code.It is a two-letter country code.
+                              percentage:
+                                description: In the case of a tax on TST value, the percentage of the tax will be indicated in this field.
+                              included:
+                                description: Indicates if tax is included or not
+                              description:
+                                description: Example - "Governement tax"
+                              pricingFrequency:
+                                description: Specifies if the tax applies per stay or per night
+                                  - PER_STAY
+                                  - PER_NIGHT
+                              pricingMode:
+                                description: Specifies if the tax applies per occupant or per room
+                                  - PER_OCCUPANT
+                                  - PER_PRODUCT
+                            description: IATA Tax definition: An impost for raising revenue for the general treasury and which will be used for general public purposes.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.roomQuantity >= size(return.price.taxes[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterEqual
+Invariant description: Represents an invariant of >= between two long scalars. Prints as x >= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 24 examples in the requests data, with 14 of them being distinct examples.
+Here are 5 example values of the variables:
+input.roomQuantity=8; return.data.offers.price.taxes=[{"pricingMode":"PER_PRODUCT","code":"MISCELLANEOUS","percentage":"14.95","pricingFrequency":"PER_NIGHT","included":false}]
+input.roomQuantity=6; return.data.offers.price.taxes=[{"pricingMode":"PER_PRODUCT","amount":"101.96","code":"TOTAL_TAX","currency":"USD","pricingFrequency":"PER_STAY","included":false}]
+input.roomQuantity=7; return.data.offers.price.taxes=[{"pricingMode":"PER_PRODUCT","code":"MISCELLANEOUS","percentage":"20.00","pricingFrequency":"PER_NIGHT","included":true}]
+input.roomQuantity=5; return.data.offers.price.taxes=[{"pricingMode":"PER_PRODUCT","amount":"9.80","code":"TOTAL_TAX","currency":"EUR","pricingFrequency":"PER_STAY","included":false}]
+input.roomQuantity=3; return.data.offers.price.taxes=[{"amount":"31.50","code":"TOTAL_TAX","currency":"EUR","included":false}]
+

@@ -1,0 +1,1 @@
+The invariant 'return.tracks.items != null' is a false-positive. The reason for this is that the Swagger definition does not guarantee that the 'items' field in the 'tracks' object will always be present in the response. The schema allows for 'items' to be null or not present, so the invariant 'return.tracks.items != null' will not hold for every valid request on the API.

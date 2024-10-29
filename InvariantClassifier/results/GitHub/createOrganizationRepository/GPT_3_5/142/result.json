@@ -1,0 +1,10 @@
+{
+    "id":142,
+    "invariantType":"daikon.inv.unary.string.dates.IsTimestampYYYYMMHHThhmmssmm",
+    "classification":"TP",
+    "GPT_verdict":"FP",
+    "promptTokens":648,
+    "completionTokens":177,
+    "totalTokens":825
+}
+

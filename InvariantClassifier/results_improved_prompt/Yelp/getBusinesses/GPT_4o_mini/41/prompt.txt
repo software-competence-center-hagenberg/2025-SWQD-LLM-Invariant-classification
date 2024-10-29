@@ -1,0 +1,55 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      alias:
+                      title:
+              items:
+                location:
+                  type: object
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.categories[])-1 <= size(return.location.display_address[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 50 calls on this API and did not find a single counter example.
+
+We found 892 examples in the requests data, with 887 of them being distinct examples.
+Here are 5 example values of the variables:
+output.businesses.categories=[{"alias":"japanese","title":"Japanese"}]; output.businesses.location.display_address=["??8-20","??????","Nagasaki, ??? ?850-0853","Japan"]
+output.businesses.categories=[{"alias":"lebanese","title":"Lebanese"}]; output.businesses.location.display_address=["Osterstr. 146","20255 Hamburg","Germany"]
+output.businesses.categories=[{"alias":"german","title":"German"},{"alias":"steak","title":"Steakhouses"}]; output.businesses.location.display_address=["Lagerstr. 34 b","20357 Hamburg","Germany"]
+output.businesses.categories=[{"alias":"lifecoach","title":"Livscoacher"}]; output.businesses.location.display_address=["Somerville, MA 02143","USA"]
+output.businesses.categories=[{"alias":"childrensmuseums","title":"Kindermuseum"}]; output.businesses.location.display_address=["700 Exposition Park Dr","Los Angeles, CA 90037","Vereinigte Staaten"]
+

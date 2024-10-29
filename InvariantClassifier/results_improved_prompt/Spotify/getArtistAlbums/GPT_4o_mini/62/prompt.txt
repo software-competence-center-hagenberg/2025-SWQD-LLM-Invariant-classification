@@ -1,0 +1,47 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              description: The requested data.
+              items:
+                images:
+                  type: array
+                  description: The cover art for the album in various sizes, widest first.
+                  items:
+                    url:
+                      type: string
+                      description: The source URL of the image.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.url)==64
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items.images" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 554566 examples in the requests data, with 40699 of them being distinct examples.
+Here are 5 example values of the variables:
+output.items.images.url=https://i.scdn.co/image/ab67616d00004851d45d93d29468fe4b5dbae6e5
+output.items.images.url=https://i.scdn.co/image/ab67616d00001e023534c71aab61cb98fd2e4597
+output.items.images.url=https://i.scdn.co/image/ab67616d0000b27353987d4a0ea3fc41631997e1
+output.items.images.url=https://i.scdn.co/image/ab67616d0000b2730c9197ee50af98d52e5c93df
+output.items.images.url=https://i.scdn.co/image/ab67616d0000b273e682bf2e61b16e8ffbae169f
+

@@ -1,0 +1,1 @@
+The invariant return.permissions.triage == return.has_downloads is false-positive. This is because the Swagger definition provided does not include any information about the 'permissions' or 'triage' fields in the response body. Therefore, the invariant cannot be evaluated based on the given Swagger definition.

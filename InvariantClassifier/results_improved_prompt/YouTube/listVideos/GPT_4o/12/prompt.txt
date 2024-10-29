@@ -1,0 +1,50 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: id
+        in: query
+        description: Return videos with the given ids.
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                topicDetails:
+                  type: object
+                  description: Freebase topic information related to the video.
+                  properties:
+                    topicCategories:
+                      type: array
+                      description: A list of Wikipedia URLs that provide a high-level description of the video's content.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.id[]) == size(return.topicDetails.topicCategories[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 50 calls on this API and did not find a single counter example.
+
+We found 2 examples in the requests data, with 2 of them being distinct examples.
+Here are 2 example values of the variables:
+input.id=Z-JkdGYAHl4%2CnC327id4aUM; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Association_football","https:\/\/en.wikipedia.org\/wiki\/Sport"]
+input.id=eqP_Q7cgwJc; return.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Knowledge"]
+

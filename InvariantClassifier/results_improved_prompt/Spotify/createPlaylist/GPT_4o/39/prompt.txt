@@ -1,0 +1,48 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/users/{user_id}/playlists"
+  post:
+    description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+    parameters:
+    requestBody:
+        schema:
+          type: object
+    responses:
+      '201':
+        description: [Create a Playlist](https://developer.spotify.com/web-api/create-playlist/)
+        schema:
+          type: object
+          properties:
+            external_urls:
+              type: object
+              description: Known external URLs for this album.
+              properties:
+                spotify:
+                  type: string
+          properties:
+            type:
+              type: string
+              description: The object type: 'playlist'.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.type is a substring of return.external_urls.spotify
+
+Invariant type: daikon.inv.binary.twoString.StdString$SubString
+Invariant description: Represents the substring invariant between two String scalars. Prints as x is a substring of y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 11650 examples in the requests data, with 10000 of them being distinct examples.
+Here are 5 example values of the variables:
+return.external_urls.spotify=https://open.spotify.com/playlist/11gXEBuRNrdBJVgP0uJ2fL; return.type=playlist
+return.external_urls.spotify=https://open.spotify.com/playlist/5lmRxhcb8DIAhYQxOZZWsV; return.type=playlist
+return.external_urls.spotify=https://open.spotify.com/playlist/5JtS8kCbY64mmpcP2F4xmb; return.type=playlist
+return.external_urls.spotify=https://open.spotify.com/playlist/3Y65xhLhPSGjdYQBjpIGwo; return.type=playlist
+return.external_urls.spotify=https://open.spotify.com/playlist/5wvA7CCx01mZa5sZGFohT6; return.type=playlist
+

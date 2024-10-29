@@ -1,0 +1,1 @@
+The invariant `return.room.typeEstimated.beds >= size(return.price.taxes[])-1` states that the number of beds in the room should be greater than or equal to the size of the `taxes` array in the `price` object minus 1. Let's analyze this invariant to determine if it holds true for every valid request on the API.

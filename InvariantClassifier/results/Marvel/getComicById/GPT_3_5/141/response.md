@@ -1,0 +1,1 @@
+The invariant size(return.variants[])-1 >= size(return.collectedIssues[])-1 is a false-positive. This is because the provided Swagger definition does not guarantee that both 'variants' and 'collectedIssues' arrays will always have at least one element. If either of the arrays is empty, the invariant will not hold true for every valid request on the API.

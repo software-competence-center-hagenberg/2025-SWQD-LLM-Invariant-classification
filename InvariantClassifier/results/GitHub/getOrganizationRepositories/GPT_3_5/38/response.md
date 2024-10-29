@@ -1,0 +1,1 @@
+The invariant return.owner.id > size(return.topics[]) is false-positive. The Swagger definition provided does not include a field 'owner' in the response schema for the specified endpoint. Therefore, the invariant is not applicable and cannot be evaluated as true-positive or false-positive.

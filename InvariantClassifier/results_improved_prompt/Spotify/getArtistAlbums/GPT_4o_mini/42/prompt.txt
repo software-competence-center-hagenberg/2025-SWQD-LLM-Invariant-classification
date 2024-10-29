@@ -1,0 +1,44 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: limit
+        in: query
+        description: The maximum number of items to return
+        type: integer
+        minimum: 0
+        maxLength: 50
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            offset:
+              type: integer
+              description: The offset of the items returned (as set in the query or by default).
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.limit > return.offset
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 50 calls on this API and did not find a single counter example.
+
+We found 30 examples in the requests data, with 28 of them being distinct examples.
+Here are 5 example values of the variables:
+input.limit=14; output.offset=9
+input.limit=44; output.offset=0
+input.limit=2; output.offset=0
+input.limit=8; output.offset=0
+input.limit=10; output.offset=0
+

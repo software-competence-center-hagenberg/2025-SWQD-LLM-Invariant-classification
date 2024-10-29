@@ -1,0 +1,1 @@
+The invariant LENGTH(return.contentDetails.dimension)==2 is false-positive. The Swagger definition does not guarantee that the 'dimension' field will always have a fixed length of 2. The schema only specifies the type and description of the 'dimension' field, but it does not enforce a fixed length. Therefore, the invariant will not hold for every valid request on the API.

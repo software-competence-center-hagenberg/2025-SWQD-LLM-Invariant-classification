@@ -1,0 +1,60 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    digitalId:
+                      type: integer
+                      description: The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.
+                  items:
+                    creators:
+                      type: object
+                      properties:
+                        items:
+                          type: array
+                          description: The list of returned creators in this collection.
+                          items:
+                            type: object
+                            properties:
+                              resourceURI:
+                                description: The path to the individual creator resource.
+                              name:
+                                description: The full name of the creator.
+                              role:
+                                description: The role of the creator in the parent entity.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.digitalId != size(return.creators.items[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 139 examples in the requests data, with 94 of them being distinct examples.
+Here are 2 example values of the variables:
+output.data.results.digitalId=43096; output.data.results.creators.items=[{"role":"writer","name":"Darick Robertson","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/creators\/49"}]
+output.data.results.digitalId=55373; output.data.results.creators.items=[{"role":"penciller (cover)","name":"Various","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/creators\/11401"}]
+

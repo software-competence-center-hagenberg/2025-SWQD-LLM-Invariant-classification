@@ -1,0 +1,88 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        taxes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              amount:
+                                description: Defines amount with decimal separator.
+                              currency:
+                                description: Defines a monetary unit. It is a three alpha code (iata code). Example: EUR for Euros, USD for US dollar, etc.
+                              code:
+                                description: International Standards Organization (ISO) Tax code.It is a two-letter country code.
+                              percentage:
+                                description: In the case of a tax on TST value, the percentage of the tax will be indicated in this field.
+                              included:
+                                description: Indicates if tax is included or not
+                              description:
+                                description: Example - "Governement tax"
+                              pricingFrequency:
+                                description: Specifies if the tax applies per stay or per night
+                                  - PER_STAY
+                                  - PER_NIGHT
+                              pricingMode:
+                                description: Specifies if the tax applies per occupant or per room
+                                  - PER_OCCUPANT
+                                  - PER_PRODUCT
+                            description: IATA Tax definition: An impost for raising revenue for the general treasury and which will be used for general public purposes.
+                  items:
+                    policies:
+                      type: object
+                      description: Booking Rules
+                      properties:
+                        deposit:
+                          type: object
+                          description: the deposit/prepay policy information applicable to the offer. It includes accepted payments, deadline and the amount due
+                          properties:
+                            acceptedPayments:
+                              type: object
+                              description: Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
+                              properties:
+                                creditCards:
+                                  type: array
+                                  description: Accepted Payment Card Types for the `method` CREDIT_CARD
+                                  items:
+                                    type: string
+                                    minLength: 2
+                                    maxLength: 2
+                                    pattern: ^[A-Z]{2}$
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.policies.deposit.acceptedPayments.creditCards[])-1 % size(return.price.taxes[]) == 0
+
+Invariant type: daikon.inv.binary.twoScalar.NumericInt$Divides
+Invariant description: Represents the divides without remainder invariant between two long scalars. Prints as x % y == 0.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 535 examples in the requests data, with 91 of them being distinct examples.
+Here is an example values of the variables:
+output.data.offers.price.taxes=[{"code":"MISCELLANEOUS","percentage":"10.00","included":true}]; output.data.offers.policies.deposit.acceptedPayments.creditCards=["AX","DC","JC","MC","VI"]
+

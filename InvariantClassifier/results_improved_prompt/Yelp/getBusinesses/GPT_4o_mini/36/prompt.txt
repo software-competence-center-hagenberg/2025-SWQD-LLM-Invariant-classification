@@ -1,0 +1,51 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/businesses/search"
+  get:
+    summary: Get businesses
+    description: Get businesses
+    parameters:
+      - name: categories
+        in: query
+        required: false
+        type: array
+    responses:
+      '200':
+        description: Get businesses
+        schema:
+          type: object
+          properties:
+            businesses:
+              type: array
+              items:
+                location:
+                  type: object
+                  properties:
+                    display_address:
+                      type: array
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(input.categories[])-1 <= size(return.location.display_address[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntLessEqual
+Invariant description: Represents an invariant of <= between two long scalars. Prints as x <= y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "businesses" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 382 examples in the requests data, with 216 of them being distinct examples.
+Here are 5 example values of the variables:
+input.categories=tapas; output.businesses.location.display_address=["1 place de l'Estrapade","31300 Toulouse","France"]
+input.categories=advertising; output.businesses.location.display_address=["Blackburn Technology Management Centre","Challenge Way","Blackburn BB1 5QB","Royaume-Uni"]
+input.categories=wok; output.businesses.location.display_address=["Potsdamer Platz 5","10785 Berlin","Germany"]
+input.categories=lifecoach; output.businesses.location.display_address=["151 Cambridge St","Cambridge, MA 02141","USA"]
+input.categories=lifecoach; output.businesses.location.display_address=["170 Salem St","Ste 3","Boston, MA 02113","USA"]
+

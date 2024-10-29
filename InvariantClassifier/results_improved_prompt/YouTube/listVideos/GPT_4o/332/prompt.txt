@@ -1,0 +1,59 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: maxWidth
+        in: query
+        description: Return the player with maximum height specified in
+        required: false
+        type: integer
+        minimum: 72
+        maxLength: 8192
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                contentDetails:
+                  type: object
+                  description: Details about the content of a YouTube Video.
+                  properties:
+                    regionRestriction:
+                      type: object
+                      description: DEPRECATED Region restriction of the video.
+                      properties:
+                        allowed:
+                          type: array
+                          description: A list of region codes that identify countries where the video is viewable. If this property is present and a country is not listed in its value, then the video is blocked from appearing in that country. If this property is present and contains an empty list, the video is blocked in all countries.
+                          items:
+                            type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.maxWidth > size(return.contentDetails.regionRestriction.allowed[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 290 examples in the requests data, with 248 of them being distinct examples.
+Here are 5 example values of the variables:
+input.maxWidth=7910; return.items.contentDetails.regionRestriction.allowed=["MY"]
+input.maxWidth=3304; return.items.contentDetails.regionRestriction.allowed=["MY"]
+input.maxWidth=138; return.items.contentDetails.regionRestriction.allowed=["MY"]
+input.maxWidth=8156; return.items.contentDetails.regionRestriction.allowed=["GU","MP","PR","US","VI"]
+input.maxWidth=1398; return.items.contentDetails.regionRestriction.allowed=["CA","IN","PH","US"]
+

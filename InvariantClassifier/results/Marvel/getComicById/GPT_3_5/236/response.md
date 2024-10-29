@@ -1,0 +1,1 @@
+The invariant is false-positive. The provided Swagger definition does not contain 'return.events' or 'return.prices' fields. Therefore, the invariant cannot be evaluated against the given definition. It is likely that the invariant is intended for a different API endpoint or has been misinterpreted in the context of the provided Swagger definition.

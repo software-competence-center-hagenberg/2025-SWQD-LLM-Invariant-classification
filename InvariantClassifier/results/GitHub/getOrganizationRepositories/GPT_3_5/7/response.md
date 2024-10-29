@@ -1,0 +1,1 @@
+The invariant is false-positive. The Swagger definition provided does not include a 'return' object, and the 'permissions' object is not nested within a 'return' object. Therefore, the invariant 'return.permissions.admin == return.permissions.push' does not apply to the given Swagger definition.

@@ -1,0 +1,54 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    events:
+                      type: object
+                      properties:
+                        items:
+                          type: array
+                          description: The list of returned events in this collection.
+                          items:
+                            resourceURI:
+                              type: string
+                              description: The path to the individual event resource.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.resourceURI is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results.events.items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 806 examples in the requests data, with 63 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.results.events.items.resourceURI=http://gateway.marvel.com/v1/public/events/280
+return.data.results.events.items.resourceURI=http://gateway.marvel.com/v1/public/events/240
+return.data.results.events.items.resourceURI=http://gateway.marvel.com/v1/public/events/60
+return.data.results.events.items.resourceURI=http://gateway.marvel.com/v1/public/events/249
+return.data.results.events.items.resourceURI=http://gateway.marvel.com/v1/public/events/59
+

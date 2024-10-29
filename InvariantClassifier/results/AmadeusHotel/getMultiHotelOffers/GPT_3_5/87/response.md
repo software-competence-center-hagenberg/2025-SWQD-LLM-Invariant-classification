@@ -1,0 +1,1 @@
+The invariant is false-positive. The reason for this is that the invariant assumes a specific relationship between the size of 'return.price.taxes[]' and 'return.policies.guarantee.acceptedPayments.creditCards[]', but the Swagger definition does not guarantee this relationship. The invariant may not hold for all valid requests on the API.

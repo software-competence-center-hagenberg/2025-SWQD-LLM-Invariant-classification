@@ -1,0 +1,68 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                snippet:
+                  type: object
+                  description: Basic details about a video, including title, description, uploader, thumbnails and category.
+                  properties:
+                    thumbnails:
+                      type: object
+                      description: Internal representation of thumbnails for a YouTube resource.
+                      properties:
+                        medium:
+                          type: object
+                          description: A thumbnail is an image representing a YouTube resource.
+                          properties:
+                            height:
+                              type: integer
+                              description: (Optional) Height of the thumbnail image.
+              items:
+                contentDetails:
+                  type: object
+                  description: Details about the content of a YouTube Video.
+                  properties:
+                    regionRestriction:
+                      type: object
+                      description: DEPRECATED Region restriction of the video.
+                      properties:
+                        allowed:
+                          type: array
+                          description: A list of region codes that identify countries where the video is viewable. If this property is present and a country is not listed in its value, then the video is blocked from appearing in that country. If this property is present and contains an empty list, the video is blocked in all countries.
+                          items:
+                            type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.snippet.thumbnails.medium.height > size(return.contentDetails.regionRestriction.allowed[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntGreaterThan
+Invariant description: Represents an invariant of > between two long scalars. Prints as x > y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 208 examples in the requests data, with 34 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.snippet.thumbnails.medium.height=180; return.items.contentDetails.regionRestriction.allowed=["PR","US"]
+return.items.snippet.thumbnails.medium.height=180; return.items.contentDetails.regionRestriction.allowed=["UM","US","VI"]
+return.items.snippet.thumbnails.medium.height=180; return.items.contentDetails.regionRestriction.allowed=["US"]
+return.items.snippet.thumbnails.medium.height=180; return.items.contentDetails.regionRestriction.allowed=["CA","PR","US"]
+return.items.snippet.thumbnails.medium.height=180; return.items.contentDetails.regionRestriction.allowed=["KH","LA","TH"]
+

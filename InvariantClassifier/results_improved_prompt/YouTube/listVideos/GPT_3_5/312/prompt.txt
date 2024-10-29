@@ -1,0 +1,52 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                contentDetails:
+                  type: object
+                  description: Details about the content of a YouTube Video.
+                  properties:
+                    regionRestriction:
+                      type: object
+                      description: DEPRECATED Region restriction of the video.
+                      properties:
+                        blocked:
+                          type: array
+                          description: A list of region codes that identify countries where the video is blocked. If this property is present and a country is not listed in its value, then the video is viewable in that country. If this property is present and contains an empty list, the video is viewable in all countries.
+                          items:
+                            type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: size(return.contentDetails.regionRestriction.blocked[]) >= 1
+
+Invariant type: daikon.inv.unary.scalar.LowerBound
+Invariant description: Represents the invariant x >= c, where c is a constant and x is a long scalar.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 1822 examples in the requests data, with 40 of them being distinct examples.
+Here are 5 example values of the variables:
+return.items.contentDetails.regionRestriction.blocked=["CN","TW"]
+return.items.contentDetails.regionRestriction.blocked=["AS","FM","GU","MH","MP","PR","PW","UM","US","VI"]
+return.items.contentDetails.regionRestriction.blocked=["GP","IO","KP","PR","SS","UM"]
+return.items.contentDetails.regionRestriction.blocked=["BD","BT","IN","JP","LK","MV","NP"]
+return.items.contentDetails.regionRestriction.blocked=["RU","TR"]
+

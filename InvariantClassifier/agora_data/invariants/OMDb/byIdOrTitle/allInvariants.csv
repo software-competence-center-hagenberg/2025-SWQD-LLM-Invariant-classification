@@ -1,0 +1,20 @@
+ID;pptname;invariant;invariantType;variables;tp;fp;enter;bug
+0;main..searchByIdOrTitle&200&Ratings(main.searchByIdOrTitle&Input):::EXIT;"return.Source one of { ""Internet Movie Database"", ""Metacritic"", ""Rotten Tomatoes"" }";daikon.inv.unary.string.OneOfString;(return.Source);1.0;0.0;0.0;0.0
+1;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;input.i == return.imdbID;daikon.inv.binary.twoString.StringEqual;(input.i, return.imdbID);1.0;0.0;0.0;0.0
+2;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;"return.Response == ""True""";daikon.inv.unary.string.OneOfString;(return.Response);1.0;0.0;0.0;0.0
+3;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.Ratings != null;daikon.inv.unary.scalar.NonZero;(return.Ratings);0.0;1.0;0.0;0.0
+4;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.Ratings[] elements != null;daikon.inv.unary.sequence.EltNonZero;(return.Ratings[..]);0.0;1.0;0.0;0.0
+5;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;"return.Type one of { ""episode"", ""movie"", ""series"" }";daikon.inv.unary.string.OneOfString;(return.Type);1.0;0.0;0.0;0.0
+6;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;input.y > size(return.Ratings[]);daikon.inv.binary.twoScalar.IntGreaterThan;(input.y, size(return.Ratings[..]));0.0;1.0;0.0;0.0
+7;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;LENGTH(return.Response)==4;daikon.inv.unary.string.FixedLengthString;(return.Response);1.0;0.0;0.0;0.0
+8;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;LENGTH(return.Released)==11;daikon.inv.unary.string.FixedLengthString;(return.Released);1.0;0.0;0.0;0.0
+9;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.Poster is Url;daikon.inv.unary.string.IsUrl;(return.Poster);1.0;0.0;0.0;0.0
+10;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.Metascore is Numeric;daikon.inv.unary.string.IsNumeric;(return.Metascore);1.0;0.0;0.0;0.0
+11;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.imdbRating is Numeric;daikon.inv.unary.string.IsNumeric;(return.imdbRating);1.0;0.0;0.0;0.0
+12;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.imdbVotes is Numeric;daikon.inv.unary.string.IsNumeric;(return.imdbVotes);1.0;0.0;0.0;0.0
+13;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;LENGTH(return.DVD)==11;daikon.inv.unary.string.FixedLengthString;(return.DVD);1.0;0.0;0.0;0.0
+14;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.Episode is Numeric;daikon.inv.unary.string.IsNumeric;(return.Episode);1.0;0.0;0.0;0.0
+15;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.Season is Numeric;daikon.inv.unary.string.IsNumeric;(return.Season);1.0;0.0;0.0;0.0
+16;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;LENGTH(return.seriesID)==9;daikon.inv.unary.string.FixedLengthString;(return.seriesID);1.0;0.0;0.0;0.0
+17;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;return.totalSeasons is Numeric;daikon.inv.unary.string.IsNumeric;(return.totalSeasons);1.0;0.0;0.0;0.0
+18;main..searchByIdOrTitle&200(main.searchByIdOrTitle&Input):::EXIT;"return.Production == ""WARNER BROTHERS PICTURES""";daikon.inv.unary.string.OneOfString;(return.Production);0.0;1.0;0.0;0.0

@@ -1,0 +1,61 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    stories:
+                      type: object
+                      properties:
+                        available:
+                          type: integer
+                          description: The number of total available stories in this list. Will always be greater than or equal to the "returned" value.
+                  items:
+                    collectedIssues:
+                      type: array
+                      description: A list of issues collected in this comic (will generally be empty for periodical formats such as "comic" or "magazine").
+                      items:
+                        type: object
+                        properties:
+                          resourceURI:
+                            description: The path to the individual comic resource.
+                          name:
+                            description: The canonical name of the comic.
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.stories.available != size(return.collectedIssues[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.results" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 302 examples in the requests data, with 228 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.results.stories.available=3; return.data.results.collectedIssues=[{"name":"Sub-Mariner (2007) #1","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/15886"}]
+return.data.results.stories.available=3; return.data.results.collectedIssues=[{"name":"Ultimate Spider-Man (2000) #107","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/6166"}]
+return.data.results.stories.available=4; return.data.results.collectedIssues=[{"name":"New Excalibur (2005) #16","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/6021"}]
+return.data.results.stories.available=4; return.data.results.collectedIssues=[{"name":"X-Men: Emperor Vulcan (2007) #5","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/17637"}]
+return.data.results.stories.available=3; return.data.results.collectedIssues=[{"name":"Heroes for Hire (2006) #11","resourceURI":"http:\/\/gateway.marvel.com\/v1\/public\/comics\/15853"}]
+

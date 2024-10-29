@@ -1,0 +1,52 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    price:
+                      type: object
+                      description: price information
+                      properties:
+                        variations:
+                          type: object
+                          description: Daily price variations and the average daily price (when available) is shown here
+                          properties:
+                            average:
+                              type: object
+                              description: Price valuation information
+                              properties:
+                                total:
+                                  type: string
+                                  description: total = base + totalTaxes
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: "return.price.variations.average.total == ""126.73"""
+
+Invariant type: daikon.inv.unary.string.OneOfString
+Invariant description: Represents String variables that take on only a few distinct values. Prints as either x == c (when there is only one value) or as x one of {c1, c2, c3} (when there are multiple values).
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 2 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+return.data.offers.price.variations.average.total=126.73
+

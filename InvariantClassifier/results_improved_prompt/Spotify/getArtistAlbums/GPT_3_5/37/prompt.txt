@@ -1,0 +1,42 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/artists/{id}/albums"
+  get:
+    description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+    parameters:
+      - name: offset
+        in: query
+        description: The index of the first item to return
+        type: integer
+    responses:
+      '200':
+        description: [Get an Artist's Albums](https://developer.spotify.com/web-api/get-artists-albums/)
+        schema:
+          type: object
+          properties:
+            offset:
+              type: integer
+              description: The offset of the items returned (as set in the query or by default).
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.offset == return.offset
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 5454 examples in the requests data, with 20 of them being distinct examples.
+Here are 5 example values of the variables:
+input.offset=15; return.offset=15
+input.offset=1; return.offset=1
+input.offset=11; return.offset=11
+input.offset=8; return.offset=8
+input.offset=12; return.offset=12
+

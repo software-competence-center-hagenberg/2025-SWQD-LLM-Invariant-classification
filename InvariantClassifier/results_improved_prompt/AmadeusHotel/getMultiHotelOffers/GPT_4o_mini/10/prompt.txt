@@ -1,0 +1,53 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    rateFamilyEstimated:
+                      type: object
+                      description: The estimated rate code family of the offer. Grouping various rate plan codes that belongs to the same family and indicates the type of the rate
+                      properties:
+                        code:
+                          type: string
+                          description: The estimated rate family (PRO,FAM,GOV)
+                          pattern: [A-Z0-9]{3}
+                  items:
+                    category:
+                      type: string
+                      description: Special Rate Category
+                      Examples:
+                        ASSOCIATION
+                        FAMILY_PLAN
+                      example: FAMILY_PLAN
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.rateFamilyEstimated.code == return.category
+
+Invariant type: daikon.inv.binary.twoString.StringEqual
+Invariant description: Represents an invariant of == between two String scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 100 calls on this API and did not find a single counter example.
+
+We found 2 examples in the requests data, with 1 of them being distinct examples.
+Here is an example values of the variables:
+output.data.offers.rateFamilyEstimated.code=GOV; output.data.offers.category=GOV
+

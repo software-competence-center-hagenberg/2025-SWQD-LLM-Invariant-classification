@@ -1,0 +1,52 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/shopping/hotel-offers"
+  get:
+    summary: getMultiHotelOffers
+    parameters:
+    responses:
+      '200':
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                offers:
+                  type: array
+                  items:
+                    room:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Room type code, 3 character identifier of the room.
+                          The first character identifies the room type category. 
+                          The second numeric character identifies the number of beds. 
+                          The third character identifies the bed type. 
+                          There is a special case where ROH is returned, this value stands for Run Of House.
+                          pattern: ^[A-Z0-9*]{3}$
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: LENGTH(return.room.type)==3
+
+Invariant type: daikon.inv.unary.string.FixedLengthString
+Invariant description: Indicates that the value of a string variable always has a fixed length n. Represented as LENGTH(x)==n.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "data.offers" in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 41726 examples in the requests data, with 350 of them being distinct examples.
+Here are 5 example values of the variables:
+return.data.offers.room.type=YSP
+return.data.offers.room.type=D9K
+return.data.offers.room.type=BVF
+return.data.offers.room.type=REG
+return.data.offers.room.type=2VK
+

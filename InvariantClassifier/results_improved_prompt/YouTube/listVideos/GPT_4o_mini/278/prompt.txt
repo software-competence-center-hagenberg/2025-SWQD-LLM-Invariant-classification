@@ -1,0 +1,55 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/youtube/v3/videos"
+  get:
+    description: Retrieves a list of resources, possibly filtered.
+    parameters:
+      - name: maxResults
+        in: query
+        description: The *maxResults* parameter specifies the maximum number of items that should be returned in the result set. *Note:* This parameter is supported for use in conjunction with the myRating and chart parameters, but it is not supported for use in conjunction with the id parameter.
+        required: false
+        type: integer
+        minimum: 1
+        maxLength: 50
+    responses:
+      '200':
+        description: Retrieves a list of resources, possibly filtered.
+        schema:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                topicDetails:
+                  type: object
+                  description: Freebase topic information related to the video.
+                  properties:
+                    topicCategories:
+                      type: array
+                      description: A list of Wikipedia URLs that provide a high-level description of the video's content.
+                      items:
+                        type: string
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: input.maxResults != size(return.topicDetails.topicCategories[])
+
+Invariant type: daikon.inv.binary.twoScalar.IntNonEqual
+Invariant description: Represents an invariant of != between two long scalars. Prints as x != y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+The return fields refer to the path "items" in the response body.
+
+We have tried 1000 calls on this API and did not find a single counter example.
+
+We found 1633 examples in the requests data, with 823 of them being distinct examples.
+Here are 5 example values of the variables:
+input.maxResults=40; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Entertainment","https:\/\/en.wikipedia.org\/wiki\/Hip_hop_music"]
+input.maxResults=32; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Video_game_culture"]
+input.maxResults=48; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Music","https:\/\/en.wikipedia.org\/wiki\/Music_of_Asia"]
+input.maxResults=24; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Association_football","https:\/\/en.wikipedia.org\/wiki\/Sport"]
+input.maxResults=6; output.items.topicDetails.topicCategories=["https:\/\/en.wikipedia.org\/wiki\/Entertainment","https:\/\/en.wikipedia.org\/wiki\/Rock_music"]
+

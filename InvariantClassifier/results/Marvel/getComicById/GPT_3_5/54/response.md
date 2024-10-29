@@ -1,0 +1,1 @@
+The invariant size(return.prices[]) one of { 1, 2} is false-positive. The Swagger definition does not specify a fixed size for the 'prices' array in the response. Therefore, the invariant does not hold for every valid request on the API.

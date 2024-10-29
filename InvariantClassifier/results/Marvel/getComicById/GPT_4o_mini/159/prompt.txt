@@ -1,0 +1,91 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/v1/public/comics/{comicId}"
+  get:
+    summary: Fetches a single comic by id.
+    description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+    parameters:
+    responses:
+      '200':
+        description: This method fetches a single comic resource.  It is the canonical URI for any comic resource provided by the API.
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                offset:
+                  type: integer
+                  description: The requested offset (number of skipped results) of the call.
+              properties:
+                results:
+                  type: array
+                  description: The list of comics returned by the call
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        description: The unique ID of the comic resource.
+                      digitalId:
+                        description: The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.
+                      title:
+                        description: The canonical title of the comic.
+                      issueNumber:
+                        description: The number of the issue in the series (will generally be 0 for collection formats).
+                      variantDescription:
+                        description: If the issue is a variant (e.g. an alternate cover, second printing, or director’s cut), a text description of the variant.
+                      description:
+                        description: The preferred description of the comic.
+                      modified:
+                        description: The date the resource was most recently modified.
+                      isbn:
+                        description: The ISBN for the comic (generally only populated for collection formats).
+                      upc:
+                        description: The UPC barcode number for the comic (generally only populated for periodical formats).
+                      diamondCode:
+                        description: The Diamond code for the comic.
+                      ean:
+                        description: The EAN barcode for the comic.
+                      issn:
+                        description: The ISSN barcode for the comic.
+                      format:
+                        description: The publication format of the comic e.g. comic, hardcover, trade paperback.
+                      pageCount:
+                        description: The number of story pages in the comic.
+                      textObjects:
+                        description: A set of descriptive text blurbs for the comic.
+                      resourceURI:
+                        description: The canonical URL identifier for this resource.
+                      urls:
+                        description: A set of public web site URLs for the resource.
+                      series:
+                      variants:
+                        description: A list of variant issues for this comic (includes the "original" issue if the current issue is a variant).
+                      collections:
+                        description: A list of collections which include this comic (will generally be empty if the comic's format is a collection).
+                      collectedIssues:
+                        description: A list of issues collected in this comic (will generally be empty for periodical formats such as "comic" or "magazine").
+                      dates:
+                        description: A list of key dates for this comic.
+                      prices:
+                        description: A list of prices for this comic.
+                      thumbnail:
+                      images:
+                        description: A list of promotional images associated with this comic.
+                      creators:
+                      characters:
+                      stories:
+                      events:
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.data.offset == size(return.data.results[])-1
+
+Invariant type: daikon.inv.binary.twoScalar.IntEqual
+Invariant description: Represents an invariant of == between two long scalars. Prints as x == y.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+

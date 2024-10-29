@@ -1,0 +1,12 @@
+ID;invariantType;classification;GPT_verdict;confidence;promptTokens;completionTokens;totalTokens;maxNumberOfOperations
+0;daikon.inv.binary.twoString.StringEqual;TP;TP;0.9;669;218;887;10000
+1;daikon.inv.unary.string.OneOfString;TP;TP;0.9;640;243;883;10000
+2;daikon.inv.unary.scalar.NonZero;TP;FP;1.0;596;186;782;10000
+3;daikon.inv.unary.sequence.EltNonZero;TP;TP;0.9;606;192;798;10000
+4;daikon.inv.unary.string.IsUrl;TP;TP;0.95;1062;256;1318;10000
+5;daikon.inv.unary.string.FixedLengthString;TP;FP;0.9;615;231;846;10000
+6;daikon.inv.unary.string.IsNumeric;TP;TP;0.9;631;173;804;10000
+7;daikon.inv.binary.twoScalar.IntGreaterThan;FP;TP;0.95;873;264;1137;10000
+8;daikon.inv.binary.twoScalar.IntLessEqual;FP;TP;0.9;634;218;852;100
+9;daikon.inv.binary.twoScalar.IntNonEqual;FP;FP;0.9;636;252;888;100
+10;daikon.inv.unary.scalar.LowerBound;TP;TP;0.95;832;208;1040;10000

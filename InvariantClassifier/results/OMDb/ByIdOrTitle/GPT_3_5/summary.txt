@@ -1,0 +1,18 @@
+TP: 5
+FP: 0
+FN: 10
+TN: 4
+
+P: 15
+N: 4
+PP: 5
+PN: 14
+All: 19
+
+accuracy: 0.47368421052631576
+precision: 1.0
+recall: 0.3333333333333333
+
+FPs: []
+FNs: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+INCONCLUSIVE: []

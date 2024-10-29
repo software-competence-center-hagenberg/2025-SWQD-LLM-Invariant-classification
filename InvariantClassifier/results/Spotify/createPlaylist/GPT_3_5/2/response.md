@@ -1,0 +1,1 @@
+The invariant 'input.description == return.description' checks if the 'description' field in the request body is equal to the 'description' field in the response body. Based on the provided Swagger definition, the 'description' field is present in both the request body and the response body. Therefore, this invariant is classified as true-positive.

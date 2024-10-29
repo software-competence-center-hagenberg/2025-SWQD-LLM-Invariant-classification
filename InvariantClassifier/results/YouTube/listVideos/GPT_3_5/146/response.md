@@ -1,0 +1,1 @@
+The invariant compares the height of the default thumbnail of a video with the size of the topic categories related to the video. It checks if the height of the default thumbnail is greater than the size of the topic categories. The comparison is between two long scalars in the response body.

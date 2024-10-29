@@ -1,0 +1,1 @@
+The invariant return.data.offset == 0 is checking if the offset field in the response body is always equal to 0. The Swagger definition provided does not specify any constraints on the offset field, so it is possible for the offset to have values other than 0. Therefore, the invariant is false-positive.

@@ -1,0 +1,1 @@
+The invariant return.snippet.defaultLanguage in return.contentDetails.regionRestriction.blocked[] is a false-positive. This is because the swagger definition does not specify that the 'blocked' field is an array of strings. Without this specification, we cannot assume that return.snippet.defaultLanguage will always be a member of return.contentDetails.regionRestriction.blocked[].

@@ -1,0 +1,1 @@
+The invariant size(return.variants[]) >= size(return.events.items[])-1 is false-positive. The reason for this is that the Swagger definition provided does not guarantee that the 'variants' and 'events' arrays will always exist in the response. If either of these arrays is missing, the invariant will not hold true for every valid request on the API.

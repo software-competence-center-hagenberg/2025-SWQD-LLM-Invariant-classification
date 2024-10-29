@@ -1,0 +1,39 @@
+Is the following invariant for a REST endpoint "true-positive" or "false-positive"?
+
+This is an excerpt of the swagger definition:
+
+paths:
+  "/orgs/{org}/repos"
+  get:
+    summary: List organization repositories
+    description: Lists repositories for the specified organization.
+    parameters:
+    responses:
+      '200':
+        description: Lists repositories for the specified organization.
+        schema:
+          type: array
+          properties:
+            deployments_url:
+              type: string
+              example: http://api.github.com/repos/octocat/Hello-World/deployments
+
+
+Is the following invariant a true-positive or a false-positive:
+Invariant: return.deployments_url is Url
+
+Invariant type: daikon.inv.unary.string.IsUrl
+Invariant description: Indicates that the value of a string variable is always a URL. Represented as x is Url.
+Fields starting with "input" are request parameters or fields in the request body.
+Fields starting with "return" are fields in the response body.
+
+We have tried 10000 calls on this API and did not find a single counter example.
+
+We found 247727 examples in the requests data, with 13466 of them being distinct examples.
+Here are 5 example values of the variables:
+return.deployments_url=https://api.github.com/repos/github/babel-plugin-transform-custom-element-classes/deployments
+return.deployments_url=https://api.github.com/repos/square/AQGridView/deployments
+return.deployments_url=https://api.github.com/repos/guardian/tools-components/deployments
+return.deployments_url=https://api.github.com/repos/IBM/ZOSVRG-BlackBox-Adv/deployments
+return.deployments_url=https://api.github.com/repos/IBM/azure-sdk-for-go/deployments
+

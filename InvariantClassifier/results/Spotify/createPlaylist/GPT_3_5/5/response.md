@@ -1,0 +1,1 @@
+The invariant `return.followers.total == return.tracks.offset` is false-positive. This is because the Swagger definition provided does not guarantee that the `followers` and `tracks` properties will always be present in the response. If either of these properties is missing, the invariant will not hold for every valid request on the API.
